@@ -5,7 +5,8 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Date, Time, Text, DECIMAL
+from sqlalchemy import Column, Integer, String, ForeignKey, \
+        DateTime, Date, Time, Text, DECIMAL
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
@@ -25,7 +26,9 @@ class User(Base):
     password = Column(String(255), nullable=False)
     profile_image = Column(String(255))
     created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime,
+                        default=datetime.utcnow,
+                        onupdate=datetime.utcnow)
 
     # Define one to many relationship with events
     events = relationship('Event', back_populates='organizer')
@@ -43,9 +46,13 @@ class Event(Base):
     event_time = Column(Time, nullable=False)
     location = Column(String(255), nullable=False)
     description = Column(Text)
-    organizer_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    organizer_id = Column(Integer,
+                          ForeignKey('users.user_id'),
+                          nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime,
+                        default=datetime.utcnow,
+                        onupdate=datetime.utcnow)
 
     # Define a many to one relationship with users (organizer)
     organizer = relationship('User', back_populates='events')
@@ -58,8 +65,12 @@ class EventCollaborator(Base):
     __tablename__ = 'event_collaborators'
 
     collaborator_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer, ForeignKey('events.event_id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    event_id = Column(Integer,
+                      ForeignKey('events.event_id'),
+                      nullable=False)
+    user_id = Column(Integer,
+                     ForeignKey('users.user_id'),
+                     nullable=False)
     role = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -75,12 +86,16 @@ class Ticket(Base):
     __tablename__ = 'tickets'
 
     ticket_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer, ForeignKey('events.event_id'), nullable=False)
+    event_id = Column(Integer,
+                      ForeignKey('events.event_id'),
+                      nullable=False)
     ticket_type = Column(String(255), nullable=False)
     price = Column(DECIMAL(10, 2), nullable=False)
     quantity_available = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime,
+                        default=datetime.utcnow,
+                        onupdate=datetime.utcnow)
 
     # Define many to one relationship with events
     event = relationship('Event', back_populates='tickets')
@@ -93,9 +108,15 @@ class RSVP(Base):
     __tablename__ = 'rsvps'
 
     rsvp_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer, ForeignKey('events.event_id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
-    ticket_id = Column(Integer, ForeignKey('tickets.ticket_id'), nullable=False)
+    event_id = Column(Integer,
+                      ForeignKey('events.event_id'),
+                      nullable=False)
+    user_id = Column(Integer,
+                     ForeignKey('users.user_id'),
+                     nullable=False)
+    ticket_id = Column(Integer,
+                       ForeignKey('tickets.ticket_id'),
+                       nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Define many to one relationship with events, users and tickets
@@ -111,8 +132,12 @@ class EventComment(Base):
     __tablename__ = 'event_comments'
 
     comment_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer, ForeignKey('events.event_id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    event_id = Column(Integer,
+                      ForeignKey('events.event_id'),
+                      nullable=False)
+    user_id = Column(Integer,
+                     ForeignKey('users.user_id'),
+                     nullable=False)
     comment_text = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -128,8 +153,12 @@ class EventRating(Base):
     __tablename__ = 'event_ratings'
 
     rating_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer, ForeignKey('events.event_id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    event_id = Column(Integer,
+                      ForeignKey('events.event_id'),
+                      nullable=False)
+    user_id = Column(Integer,
+                     ForeignKey('users.user_id'),
+                     nullable=False)
     rating = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
