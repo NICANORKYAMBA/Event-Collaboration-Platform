@@ -32,6 +32,10 @@ class User(Base):
 
     # Define one to many relationship with events
     events = relationship('Event', back_populates='organizer')
+    collaborations = relationship('EventCollaborator', back_populates='user')
+    rsvps = relationship('RSVP', back_populates='user')
+    comments = relationship('EventComment', back_populates='user')
+    ratings = relationship('EventRating', back_populates='user')
 
 
 class Event(Base):
@@ -56,6 +60,11 @@ class Event(Base):
 
     # Define a many to one relationship with users (organizer)
     organizer = relationship('User', back_populates='events')
+    collaborators = relationship('EventCollaborator', back_populates='event')
+    tickets = relationship('Ticket', back_populates='event')
+    rsvps = relationship('RSVP', back_populates='event')
+    comments = relationship('EventComment', back_populates='event')
+    ratings = relationship('EventRating', back_populates='event')
 
 
 class EventCollaborator(Base):
@@ -99,6 +108,7 @@ class Ticket(Base):
 
     # Define many to one relationship with events
     event = relationship('Event', back_populates='tickets')
+    rsvps = relationship('RSVP', back_populates='ticket')
 
 
 class RSVP(Base):
