@@ -5,34 +5,45 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, \
-        DateTime, Date, Time, Text, DECIMAL
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from application_code import db
+from application_code.models.event import Event
+from application_code.models.user import User
+from application_code.models.ticket import Ticket
 from datetime import datetime
 
-Base = declarative_base()
 
-
-class RSVP(Base):
+class RSVP(db.Model):
     """
     Defines RSVP model
     """
     __tablename__ = 'rsvps'
 
-    rsvp_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer,
-                      ForeignKey('events.event_id'),
-                      nullable=False)
-    user_id = Column(Integer,
-                     ForeignKey('users.user_id'),
-                     nullable=False)
-    ticket_id = Column(Integer,
-                       ForeignKey('tickets.ticket_id'),
-                       nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    rsvp_id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer,
+                         db.ForeignKey('events.event_id'),
+                         nullable=False)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'),
+                        nullable=False)
+    ticket_id = db.Column(db.Integer,
+                          db.ForeignKey('tickets.ticket_id'),
+                          nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define many to one relationship with events, users and tickets
-    event = relationship('Event', back_populates='rsvps')
-    user = relationship('User', back_populates='rsvps')
-    ticket = relationship('Ticket', back_populates='rsvps')
+    event = db.relationship('Event', back_populates='rsvps')
+    user = db.relationship('User', back_populates='rsvps')
+    ticket = db.relationship('Ticket', back_populates='rsvps')
+
+    def __init__(self, event_id, user_id, ticket_id):
+        """
+        Initialize the RSVP model
+
+        Args:
+                event_id (_type_): _description_
+                user_id (_type_): _description_
+                ticket_id (_type_): _description_
+        """
+        self.event_id = event_id
+        self.user_id = user_id
+        self.ticket_id = ticket_id

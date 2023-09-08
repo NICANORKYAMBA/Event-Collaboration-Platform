@@ -5,31 +5,37 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, \
-        DateTime, Date, Time, Text, DECIMAL
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from application_code import db
+from application_code.models.event import Event
+from application_code.models.user import User
+from application_code.models.ticket import Ticket
 from datetime import datetime
 
-Base = declarative_base()
 
-
-class EventCollaborator(Base):
+class EventCollaborator(db.Model):
     """
     Defines Event Collaborator model
     """
     __tablename__ = 'event_collaborators'
 
-    collaborator_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer,
-                      ForeignKey('events.event_id'),
-                      nullable=False)
-    user_id = Column(Integer,
-                     ForeignKey('users.user_id'),
-                     nullable=False)
-    role = Column(String(255), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    collaborator_id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer,
+                         db.ForeignKey('events.event_id'),
+                         nullable=False)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'),
+                        nullable=False)
+    role = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define many to one relationship with events and users
-    event = relationship('Event', back_populates='collaborators')
-    user = relationship('User', back_populates='collaborations')
+    event = db.relationship('Event', back_populates='collaborators')
+    user = db.relationship('User', back_populates='collaborations')
+
+    def __init__(self, event_id, user_id, role):
+        """
+        Initialize the event collaborator model
+        """
+        self.event_id = event_id
+        self.user_id = user_id
+        self.role = role

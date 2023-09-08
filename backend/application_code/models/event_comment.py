@@ -5,31 +5,36 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, \
-        DateTime, Date, Time, Text, DECIMAL
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from application_code import db
+from application_code.models.event import Event
+from application_code.models.user import User
 from datetime import datetime
 
-Base = declarative_base()
 
-
-class EventComment(Base):
+class EventComment(db.Model):
     """
     Defines Event Comment model
     """
     __tablename__ = 'event_comments'
 
-    comment_id = Column(Integer, primary_key=True)
-    event_id = Column(Integer,
-                      ForeignKey('events.event_id'),
-                      nullable=False)
-    user_id = Column(Integer,
-                     ForeignKey('users.user_id'),
-                     nullable=False)
-    comment_text = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    comment_id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer,
+                         db.ForeignKey('events.event_id'),
+                         nullable=False)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'),
+                        nullable=False)
+    comment_text = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define many to one relationship with events and users
-    event = relationship('Event', back_populates='comments')
-    user = relationship('User', back_populates='comments')
+    event = db.relationship('Event', back_populates='comments')
+    user = db.relationship('User', back_populates='comments')
+
+    def __init__(self, event_id, user_id, comment_text):
+        """
+        Initialize the event comment model
+        """
+        self.event_id = event_id
+        self.user_id = user_id
+        self.comment_text = comment_text

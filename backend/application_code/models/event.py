@@ -5,39 +5,51 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, \
-        DateTime, Date, Time, Text, DECIMAL
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from application_code import db
 from datetime import datetime
+from application_code.models.rsvp import RSVP
+from application_code.models.event_comment import EventComment
+from application_code.models.event_rating import EventRating
+from application_code.models.event_collaborator import EventCollaborator
+from application_code.models.ticket import Ticket
 
-Base = declarative_base()
 
-
-class Event(Base):
+class Event(db.Model):
     """
     Defines Events model
     """
     __tablename__ = 'events'
 
-    event_id = Column(Integer, primary_key=True)
-    event_name = Column(String(255), nullable=False)
-    event_date = Column(Date, nullable=False)
-    event_time = Column(Time, nullable=False)
-    location = Column(String(255), nullable=False)
-    description = Column(Text)
-    organizer_id = Column(Integer,
-                          ForeignKey('users.user_id'),
-                          nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime,
-                        default=datetime.utcnow,
-                        onupdate=datetime.utcnow)
+    event_id = db.Column(db.Integer, primary_key=True)
+    event_name = db.Column(db.String(255), nullable=False)
+    event_date = db.Column(db.Date, nullable=False)
+    event_time = db.Column(db.Time, nullable=False)
+    location = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text)
+    organizer_id = db.Column(db.Integer,
+                             db.ForeignKey('users.user_id'),
+                             nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
 
     # Define a many to one relationship with users (organizer)
-    organizer = relationship('User', back_populates='events')
-    collaborators = relationship('EventCollaborator', back_populates='event')
-    tickets = relationship('Ticket', back_populates='event')
-    rsvps = relationship('RSVP', back_populates='event')
-    comments = relationship('EventComment', back_populates='event')
-    ratings = relationship('EventRating', back_populates='event')
+    organizer = db.relationship('User', back_populates='events')
+    collaborators = db.relationship(
+        'EventCollaborator', back_populates='event')
+    tickets = db.relationship('Ticket', back_populates='event')
+    rsvps = db.relationship('RSVP', back_populates='event')
+    comments = db.relationship('EventComment', back_populates='event')
+    ratings = db.relationship('EventRating', back_populates='event')
+
+    def __init__(self, event_name, event_date, event_time, location, description, organizer_id):
+        """
+        Initialize the event model
+        """
+        self.event_name = event_name
+        self.event_date = event_date
+        self.event_time = event_time
+        self.location = location
+        self.description = description
+        self.organizer_id = organizer_id

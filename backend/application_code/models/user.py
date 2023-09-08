@@ -6,6 +6,12 @@ Created on Tue Aug  29 12:00:00 2023
 @Author: Nicanor Kyamba
 """
 from application_code import db
+from application_code.models.event import Event
+from application_code.models.rsvp import RSVP
+from application_code.models.event_comment import EventComment
+from application_code.models.event_rating import EventRating
+from application_code.models.event_collaborator import EventCollaborator
+from application_code.models.ticket import Ticket
 
 
 class User(db.Model):
@@ -25,12 +31,16 @@ class User(db.Model):
 
     # Define one to many relationship with events
     events = db.relationship('Event', back_populates='organizer')
-    collaborations = db.relationship('EventCollaborator', back_populates='user')
+    collaborations = db.relationship(
+        'EventCollaborator', back_populates='user')
     rsvps = db.relationship('RSVP', back_populates='user')
     comments = db.relationship('EventComment', back_populates='user')
     ratings = db.relationship('EventRating', back_populates='user')
 
     def __init__(self, username, email, password):
+        """
+        Initialize the user model
+        """
         self.username = username
         self.email = email
         self.password = password
