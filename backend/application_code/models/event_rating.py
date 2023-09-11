@@ -7,8 +7,6 @@ Created on Tue Aug  29 12:00:00 2023
 """
 from application_code import db
 from datetime import datetime
-from application_code.models.event import Event
-from application_code.models.user import User
 
 
 class EventRating(db.Model):

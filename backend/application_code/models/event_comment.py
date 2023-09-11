@@ -6,8 +6,6 @@ Created on Tue Aug  29 12:00:00 2023
 @Author: Nicanor Kyamba
 """
 from application_code import db
-from application_code.models.event import Event
-from application_code.models.user import User
 from datetime import datetime
 
 

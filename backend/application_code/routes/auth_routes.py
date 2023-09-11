@@ -52,7 +52,10 @@ def get_single_user(user_id):
     return get_user(user_id)
 
 
-@auth_bp.route('/users/<int:user_id>', methods=['PUT'], strict_slashes=False)
+@auth_bp.route(
+        '/users/<int:user_id>/update',
+        methods=['PUT'],
+        strict_slashes=False)
 @jwt_required
 def update_single_user(user_id):
     """
@@ -61,7 +64,10 @@ def update_single_user(user_id):
     return update_user(user_id)
 
 
-@auth_bp.route('/users/<int:user_id>', methods=['DELETE'], strict_slashes=False)
+@auth_bp.route(
+        '/users/<int:user_id>/delete',
+        methods=['DELETE'],
+        strict_slashes=False)
 @jwt_required
 def delete_single_user(user_id):
     """

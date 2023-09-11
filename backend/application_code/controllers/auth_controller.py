@@ -28,6 +28,7 @@ def validate_email(email):
         return False
     return True
 
+
 def register_user():
     """
     Create a new user and add to the database
@@ -40,7 +41,9 @@ def register_user():
     if 'email' not in data or not validate_email(data['email']):
         return jsonify({'message': 'Invalid email address'}), 400
 
-    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(
+            data['password'].encode('utf-8'),
+            bcrypt.gensalt())
 
     try:
         new_user = User(
@@ -50,11 +53,14 @@ def register_user():
             )
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({'message': 'User created successfully', 'user_id': new_user.user_id}), 201
+        return jsonify({
+            'message': 'User created successfully',
+            'user_id': new_user.user_id}), 201
     except IntegrityError:
         return jsonify({'message': 'Email address already in use'}), 400
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
+
 
 def login_user():
     """
@@ -67,13 +73,23 @@ def login_user():
 
     try:
         user = User.query.filter_by(email=data['email']).first()
-        if user and bcrypt.checkpw(data['password'].encode('utf-8'), user.password):
-            token = jwt.encode({'user_id': user.user_id}, SECRET_KEY, algorithm='HS256')
-            return jsonify({'message': 'User logged in successfully', 'token': token.decode('UTF-8')})
-        else:
-            return jsonify({'message': 'Invalid email or password'}), 401
+
+        if user and 'password' in data:
+            provided_password = data['password']
+
+            if bcrypt.checkpw(provided_password.encode('utf-8'),
+                              user.password.encode('utf-8')):
+                token = jwt.encode({
+                    'user_id': user.user_id},
+                    SECRET_KEY,
+                    algorithm='HS256')
+                return jsonify({'message': 'User logged in successfully',
+                                'token': token}), 200
+
+        return jsonify({'message': 'Invalid email or password'}), 401
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
+
 
 def list_users():
     """
@@ -96,6 +112,7 @@ def list_users():
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
+
 def get_user(user_id):
     """
     Get a user by user_id
@@ -115,6 +132,7 @@ def get_user(user_id):
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
+
 def update_user(user_id):
     """
     Update user by their id
@@ -127,21 +145,31 @@ def update_user(user_id):
     if 'email' in data and not validate_email(data['email']):
         return jsonify({'message': 'Invalid email address'}), 400
 
-    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(
+            data['password'].encode('utf-8'),
+            bcrypt.gensalt())
 
     try:
         user = User.query.filter_by(user_id=user_id).first()
 
         if user:
-            user.username = data['username']
-            user.email = data.get('email', user.email)
-            user.password = hashed_password
-            db.session.commit()
-            return jsonify({'message': 'User updated successfully'}), 200
+            if request.current_user.user_id == user.user_id:
+                user.username = data['username']
+                user.email = data['email']
+                user.password = hashed_password
+                db.session.commit()
+                return jsonify({
+                    'message': 'User updated successfully'
+                    }), 200
+            else:
+                return jsonify({
+                    'message': 'Unauthorized'
+                    }), 401
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
+
 
 def delete_user(user_id):
     """
@@ -153,7 +181,8 @@ def delete_user(user_id):
         return jsonify({'message': 'No input data provided'}), 400
 
     if 'confirm' not in data or data['confirm'] != 'true':
-        return jsonify({'message': 'Please confirm that you want to delete the user'}), 400
+        return jsonify({
+            'message': 'Please confirm that you want to delete the user'}), 400
     try:
         user = User.query.filter_by(user_id=user_id).first()
 

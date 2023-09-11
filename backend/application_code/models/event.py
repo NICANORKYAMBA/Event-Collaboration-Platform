@@ -7,11 +7,7 @@ Created on Tue Aug  29 12:00:00 2023
 """
 from application_code import db
 from datetime import datetime
-from application_code.models.rsvp import RSVP
-from application_code.models.event_comment import EventComment
-from application_code.models.event_rating import EventRating
 from application_code.models.event_collaborator import EventCollaborator
-from application_code.models.ticket import Ticket
 
 
 class Event(db.Model):

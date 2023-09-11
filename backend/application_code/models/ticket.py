@@ -7,8 +7,6 @@ Created on Tue Aug  29 12:00:00 2023
 """
 from application_code import db
 from datetime import datetime
-from application_code.models.event import Event
-from application_code.models.user import User
 
 
 class Ticket(db.Model):
@@ -21,8 +19,8 @@ class Ticket(db.Model):
     event_id = db.Column(db.Integer,
                          db.ForeignKey('events.event_id'),
                          nullable=False)
-    ticket_type = db.Column(String(255), nullable=False)
-    price = db.Column(Float, nullable=False)
+    ticket_type = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Float, nullable=False)
     quantity_available = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime,
@@ -30,8 +28,8 @@ class Ticket(db.Model):
                            onupdate=datetime.utcnow)
 
     # Define many to one relationship with events
-    event = relationship('Event', back_populates='tickets')
-    rsvps = relationship('RSVP', back_populates='ticket')
+    event = db.relationship('Event', back_populates='tickets')
+    rsvps = db.relationship('RSVP', back_populates='ticket')
 
     def __init__(self, event_id, ticket_type, price, quantity_available):
         """
