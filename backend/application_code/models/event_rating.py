@@ -19,7 +19,7 @@ class EventRating(db.Model):
     event_id = db.Column(db.Integer,
                          db.ForeignKey('events.event_id'),
                          nullable=False)
-    user_id = db.Column(db.Integer,
+    user_id = db.Column(db.String(36),
                         db.ForeignKey('users.user_id'),
                         nullable=False)
     rating = db.Column(db.Integer, nullable=False)

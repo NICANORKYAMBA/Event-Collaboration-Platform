@@ -22,7 +22,7 @@ class Event(db.Model):
     event_time = db.Column(db.Time, nullable=False)
     location = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
-    organizer_id = db.Column(db.Integer,
+    organizer_id = db.Column(db.String(36),
                              db.ForeignKey('users.user_id'),
                              nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -39,7 +39,13 @@ class Event(db.Model):
     comments = db.relationship('EventComment', back_populates='event')
     ratings = db.relationship('EventRating', back_populates='event')
 
-    def __init__(self, event_name, event_date, event_time, location, description, organizer_id):
+    def __init__(self,
+                 event_name,
+                 event_date,
+                 event_time,
+                 location,
+                 description,
+                 organizer_id):
         """
         Initialize the event model
         """
