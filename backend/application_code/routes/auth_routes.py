@@ -57,7 +57,7 @@ def get_single_user(user_id):
         methods=['PUT'],
         strict_slashes=False)
 @jwt_required
-def update_single_user(user_id):
+def update_single_user(current_user, user_id):
     """
     Update a user by their id
     """
@@ -69,7 +69,7 @@ def update_single_user(user_id):
         methods=['DELETE'],
         strict_slashes=False)
 @jwt_required
-def delete_single_user(user_id):
+def delete_single_user(current_user, user_id):
     """
     Delete a user by their id
     """

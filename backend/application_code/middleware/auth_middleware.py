@@ -23,9 +23,9 @@ def jwt_required(func):
     """
     @wraps(func)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
+        full_token = request.headers.get('Authorization')
 
-        print('Token before decoding:', token)
+        token = full_token.replace("Bearer ", "")
 
         if not token:
             return jsonify({'message': 'Token is missing'}), 401
@@ -33,14 +33,12 @@ def jwt_required(func):
         try:
             data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
 
-            print('Token after decoding:', data)
-
             if not data:
                 return jsonify({'message': 'Token is invalid'}), 401
 
             current_user = User.query.filter_by(user_id=data['user_id']).first()
 
-            print('Current user:', current_user)
+            request.current_user = current_user
 
         except jwt.ExpiredSignatureError:
             return jsonify({'message': 'Token has expired'}), 401
