@@ -8,6 +8,7 @@ Created on Wed Sep  13 11:00:00 2023
 Unittest for auth contoller module
 """
 import unittest
+import bcrypt
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from application_code import create_app, db
@@ -102,6 +103,59 @@ class AuthControllerTestCase(unittest.TestCase):
         """
         response = self.client().post(
             '/api/v1/auth/register',
+            json={}
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'No input data provided')
+
+    def test_login_user(self):
+        """
+        Test login user
+        """
+        test_user = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(test_user)
+        db.session.commit()
+
+        response = self.client().post(
+            '/api/v1/auth/login',
+            json={
+                'email': 'test@example.com',
+                'password': 'testuser',
+            }
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'User logged in successfully')
+        self.assertTrue('token' in data)
+
+    def test_login_user_invalid_credentials(self):
+        """
+        Test login with invalid credentials
+        """
+        response = self.client().post(
+            '/api/v1/auth/login',
+            json={
+                'email': 'nonexistent@example.com',
+                'password': 'invalid_password',
+            }
+        )
+        self.assertEqual(response.status_code, 401)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'Invalid email or password')
+
+    def test_login_user_no_input_data(self):
+        """
+        Test user login with no input data
+        """
+        response = self.client().post(
+            '/api/v1/auth/login',
             json={}
         )
         self.assertEqual(response.status_code, 400)
