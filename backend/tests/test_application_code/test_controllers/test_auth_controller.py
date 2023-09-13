@@ -7,6 +7,7 @@ Created on Wed Sep  13 11:00:00 2023
 
 Unittest for auth contoller module
 """
+import uuid
 import unittest
 import bcrypt
 from unittest import mock
@@ -14,14 +15,6 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from application_code import create_app, db
 from application_code.models.user import User
-from application_code.controllers.auth_controller import (
-        register_user,
-        login_user,
-        list_users,
-        get_user,
-        update_user,
-        delete_user,
-        )
 from application_code.config import TestConfig
 
 
@@ -247,14 +240,26 @@ class AuthControllerTestCase(unittest.TestCase):
 
         user_id = str(test_user.user_id)
 
-        response = self.client().get(
-                '/api/v1/auth/users/{}'.format(user_id))
+        login_response = self.client().post(
+            '/api/v1/auth/login',
+            json={
+                'email': 'test@example.com',
+                'password': 'testuser',
+            }
+        )
+        self.assertEqual(login_response.status_code, 200)
+        login_data = login_response.get_json()
+        token = login_data['token']
 
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertTrue('user' in data)
-        self.assertEqual(data['username'], 'testuser')
-        self.assertEqual(data['email'], 'test@example.com')
+        response = self.client().get(
+            f'/api/v1/auth/users/{user_id}',
+            headers={
+                'Authorization': f'Bearer {token}'
+            }
+        )
+        self.assertTrue('user' in login_data)
+        self.assertEqual(login_data['username'], 'testuser')
+        self.assertEqual(login_data['email'], 'test@example.com')
 
     def test_get_user_not_found(self):
         """
@@ -282,7 +287,7 @@ class AuthControllerTestCase(unittest.TestCase):
 
     def test_update_user(self):
         """
-        Test updating a user
+        Test updating a user by user_id
         """
         test_user = User(
                 username='testuser',
@@ -296,18 +301,136 @@ class AuthControllerTestCase(unittest.TestCase):
 
         user_id = str(test_user.user_id)
 
-        response = self.client().put(
-            '/api/v1/auth/users/{}'.format(user_id),
+        login_response = self.client().post(
+            '/api/v1/auth/login',
             json={
-                'username': 'testuser2',
-                'email': 'test2@example.com',
-                'password': 'testuser2',
+                'email': 'test@example.com',
+                'password': 'testuser',
             }
         )
 
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertEqual(data['message'], 'User updated successfully')
+        self.assertEqual(login_response.status_code, 200)
+        login_data = login_response.get_json()
+        token = login_data['token']
+
+        updated_username = 'updated_user'
+        updated_email = 'updated@example.com'
+        updated_password = 'updated_password'
+
+        update_response = self.client().put(
+            '/api/v1/auth/users/{}/update'.format(user_id),
+            json={
+                'username': updated_username,
+                'email': updated_email,
+                'password': updated_password
+            },
+            headers={
+                'Authorization': 'Bearer {}'.format(token)
+            }
+        )
+        self.assertEqual(update_response.status_code, 200)
+        update_data = update_response.get_json()
+        self.assertEqual(update_data['message'], 'User updated successfully')
+
+        updated_user = User.query.filter_by(user_id=user_id).first()
+        self.assertEqual(updated_user.username, updated_username)
+        self.assertEqual(updated_user.email, updated_email)
+        self.assertTrue(bcrypt.checkpw(
+            updated_password.encode('utf-8'),
+            updated_user.password.encode('utf-8')
+        ))
+
+    def test_update_user_unauthorized(self):
+        """
+        Test updating a user when unauthorized
+        """
+        test_user = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        test_user2 = User(
+                username='testuser2',
+                email='test2@example.com',
+                password=bcrypt.hashpw(
+                    'testuser2'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(test_user)
+        db.session.add(test_user2)
+        db.session.commit()
+
+        user_id = str(test_user2.user_id)
+
+        login_response = self.client().post(
+            '/api/v1/auth/login',
+            json={
+                'email': 'test@example.com',
+                'password': 'testuser',
+            }
+        )
+        self.assertEqual(login_response.status_code, 200)
+        login_data = login_response.get_json()
+        token = login_data['token']
+
+        updated_username = 'updated_user'
+        updated_email = 'updated@example.com'
+        updated_password = 'updated_password'
+
+        update_response = self.client().put(
+            '/api/v1/auth/users/{}/update'.format(user_id),
+            json={
+                'username': updated_username,
+                'email': updated_email,
+                'password': updated_password
+            },
+            headers={
+                'Authorization': 'Bearer {}'.format(token)
+            }
+        )
+
+        self.assertEqual(update_response.status_code, 401)
+        update_data = update_response.get_json()
+        self.assertEqual(update_data['message'], 'Unauthorized')
+
+    def test_update_user_not_found(self):
+        """
+        Test updating a non-existent user
+        """
+        non_existent_user_id = str(uuid.uuid4())
+
+        login_response = self.client().post(
+            '/api/v1/auth/login',
+            json={
+                'email': 'test@example.com',
+                'password': 'testuser',
+            }
+        )
+        self.assertEqual(login_response.status_code, 200)
+        login_data = login_response.get_json()
+        token = login_data['token']
+
+        update_username = 'updated_user'
+        updated_email = 'updated@example.com'
+        updated_password = 'updated_password'
+
+        update_response = self.client().put(
+            '/api/v1/auth/users/{}/update'.format(non_existent_user_id),
+            json={
+                'username': update_username,
+                'email': updated_email,
+                'password': updated_password
+            },
+            headers={
+                'Authorization': 'Bearer {}'.format(token)
+            }
+        )
+
+        self.assertEqual(update_response.status_code, 404)
+        update_data = update_response.get_json()
+        self.assertEqual(update_data['message'], 'User not found')
 
     def test_update_user_invalid_credentials(self):
         """
@@ -375,8 +498,7 @@ class AuthControllerTestCase(unittest.TestCase):
         user_id = str(test_user.user_id)
 
         response = self.client().delete(
-            '/api/v1/auth/users/{}/delete'.format(user_id)
-
+            '/api/v1/auth/users/{}/delete'.format(user_id),
             json={
                 'confirm': True
                 }
