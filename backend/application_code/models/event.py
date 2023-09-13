@@ -5,6 +5,7 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
+import uuid
 from application_code import db
 from datetime import datetime
 from application_code.models.event_collaborator import EventCollaborator
@@ -16,7 +17,7 @@ class Event(db.Model):
     """
     __tablename__ = 'events'
 
-    event_id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.String(36), default=lambda: str(uuid.uuid4()), primary_key=True)
     event_name = db.Column(db.String(255), nullable=False)
     event_date = db.Column(db.Date, nullable=False)
     event_time = db.Column(db.Time, nullable=False)
