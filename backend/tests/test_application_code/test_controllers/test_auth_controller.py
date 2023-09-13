@@ -314,7 +314,7 @@ class AuthControllerTestCase(unittest.TestCase):
         Test updating a user with invalid credentials
         """
         response = self.client().put(
-            '/api/v1/auth/users/9999',
+            '/api/v1/auth/users/9999/update',
             json={
                 'username': 'testuser2',
                 'email': 'test2@example.com',
@@ -330,7 +330,7 @@ class AuthControllerTestCase(unittest.TestCase):
         Test updating a user with no input data
         """
         response = self.client().put(
-            '/api/v1/auth/users/9999',
+            '/api/v1/auth/users/9999/update',
             json={}
         )
         self.assertEqual(response.status_code, 400)
@@ -346,12 +346,70 @@ class AuthControllerTestCase(unittest.TestCase):
                 ) as mock_query:
             mock_query.side_effect = Exception('Simulated error')
             response = self.client().put(
-                '/api/v1/auth/users/9999',
+                '/api/v1/auth/users/9999/update',
                 json={
                     'username': 'testuser2',
                     'email': 'test2@example.com',
                     'password': 'testuser2',
                 }
+            )
+
+        self.assertEqual(response.status_code, 500)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'An error occurred')
+
+    def test_delete_user(self):
+        """
+        Test deleting a user
+        """
+        test_user = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(test_user)
+        db.session.commit()
+
+        user_id = str(test_user.user_id)
+
+        response = self.client().delete(
+            '/api/v1/auth/users/{}/delete'.format(user_id)
+
+            json={
+                'confirm': True
+                }
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'User deleted successfully')
+
+    def test_delete_user_no_input(self):
+        """
+        Test deleting user no credentials provided
+        """
+        response = self.client().delete(
+            '/api/v1/auth/users/9999/delete',
+            json={}
+        )
+
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'No input data provided')
+
+    def test_delete_user_error(self):
+        """
+        Test deleting a user when an error occurs
+        """
+        with mock.patch(
+                'application_code.controllers.auth_controller.User.query.get'
+                ) as mock_query:
+            mock_query.side_effect = Exception('Simulated error')
+            response = self.client().delete(
+                '/api/v1/auth/users/9999/delete',
+                json={}
             )
 
         self.assertEqual(response.status_code, 500)
