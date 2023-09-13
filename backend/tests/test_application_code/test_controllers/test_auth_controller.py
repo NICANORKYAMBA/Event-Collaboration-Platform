@@ -231,6 +231,55 @@ class AuthControllerTestCase(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data['message'], 'An error occurred')
 
+    def test_get_one_user(self):
+        """
+        Test case for getting a user by their id
+        """
+        test_user = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(test_user)
+        db.session.commit()
+
+        user_id = str(test_user.user_id)
+
+        response = self.client().get(
+                '/api/v1/auth/users/{}'.format(user_id))
+
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertTrue('user' in data)
+        self.assertEqual(data['username'], 'testuser')
+        self.assertEqual(data['email'], 'test@example.com')
+
+    def test_get_user_not_found(self):
+        """
+        Test retrieving a non-existent user by user_id
+        """
+        response = self.client().get('/api/v1/auth/users/9999')
+
+        self.assertEqual(response.status_code, 404)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'User not found')
+
+    def test_get_user_error(self):
+        """
+        Test retrieving a user when an error occurs
+        """
+        with mock.patch(
+                'application_code.controllers.auth_controller.User.query.get'
+                ) as mock_query:
+            mock_query.side_effect = Exception('Simulated error')
+            response = self.client().get('/api/v1/auth/users/9999')
+
+        self.assertEqual(response.status_code, 500)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'An error occurred')
+
 
 if __name__ == '__main__':
     unittest.main()
