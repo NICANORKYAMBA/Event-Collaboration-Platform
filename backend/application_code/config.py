@@ -22,3 +22,14 @@ class Config:
         os.environ.get('DB_NAME')
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class TestConfig(Config):
+    """
+    Set Flask configuration vars for testing
+    """
+    TESTING = True
+    DEBUG = True
+
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+    SECRET_KEY = 'testing_key'

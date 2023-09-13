@@ -6,14 +6,14 @@ Created on Fri Sep  01 13:00:00 2023
 @Author: Nicanor Kyamba
 """
 from flask import Flask
-from .config import Config
+from .config import Config, TestConfig
 from flask_sqlalchemy import SQLAlchemy
 
 # Create an SQLAlchemy database instance
 db = SQLAlchemy()
 
 
-def create_app(config_class=Config):
+def create_app(config_class=TestConfig):
     """
     Create a Flask application using the app factory pattern
 
