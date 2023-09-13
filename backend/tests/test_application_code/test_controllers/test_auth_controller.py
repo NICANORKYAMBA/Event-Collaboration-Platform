@@ -280,6 +280,84 @@ class AuthControllerTestCase(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data['message'], 'An error occurred')
 
+    def test_update_user(self):
+        """
+        Test updating a user
+        """
+        test_user = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(test_user)
+        db.session.commit()
+
+        user_id = str(test_user.user_id)
+
+        response = self.client().put(
+            '/api/v1/auth/users/{}'.format(user_id),
+            json={
+                'username': 'testuser2',
+                'email': 'test2@example.com',
+                'password': 'testuser2',
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'User updated successfully')
+
+    def test_update_user_invalid_credentials(self):
+        """
+        Test updating a user with invalid credentials
+        """
+        response = self.client().put(
+            '/api/v1/auth/users/9999',
+            json={
+                'username': 'testuser2',
+                'email': 'test2@example.com',
+                'password': 'testuser2',
+            }
+        )
+        self.assertEqual(response.status_code, 401)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'Invalid email or password')
+
+    def test_update_user_no_input_data(self):
+        """
+        Test updating a user with no input data
+        """
+        response = self.client().put(
+            '/api/v1/auth/users/9999',
+            json={}
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'No input data provided')
+
+    def test_update_user_error(self):
+        """
+        Test updating a user when an error occurs
+        """
+        with mock.patch(
+                'application_code.controllers.auth_controller.User.query.get'
+                ) as mock_query:
+            mock_query.side_effect = Exception('Simulated error')
+            response = self.client().put(
+                '/api/v1/auth/users/9999',
+                json={
+                    'username': 'testuser2',
+                    'email': 'test2@example.com',
+                    'password': 'testuser2',
+                }
+            )
+
+        self.assertEqual(response.status_code, 500)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'An error occurred')
+
 
 if __name__ == '__main__':
     unittest.main()
