@@ -9,6 +9,7 @@ Unittest for auth contoller module
 """
 import unittest
 import bcrypt
+from unittest import mock
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from application_code import create_app, db
@@ -161,6 +162,74 @@ class AuthControllerTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         data = response.get_json()
         self.assertEqual(data['message'], 'No input data provided')
+
+    def test_list_no_users_found(self):
+        """
+        Test listing all users when no users found
+        """
+        response = self.client().get('/api/v1/auth/users')
+        self.assertEqual(response.status_code, 404)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'No users found')
+
+    def test_list_users(self):
+        """
+        Test listing all users
+        """
+        user1 = User(
+                username='testuser',
+                email='test@example.com',
+                password=bcrypt.hashpw(
+                    'testuser'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        user2 = User(
+                username='testuser2',
+                email='test2@example.com',
+                password=bcrypt.hashpw(
+                    'testuser2'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        user3 = User(
+                username='testuser3',
+                email='test3@example.com',
+                password=bcrypt.hashpw(
+                    'testuser3'.encode('utf-8'),
+                    bcrypt.gensalt()).decode('utf-8')
+                )
+        db.session.add(user1)
+        db.session.add(user2)
+        db.session.add(user3)
+        db.session.commit()
+
+        response = self.client().get('/api/v1/auth/users')
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.get_json()
+        self.assertEqual('users' in data, True)
+        self.assertEqual(len(data), 3)
+        self.assertEqual(data[0]['username'], 'testuser')
+        self.assertEqual(data[1]['username'], 'testuser2')
+        self.assertEqual(data[2]['username'], 'testuser3')
+        self.assertEqual(data[0]['email'], 'test@example.com')
+        self.assertEqual(data[1]['email'], 'test2@example.com')
+        self.assertEqual(data[2]['email'], 'test3@example.com')
+
+    def test_list_users_error(self):
+        """
+        Test listing users when an error occurs
+        """
+        with mock.patch(
+                'application_code.controllers.auth_controller.User.query.all'
+                ) as mock_query:
+            mock_query.side_effect = Exception('Simulated error')
+            response = self.client().get('/api/v1/auth/users')
+
+        self.assertEqual(response.status_code, 500)
+
+        data = response.get_json()
+        self.assertEqual(data['message'], 'An error occurred')
 
 
 if __name__ == '__main__':
