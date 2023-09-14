@@ -32,12 +32,12 @@ def create_app(config_class=Config):
 
     # Initialize JWTManager
     jwt = JWTManager(app)
-
+    
     # Import and register blueprints
     from application_code.routes.auth_routes import auth_bp
-    from application_code.routes.event_routes import event_bp
+    #from application_code.routes.event_routes import event_bp
 
     app.register_blueprint(auth_bp)
-    app.register_blueprint(event_bp)
+    #app.register_blueprint(event_bp)
 
     return app

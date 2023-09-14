@@ -13,8 +13,9 @@ participation aspects.
 </p>
 
 <h2>Technologies Used:</h2>
+<h3>Backend</h3>
 <ol>
-<li>Flask</li>
+<li>python-flask</li>
 <li>SQLAlchemy</li>
 <li>...</li>
 </ol>
