@@ -7,26 +7,17 @@ Created on Fri Sep  01 14:00:00 2023
 """
 import os
 import jwt
-import bcrypt
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import create_access_token
+from email_validator import validate_email, EmailNotValidError
 from sqlalchemy.exc import IntegrityError
 from functools import wraps
 from flask import request, jsonify, current_app
 from application_code import db
 from application_code.models.user import User
 
+bcrypt = Bcrypt()
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
-
-def validate_email(email):
-    """
-    Validate an email address
-    """
-    import re
-    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-
-    if not re.fullmatch(regex, email):
-        return False
-    return True
 
 
 def register_user():
@@ -38,14 +29,15 @@ def register_user():
     if not data:
         return jsonify({'message': 'No input data provided'}), 400
 
-    if 'email' not in data or not validate_email(data['email']):
-        return jsonify({'message': 'Invalid email address'}), 400
-
-    hashed_password = bcrypt.hashpw(
-            data['password'].encode('utf-8'),
-            bcrypt.gensalt())
-
     try:
+        valid = validate_email(data['email'])
+        data['email'] = valid.email
+
+        hashed_password = bcrypt.generate_password_hash(
+            data['password'].encode('utf-8'),
+            current_app.config.get('SECRET_KEY')
+        ).decode('utf-8')
+
         new_user = User(
                 username=data['username'],
                 email=data['email'],
@@ -56,6 +48,8 @@ def register_user():
         return jsonify({
             'message': 'User created successfully',
             'user_id': new_user.user_id}), 201
+    except EmailNotValidError:
+        return jsonify({'message': 'Invalid email address'}), 400
     except IntegrityError:
         return jsonify({'message': 'Email address already in use'}), 400
     except Exception as e:
@@ -77,14 +71,10 @@ def login_user():
         if user and 'password' in data:
             provided_password = data['password']
 
-            if bcrypt.checkpw(provided_password.encode('utf-8'),
-                              user.password.encode('utf-8')):
-                token = jwt.encode({
-                    'user_id': user.user_id},
-                    SECRET_KEY,
-                    algorithm='HS256')
+            if bcrypt.check_password_hash(user.password, provided_password):
+                acess_token = create_access_token(identity=user.user_id)
                 return jsonify({'message': 'User logged in successfully',
-                                'token': token}), 200
+                                'token': acess_token}), 200
 
         return jsonify({'message': 'Invalid email or password'}), 401
     except Exception as e:
@@ -142,14 +132,15 @@ def update_user(user_id):
     if not data:
         return jsonify({'message': 'No input data provided'}), 400
 
-    if 'email' in data and not validate_email(data['email']):
-        return jsonify({'message': 'Invalid email address'}), 400
-
-    hashed_password = bcrypt.hashpw(
-            data['password'].encode('utf-8'),
-            bcrypt.gensalt())
-
     try:
+        valid = validate_email(data['email'])
+        data['email'] = valid.email
+
+        hashed_password = bcrypt.generate_password_hash(
+            data['password'].encode('utf-8'),
+            current_app.config.get('SECRET_KEY')
+        ).decode('utf-8')
+
         user = User.query.filter_by(user_id=user_id).first()
 
         if user:
@@ -167,6 +158,8 @@ def update_user(user_id):
                     }), 401
         else:
             return jsonify({'message': 'User not found'}), 404
+    except EmailNotValidError:
+        return jsonify({'message': 'Invalid email address'}), 400
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 

@@ -7,6 +7,7 @@ Created on Mon Aug  11 20:00:00 2023
 """
 from functools import wraps
 from flask import request, jsonify
+from flask_jwt_extended import get_jwt_identity
 from sqlalchemy.exc import IntegrityError
 from application_code import db
 from application_code.models.event import Event
@@ -23,6 +24,7 @@ def create_event():
         return jsonify({'message': 'Not input data provided'}), 400
 
     try:
+        organizer_id = get_jwt_identity()
         new_event = Event(
                 event_name=data['event_name'],
                 event_date=data['event_date'],
