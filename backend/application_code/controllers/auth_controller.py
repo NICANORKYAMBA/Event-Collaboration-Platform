@@ -6,17 +6,16 @@ Created on Fri Sep  01 14:00:00 2023
 @Author: Nicanor Kyamba
 """
 import os
-import jwt
+import bcrypt
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token
 from email_validator import validate_email, EmailNotValidError
 from sqlalchemy.exc import IntegrityError
-from functools import wraps
 from flask import request, jsonify, current_app
 from application_code import db
 from application_code.models.user import User
 
-bcrypt = Bcrypt()
+bbcrypt = Bcrypt()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
@@ -33,9 +32,9 @@ def register_user():
         valid = validate_email(data['email'])
         data['email'] = valid.email
 
-        hashed_password = bcrypt.generate_password_hash(
+        hashed_password = bcrypt.hashpw(
             data['password'].encode('utf-8'),
-            current_app.config.get('SECRET_KEY')
+            bcrypt.gensalt()
         ).decode('utf-8')
 
         new_user = User(
@@ -43,15 +42,18 @@ def register_user():
                 email=data['email'],
                 password=hashed_password
             )
+
         db.session.add(new_user)
         db.session.commit()
         return jsonify({
             'message': 'User created successfully',
             'user_id': new_user.user_id}), 201
-    except EmailNotValidError:
-        return jsonify({'message': 'Invalid email address'}), 400
-    except IntegrityError:
-        return jsonify({'message': 'Email address already in use'}), 400
+    except EmailNotValidError as e:
+        return jsonify({'message': 'Invalid email address',
+                        'error': str(e)}), 400
+    except IntegrityError as e:
+        return jsonify({'message': 'Email address already in use',
+                        'error': str(e)}), 400
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
@@ -71,7 +73,7 @@ def login_user():
         if user and 'password' in data:
             provided_password = data['password']
 
-            if bcrypt.check_password_hash(user.password, provided_password):
+            if bbcrypt.check_password_hash(user.password, provided_password):
                 acess_token = create_access_token(identity=user.user_id)
                 return jsonify({'message': 'User logged in successfully',
                                 'token': acess_token}), 200

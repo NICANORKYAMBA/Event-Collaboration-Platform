@@ -5,6 +5,7 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
+import uuid
 from application_code import db
 from datetime import datetime
 
@@ -15,11 +16,13 @@ class EventRating(db.Model):
     """
     __tablename__ = 'event_ratings'
 
-    rating_id = db.Column(db.Integer, primary_key=True)
-    event_id = db.Column(db.Integer,
+    rating_id = db.Column(db.String(255),
+                          default=lambda: str(uuid.uuid4()),
+                          primary_key=True)
+    event_id = db.Column(db.String(255),
                          db.ForeignKey('events.event_id'),
                          nullable=False)
-    user_id = db.Column(db.String(36),
+    user_id = db.Column(db.String(255),
                         db.ForeignKey('users.user_id'),
                         nullable=False)
     rating = db.Column(db.Integer, nullable=False)

@@ -21,9 +21,9 @@ class User(db.Model):
     """
     __tablename__ = 'users'
 
-    user_id = db.Column(
-            db.String(36),
-            default=lambda: str(uuid.uuid4()), primary_key=True)
+    user_id = db.Column(db.String(255),
+                        default=lambda: str(uuid.uuid4()),
+                        primary_key=True)
     username = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)

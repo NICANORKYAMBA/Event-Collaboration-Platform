@@ -26,7 +26,7 @@ auth_bp = Blueprint('auth_bp', __name__, url_prefix='/api/v1/auth')
                endpoint='register')
 def register_new_user():
     """
-    Register a user
+    Register a new user
     """
     return register_user()
 

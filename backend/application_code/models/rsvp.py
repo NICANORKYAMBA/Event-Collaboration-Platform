@@ -5,6 +5,7 @@ Created on Tue Aug  29 12:00:00 2023
 
 @Author: Nicanor Kyamba
 """
+import uuid
 from application_code import db
 from datetime import datetime
 
@@ -15,17 +16,19 @@ class RSVP(db.Model):
     """
     __tablename__ = 'rsvps'
 
-    rsvp_id = db.Column(db.Integer, primary_key=True)
-    event_id = db.Column(db.Integer,
+    rsvp_id = db.Column(db.String(255),
+                        default=lambda: str(uuid.uuid4()),
+                        primary_key=True)
+    event_id = db.Column(db.String(255),
                          db.ForeignKey('events.event_id'),
                          nullable=False)
-    user_id = db.Column(db.String(36),
+    user_id = db.Column(db.String(255),
                         db.ForeignKey('users.user_id'),
                         nullable=False)
-    ticket_id = db.Column(db.Integer,
+    ticket_id = db.Column(db.String(255),
                           db.ForeignKey('tickets.ticket_id'),
                           nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     # Define many to one relationship with events, users and tickets
     event = db.relationship('Event', back_populates='rsvps')
