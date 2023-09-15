@@ -30,7 +30,7 @@ def create_event_rating(event_id):
     return create_rating(event_id)
 
 
-@rating_bp.route('/get/<int:event_id>',
+@rating_bp.route('/<int:event_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_ratings(event_id):
     return get_ratings(event_id)
 
 
-@rating_bp.route('/get/<int:event_id>/<int:rating_id>',
+@rating_bp.route('/<int:event_id>/<int:rating_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
