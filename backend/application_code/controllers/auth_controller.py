@@ -98,7 +98,9 @@ def get_users():
                     'email': user.email
                 } for user in users
             ]
-            return jsonify({'users': user_list}), 200
+            return jsonify({
+                'message': 'All Users retrieved successfully',
+                'users': user_list}), 200
         else:
             return jsonify({'message': 'No users found'}), 404
     except Exception as e:
@@ -118,7 +120,10 @@ def get_user(user_id):
                 'username': user.username,
                 'email': user.email
             }
-            return jsonify({'user': user_info}), 200
+            return jsonify({
+                'message': 'User retrieved successfully',
+                'user': user_info
+                }), 200
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:

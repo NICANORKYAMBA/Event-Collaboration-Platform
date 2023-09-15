@@ -54,7 +54,9 @@ def get_events():
 
         if events:
             events_list = [event.serialize() for event in events]
-            return jsonify(events_list), 200
+            return jsonify({
+                'message': 'All events retrieved successfully.',
+                'events': events_list}), 200
         return jsonify({'message': 'No events found'}), 404
     except Exception as e:
         return jsonify({'message': 'An error occurred',
@@ -69,7 +71,9 @@ def get_event(event_id):
         event = Event.query.get(event_id)
 
         if event:
-            return jsonify(event.serialize()), 200
+            return jsonify({
+                'message': 'Event retrieved successfully',
+                'event': event.serialize()}), 200
         return jsonify({'message': 'Event not found'}), 404
     except Exception as e:
         return jsonify({'message': 'An error occurred',

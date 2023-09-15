@@ -53,7 +53,7 @@ def get_all_users():
     return get_users()
 
 
-@auth_bp.route('/users/<int:user_id>',
+@auth_bp.route('/user/<int:user_id>',
                methods=['GET'],
                strict_slashes=False,
                endpoint='user')
@@ -65,7 +65,7 @@ def get_single_user(user_id):
 
 
 @auth_bp.route(
-        '/users/<int:user_id>/update',
+        '/update/<int:user_id>',
         methods=['PUT'],
         strict_slashes=False,
         endpoint='update')
@@ -78,7 +78,7 @@ def update_single_user(user_id):
 
 
 @auth_bp.route(
-        '/users/<int:user_id>/delete',
+        '/delete/<int:user_id>',
         methods=['DELETE'],
         strict_slashes=False,
         endpoint='delete')
