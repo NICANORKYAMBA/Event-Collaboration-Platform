@@ -11,7 +11,7 @@ from application_code import db
 from application_code.models.rsvp import RSVP
 from application_code.models.ticket import Ticket
 from application_code.controllers.auth_controller import get_user
-from apllication_code.controllers.event_controller import get_event
+from application_code.controllers.event_controller import get_event
 
 
 def create_rsvp(event_id):

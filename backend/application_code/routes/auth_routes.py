@@ -9,7 +9,7 @@ from flask_jwt_extended import jwt_required
 from application_code.controllers.auth_controller import (
     register_user,
     login_user,
-    list_users,
+    get_users,
     get_user,
     update_user,
     delete_user,
@@ -50,7 +50,7 @@ def get_all_users():
     """
     List all users
     """
-    return list_users()
+    return get_users()
 
 
 @auth_bp.route('/users/<int:user_id>',

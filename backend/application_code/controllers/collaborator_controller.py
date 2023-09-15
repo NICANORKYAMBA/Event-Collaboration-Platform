@@ -11,7 +11,7 @@ Created on Fri Sep  15 11:00:00 2023
 from flask import request, jsonify
 from application_code import db
 from sqlalchemy.exc import IntegrityError
-from application_code.models.auth_controller import get_user
+from application_code.controllers.auth_controller import get_user
 from application_code.models.event_collaborator import EventCollaborator
 from application_code.models.event import Event
 from application_code.models.user import User

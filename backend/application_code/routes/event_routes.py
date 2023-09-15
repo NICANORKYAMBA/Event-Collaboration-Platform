@@ -22,10 +22,10 @@ from application_code.controllers.event_controller import (
 event_bp = Blueprint("event_bp", __name__, url_prefix="/api/v1/events")
 
 
-@event_bp.route("/new_event",
+@event_bp.route("/create",
                 methods=["POST"],
                 strict_slashes=False,
-                endpoint="new_event")
+                endpoint="create")
 @jwt_required()
 def create_event_route():
     """
@@ -34,48 +34,48 @@ def create_event_route():
     return create_event()
 
 
-@event_bp.route("/get_event/<int:event_id>",
+@event_bp.route("/<int:event_id>",
                 methods=["GET"],
                 strict_slashes=False,
-                endpoint="get_event")
+                endpoint="event")
 @jwt_required
-def get_event_route(current_user, event_id):
+def get_event_route(event_id):
     """
     Get an event by id
     """
     return get_event(event_id)
 
 
-@event_bp.route("/get_events",
+@event_bp.route("/",
                 methods=["GET"],
                 strict_slashes=False,
-                endpoint="get_events")
+                endpoint="events")
 @jwt_required
-def get_events_route(current_user):
+def get_events_route():
     """
     Get all events
     """
     return get_events()
 
 
-@event_bp.route("/update_event/<int:event_id>",
+@event_bp.route("/update/<int:event_id>",
                 methods=["PUT"],
                 strict_slashes=False,
-                endpoint="update_event")
+                endpoint="update")
 @jwt_required
-def update_event_route(current_user, event_id):
+def update_event_route(event_id):
     """
     Update an event
     """
     return update_event(event_id)
 
 
-@event_bp.route("/delete_event/<int:event_id>",
+@event_bp.route("/delete/<int:event_id>",
                 methods=["DELETE"],
                 strict_slashes=False,
-                endpoint="delete_event")
+                endpoint="delete")
 @jwt_required
-def delete_event_route(current_user, event_id):
+def delete_event_route(event_id):
     """
     Delete an event
     """

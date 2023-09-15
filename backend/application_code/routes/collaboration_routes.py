@@ -7,7 +7,7 @@ Created on Fri Sep  15 16:00:00 2023
 """
 from flask import Blueprint
 from flask_jwt_extended import jwt_required
-from application_code.controllers.collaboration_controller import (
+from application_code.controllers.collaborator_controller import (
     get_collaborators,
     create_collaborator,
     update_collaborator,
@@ -17,9 +17,10 @@ from application_code.controllers.collaboration_controller import (
 collaborators_bp = Blueprint('collaborators_bp', __name__, url_prefix='/api/v1/collaborators')
 
 
-@collaborators_bp.route('/event/<int:event_id>',
+@collaborators_bp.route('/list/<int:event_id>',
                         methods=['GET'],
-                        strict_slashes=False)
+                        strict_slashes=False,
+                        endpoint='/list/<int:event_id>')
 @jwt_required
 def list_collaborators(event_id):
     """
@@ -28,9 +29,10 @@ def list_collaborators(event_id):
     return get_collaborators(event_id)
 
 
-@collaborators_bp.route('/event/<int:event_id>',
+@collaborators_bp.route('/create/<int:event_id>',
                         methods=['POST'],
-                        strict_slashes=False)
+                        strict_slashes=False,
+                        endpoint='/create/<int:event_id>')
 @jwt_required
 def add_collaborator(event_id):
     """
@@ -39,9 +41,10 @@ def add_collaborator(event_id):
     return create_collaborator(event_id)
 
 
-@collaborators_bp.route('/event/<int:event_id>',
+@collaborators_bp.route('/update/<int:event_id>',
                         methods=['PUT'],
-                        strict_slashes=False)
+                        strict_slashes=False,
+                        endpoint='/update/<int:event_id>')
 @jwt_required
 def modify_collaborator(event_id):
     """
@@ -50,9 +53,10 @@ def modify_collaborator(event_id):
     return update_collaborator(event_id)
 
 
-@collaborators_bp.route('/event/<int:event_id>',
+@collaborators_bp.route('/delete/<int:event_id>',
                         methods=['DELETE'],
-                        strict_slashes=False)
+                        strict_slashes=False,
+                        endpoint='/delete/<int:event_id>')
 @jwt_required
 def remove_collaborator(event_id):
     """

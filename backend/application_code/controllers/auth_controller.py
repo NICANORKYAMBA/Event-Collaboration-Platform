@@ -83,7 +83,7 @@ def login_user():
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
 
-def list_users():
+def get_users():
     """
     List all users in the database
     """

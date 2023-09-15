@@ -7,7 +7,7 @@ Created on Fri Sep  15 16:00:00 2023
 """
 from flask_jwt_extended import jwt_required
 from flask import Blueprint
-from application_code.controllers.comments_controller import (
+from application_code.controllers.comment_controller import (
     create_comment,
     get_comments,
     get_comment,
@@ -15,12 +15,13 @@ from application_code.controllers.comments_controller import (
     delete_comment
 )
 
-comments_bp = Blueprint('comments_bp', __name__, url_prefix='api/v1/comments')
+comments_bp = Blueprint('comments_bp', __name__, url_prefix='/api/v1/comments')
 
 
 @comments_bp.route('/create/<int:event_id>',
                    methods=['POST'],
-                   strict_slashes=False)
+                   strict_slashes=False,
+                   endpoint='/create/<int:event_id>')
 @jwt_required
 def create_comment(event_id):
     """
@@ -31,7 +32,8 @@ def create_comment(event_id):
 
 @comments_bp.route('/get/<int:event_id>',
                    methods=['GET'],
-                   strict_slashes=False)
+                   strict_slashes=False,
+                   endpoint='/get/<int:event_id>')
 @jwt_required
 def get_comments(event_id):
     """
@@ -42,7 +44,8 @@ def get_comments(event_id):
 
 @comments_bp.route('/get/<int:event_id>/<int:comment_id>',
                    methods=['GET'],
-                   strict_slashes=False)
+                   strict_slashes=False,
+                   endpoint='/get/<int:event_id>/<int:comment_id>')
 @jwt_required
 def get_comment(event_id, comment_id):
     """
@@ -53,7 +56,8 @@ def get_comment(event_id, comment_id):
 
 @comments_bp.route('/update/<int:event_id>/<int:comment_id>',
                    methods=['PUT'],
-                   strict_slashes=False)
+                   strict_slashes=False,
+                   endpoint='/update/<int:event_id>/<int:comment_id>')
 @jwt_required
 def update_comment(event_id, comment_id):
     """
@@ -64,7 +68,8 @@ def update_comment(event_id, comment_id):
 
 @comments_bp.route('/delete/<int:event_id>/<int:comment_id>',
                    methods=['DELETE'],
-                   strict_slashes=False)
+                   strict_slashes=False,
+                   endpoint='/delete/<int:event_id>/<int:comment_id>')
 @jwt_required
 def delete_comment(event_id, comment_id):
     """
