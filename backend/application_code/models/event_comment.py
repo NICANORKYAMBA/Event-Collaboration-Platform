@@ -35,7 +35,23 @@ class EventComment(db.Model):
     def __init__(self, event_id, user_id, comment_text):
         """
         Initialize the event comment model
+
+        Args:
+            event_id (str): event id
+            user_id (str): user id
+            comment_text (str): comment text
         """
         self.event_id = event_id
         self.user_id = user_id
         self.comment_text = comment_text
+
+    def serialize(self):
+        """
+        Serialize the event comment model
+        """
+        return {
+            'comment_id': self.comment_id,
+            'event_id': self.event_id,
+            'user_id': self.user_id,
+            'comment_text': self.comment_text,
+        }

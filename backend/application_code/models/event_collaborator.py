@@ -35,7 +35,23 @@ class EventCollaborator(db.Model):
     def __init__(self, event_id, user_id, role):
         """
         Initialize the event collaborator model
+
+        Args:
+            event_id (str): event id
+            user_id (str): user id
+            role (str): role
         """
         self.event_id = event_id
         self.user_id = user_id
         self.role = role
+
+    def serialize(self):
+        """
+        Serialize the event collaborator model
+        """
+        return {
+            'collaborator_id': self.collaborator_id,
+            'event_id': self.event_id,
+            'user_id': self.user_id,
+            'role': self.role
+        }

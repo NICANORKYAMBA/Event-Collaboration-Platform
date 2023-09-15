@@ -39,12 +39,24 @@ class Ticket(db.Model):
         Initialize the ticket model
 
         Args:
-                event_id (_type_): _description_
-                ticket_type (_type_): _description_
-                price (_type_): _description_
-                quantity_available (_type_): _description_
+            event_id (str): event id
+            ticket_type (str): ticket type
+            price (float): price
+            quantity_available (int): quantity available
         """
         self.event_id = event_id
         self.ticket_type = ticket_type
         self.price = price
         self.quantity_available = quantity_available
+
+    def serialize(self):
+        """
+        Serialize the ticket model
+        """
+        return {
+            'ticket_id': self.ticket_id,
+            'event_id': self.event_id,
+            'ticket_type': self.ticket_type,
+            'price': self.price,
+            'quantity_available': self.quantity_available
+        }

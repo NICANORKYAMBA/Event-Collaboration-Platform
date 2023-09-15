@@ -48,3 +48,14 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password
+
+    def serialize(self):
+        """
+        Serialize the user model
+        """
+        return {
+            'user_id': self.user_id,
+            'username': self.username,
+            'email': self.email,
+            'profile_image': self.profile_image
+        }

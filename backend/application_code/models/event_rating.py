@@ -37,10 +37,21 @@ class EventRating(db.Model):
         Initialize the event rating model
 
         Args:
-                event_id (_type_): _description_
-                user_id (_type_): _description_
-                rating (_type_): _description_
+            event_id (str): event id
+            user_id (str): user id
+            rating (int): rating
         """
         self.event_id = event_id
         self.user_id = user_id
         self.rating = rating
+
+    def serialize(self):
+        """
+        Serialize the event rating model
+        """
+        return {
+            'rating_id': self.rating_id,
+            'event_id': self.event_id,
+            'user_id': self.user_id,
+            'rating': self.rating,
+        }

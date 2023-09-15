@@ -59,3 +59,17 @@ class Event(db.Model):
         self.location = location
         self.description = description
         self.organizer_id = organizer_id
+
+    def serialize(self):
+        """
+        Serialize the event
+        """
+        return {
+            'event_id': self.event_id,
+            'event_name': self.event_name,
+            'event_date': self.event_date.strftime('%Y-%m-%d'),
+            'event_time': self.event_time.strftime('%H:%M:%S'),
+            'location': self.location,
+            'description': self.description,
+            'organizer_id': self.organizer_id,
+        }
