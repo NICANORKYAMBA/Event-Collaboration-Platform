@@ -17,10 +17,10 @@ from application_code.controllers.collaborator_controller import (
 collaborators_bp = Blueprint('collaborators_bp', __name__, url_prefix='/api/v1/collaborators')
 
 
-@collaborators_bp.route('/list/<int:event_id>',
+@collaborators_bp.route('/<int:event_id>',
                         methods=['GET'],
                         strict_slashes=False,
-                        endpoint='/list/<int:event_id>')
+                        endpoint='list')
 @jwt_required
 def list_collaborators(event_id):
     """
@@ -32,7 +32,7 @@ def list_collaborators(event_id):
 @collaborators_bp.route('/create/<int:event_id>',
                         methods=['POST'],
                         strict_slashes=False,
-                        endpoint='/create/<int:event_id>')
+                        endpoint='create')
 @jwt_required
 def add_collaborator(event_id):
     """
@@ -44,7 +44,7 @@ def add_collaborator(event_id):
 @collaborators_bp.route('/update/<int:event_id>',
                         methods=['PUT'],
                         strict_slashes=False,
-                        endpoint='/update/<int:event_id>')
+                        endpoint='update')
 @jwt_required
 def modify_collaborator(event_id):
     """
@@ -56,7 +56,7 @@ def modify_collaborator(event_id):
 @collaborators_bp.route('/delete/<int:event_id>',
                         methods=['DELETE'],
                         strict_slashes=False,
-                        endpoint='/delete/<int:event_id>')
+                        endpoint='delete')
 @jwt_required
 def remove_collaborator(event_id):
     """

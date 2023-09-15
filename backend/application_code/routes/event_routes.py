@@ -37,7 +37,7 @@ def create_event_route():
 @event_bp.route("/<int:event_id>",
                 methods=["GET"],
                 strict_slashes=False,
-                endpoint="event")
+                endpoint="get")
 @jwt_required
 def get_event_route(event_id):
     """
@@ -49,7 +49,7 @@ def get_event_route(event_id):
 @event_bp.route("/",
                 methods=["GET"],
                 strict_slashes=False,
-                endpoint="events")
+                endpoint="list")
 @jwt_required
 def get_events_route():
     """

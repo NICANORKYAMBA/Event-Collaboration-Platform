@@ -30,7 +30,7 @@ def create_event_ticket(event_id):
     return create_ticket(event_id)
 
 
-@ticket_bp.route('/get/<int:event_id>',
+@ticket_bp.route('/<int:event_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_tickets(event_id):
     return get_tickets(event_id)
 
 
-@ticket_bp.route('/get/<int:event_id>/<int:ticket_id>',
+@ticket_bp.route('/<int:event_id>/<int:ticket_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()

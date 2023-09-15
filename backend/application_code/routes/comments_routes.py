@@ -21,7 +21,7 @@ comments_bp = Blueprint('comments_bp', __name__, url_prefix='/api/v1/comments')
 @comments_bp.route('/create/<int:event_id>',
                    methods=['POST'],
                    strict_slashes=False,
-                   endpoint='/create/<int:event_id>')
+                   endpoint='create')
 @jwt_required
 def create_comment(event_id):
     """
@@ -30,10 +30,10 @@ def create_comment(event_id):
     return create_comment(event_id)
 
 
-@comments_bp.route('/get/<int:event_id>',
+@comments_bp.route('/<int:event_id>',
                    methods=['GET'],
                    strict_slashes=False,
-                   endpoint='/get/<int:event_id>')
+                   endpoint='list')
 @jwt_required
 def get_comments(event_id):
     """
@@ -42,10 +42,10 @@ def get_comments(event_id):
     return get_comments(event_id)
 
 
-@comments_bp.route('/get/<int:event_id>/<int:comment_id>',
+@comments_bp.route('/<int:event_id>/<int:comment_id>',
                    methods=['GET'],
                    strict_slashes=False,
-                   endpoint='/get/<int:event_id>/<int:comment_id>')
+                   endpoint='get')
 @jwt_required
 def get_comment(event_id, comment_id):
     """
@@ -57,7 +57,7 @@ def get_comment(event_id, comment_id):
 @comments_bp.route('/update/<int:event_id>/<int:comment_id>',
                    methods=['PUT'],
                    strict_slashes=False,
-                   endpoint='/update/<int:event_id>/<int:comment_id>')
+                   endpoint='update')
 @jwt_required
 def update_comment(event_id, comment_id):
     """
@@ -69,7 +69,7 @@ def update_comment(event_id, comment_id):
 @comments_bp.route('/delete/<int:event_id>/<int:comment_id>',
                    methods=['DELETE'],
                    strict_slashes=False,
-                   endpoint='/delete/<int:event_id>/<int:comment_id>')
+                   endpoint='delete')
 @jwt_required
 def delete_comment(event_id, comment_id):
     """

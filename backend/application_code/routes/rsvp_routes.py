@@ -30,7 +30,7 @@ def create_event_rsvp(event_id):
     return create_rsvp(event_id)
 
 
-@rsvp_bp.route('/get/<int:event_id>',
+@rsvp_bp.route('/<int:event_id>',
                 methods=['GET'],
                strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_rsvps(event_id):
     return get_rsvps(event_id)
 
 
-@rsvp_bp.route('/get/<int:rsvp_id>',
+@rsvp_bp.route('/<int:rsvp_id>',
                 methods=['GET'],
                strict_slashes=False)
 @jwt_required()
