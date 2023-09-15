@@ -32,7 +32,7 @@ def create_comment(event_id):
 
     try:
         user_id = get_jwt_identity()
-        comment_text = data.get['comment_text']
+        comment_text = data['comment_text']
 
         event = get_event(event_id)
 
@@ -149,7 +149,7 @@ def update_comment(event_id, comment_id):
         if not comment:
             return jsonify({'message': 'Comment not found'}), 404
 
-        comment_text = data.get['comment_text']
+        comment_text = data['comment_text']
 
         if comment_text:
             comment.comment_text = comment_text
@@ -173,6 +173,7 @@ def delete_comment(event_id, comment_id):
 
     Args:
         event_id (int): id of the event
+        comment_id (int): id of the comment
     """
     try:
         event = get_event(event_id)
@@ -192,7 +193,7 @@ def delete_comment(event_id, comment_id):
         return jsonify({
             'message': 'Comment deleted successfully',
             'comment_id': comment.comment_id
-        }), 200
+        }), 204
     except Exception as e:
         return jsonify({
             'message': 'An error occurred deleting the comment',
