@@ -184,16 +184,16 @@ def delete_comment(event_id, comment_id):
         comment = EventComment.query.filter_by(
                 event_id=event_id, comment_id=comment_id).first()
 
-        if not comment:
-            return jsonify({'message': 'Comment not found'}), 404
+        if comment:
+            db.session.delete(comment)
+            db.session.commit()
 
-        db.session.delete(comment)
-        db.session.commit()
+            return jsonify({
+                'message': 'Comment deleted successfully',
+                'comment_id': comment.comment_id
+                }), 200
+        return jsonify({'message': 'Comment not found'}), 404
 
-        return jsonify({
-            'message': 'Comment deleted successfully',
-            'comment_id': comment.comment_id
-        }), 204
     except Exception as e:
         return jsonify({
             'message': 'An error occurred deleting the comment',
