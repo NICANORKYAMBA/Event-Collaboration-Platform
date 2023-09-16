@@ -19,7 +19,7 @@ from application_code.controllers.ticket_controller import (
 ticket_bp = Blueprint('ticket_bp', __name__, url_prefix='/api/v1/tickets')
 
 
-@ticket_bp.route('/create/<int:event_id>',
+@ticket_bp.route('/create/<uuid:event_id>',
                  methods=['POST'],
                  strict_slashes=False)
 @jwt_required()
@@ -30,7 +30,7 @@ def create_event_ticket(event_id):
     return create_ticket(event_id)
 
 
-@ticket_bp.route('/<int:event_id>',
+@ticket_bp.route('/<uuid:event_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_tickets(event_id):
     return get_tickets(event_id)
 
 
-@ticket_bp.route('/<int:event_id>/<int:ticket_id>',
+@ticket_bp.route('/<uuid:event_id>/<uuid:ticket_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -52,7 +52,7 @@ def get_event_ticket(event_id, ticket_id):
     return get_ticket(event_id, ticket_id)
 
 
-@ticket_bp.route('/update/<int:event_id>/<int:ticket_id>',
+@ticket_bp.route('/update/<uuid:event_id>/<uuid:ticket_id>',
                  methods=['PUT'],
                  strict_slashes=False)
 @jwt_required()
@@ -63,7 +63,7 @@ def update_event_ticket(event_id, ticket_id):
     return update_ticket(event_id, ticket_id)
 
 
-@ticket_bp.route('/delete/<int:event_id>/<int:ticket_id>',
+@ticket_bp.route('/delete/<uuid:event_id>/<uuid:ticket_id>',
                  methods=['DELETE'],
                  strict_slashes=False)
 @jwt_required()

@@ -19,7 +19,7 @@ from application_code.controllers.rsvp_controller import (
 rsvp_bp = Blueprint("rsvp_bp", __name__, url_prefix="/api/v1/rsvps")
 
 
-@rsvp_bp.route('/create/<int:event_id>',
+@rsvp_bp.route('/create/<uuid:event_id>',
                 methods=['POST'],
                strict_slashes=False)
 @jwt_required()
@@ -30,7 +30,7 @@ def create_event_rsvp(event_id):
     return create_rsvp(event_id)
 
 
-@rsvp_bp.route('/<int:event_id>',
+@rsvp_bp.route('/<uuid:event_id>',
                 methods=['GET'],
                strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_rsvps(event_id):
     return get_rsvps(event_id)
 
 
-@rsvp_bp.route('/<int:rsvp_id>',
+@rsvp_bp.route('/<uuid:rsvp_id>',
                 methods=['GET'],
                strict_slashes=False)
 @jwt_required()
@@ -52,22 +52,22 @@ def get_single_rsvp(rsvp_id):
     return get_rsvp(rsvp_id)
 
 
-@rsvp_bp.route('/user/<int:user_id>',
+@rsvp_bp.route('/user/<uuid:user_id>',
                 methods=['GET'],
                strict_slashes=False)
 @jwt_required()
-def get_user_rsvps(user_id):
+def get_all_user_rsvps(user_id):
     """
     Get all rsvps for a user
     """
     return get_user_rsvps(user_id)
 
 
-@rsvp_bp.route('/delete/<int:rsvp_id>',
+@rsvp_bp.route('/delete/<uuid:rsvp_id>',
                 methods=['DELETE'],
                strict_slashes=False)
 @jwt_required()
-def delete_rsvp(rsvp_id):
+def delete_single_rsvp(rsvp_id):
     """
     Delete a rsvp by its id
     """

@@ -19,13 +19,13 @@ from application_code.controllers.event_controller import (
 )
 
 
-event_bp = Blueprint("event_bp", __name__, url_prefix="/api/v1/events")
+event_bp = Blueprint('event_bp', __name__, url_prefix='/api/v1/events')
 
 
-@event_bp.route("/create",
-                methods=["POST"],
+@event_bp.route('/create',
+                methods=['POST'],
                 strict_slashes=False,
-                endpoint="create")
+                endpoint='create')
 @jwt_required()
 def create_event_route():
     """
@@ -34,11 +34,11 @@ def create_event_route():
     return create_event()
 
 
-@event_bp.route("/<int:event_id>",
-                methods=["GET"],
+@event_bp.route('/<uuid:event_id>',
+                methods=['GET'],
                 strict_slashes=False,
-                endpoint="get")
-@jwt_required
+                endpoint='get')
+@jwt_required()
 def get_event_route(event_id):
     """
     Get an event by id
@@ -46,11 +46,11 @@ def get_event_route(event_id):
     return get_event(event_id)
 
 
-@event_bp.route("/",
-                methods=["GET"],
+@event_bp.route('/',
+                methods=['GET'],
                 strict_slashes=False,
-                endpoint="list")
-@jwt_required
+                endpoint='list')
+@jwt_required()
 def get_events_route():
     """
     Get all events
@@ -58,11 +58,11 @@ def get_events_route():
     return get_events()
 
 
-@event_bp.route("/update/<int:event_id>",
-                methods=["PUT"],
+@event_bp.route('/update/<uuid:event_id>',
+                methods=['PUT'],
                 strict_slashes=False,
-                endpoint="update")
-@jwt_required
+                endpoint='update')
+@jwt_required()
 def update_event_route(event_id):
     """
     Update an event
@@ -70,11 +70,11 @@ def update_event_route(event_id):
     return update_event(event_id)
 
 
-@event_bp.route("/delete/<int:event_id>",
-                methods=["DELETE"],
+@event_bp.route('/delete/<uuid:event_id>',
+                methods=['DELETE'],
                 strict_slashes=False,
-                endpoint="delete")
-@jwt_required
+                endpoint='delete')
+@jwt_required()
 def delete_event_route(event_id):
     """
     Delete an event

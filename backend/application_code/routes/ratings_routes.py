@@ -19,7 +19,7 @@ from application_code.controllers.rating_controller import (
 rating_bp = Blueprint('rating_bp', __name__, url_prefix='/api/v1/ratings')
 
 
-@rating_bp.route('/create/<int:event_id>',
+@rating_bp.route('/create/<uuid:event_id>',
                  methods=['POST'],
                  strict_slashes=False)
 @jwt_required()
@@ -30,7 +30,7 @@ def create_event_rating(event_id):
     return create_rating(event_id)
 
 
-@rating_bp.route('/<int:event_id>',
+@rating_bp.route('/<uuid:event_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -41,7 +41,7 @@ def get_event_ratings(event_id):
     return get_ratings(event_id)
 
 
-@rating_bp.route('/<int:event_id>/<int:rating_id>',
+@rating_bp.route('/<uuid:event_id>/<uuid:rating_id>',
                  methods=['GET'],
                  strict_slashes=False)
 @jwt_required()
@@ -52,7 +52,7 @@ def get_event_rating(event_id, rating_id):
     return get_rating(event_id, rating_id)
 
 
-@rating_bp.route('/update/<int:event_id>/<int:rating_id>',
+@rating_bp.route('/update/<uuid:event_id>/<uuid:rating_id>',
                  methods=['PUT'],
                  strict_slashes=False)
 @jwt_required()
@@ -63,7 +63,7 @@ def update_event_rating(event_id, rating_id):
     return update_rating(event_id, rating_id)
 
 
-@rating_bp.route('/delete/<int:event_id>/<int:rating_id>',
+@rating_bp.route('/delete/<uuid:event_id>/<uuid:rating_id>',
                  methods=['DELETE'],
                  strict_slashes=False)
 @jwt_required()
