@@ -25,8 +25,8 @@ def create_ticket(event_id):
 
     try:
         ticket_type = data['ticket_type']
-        price = data['_price']
-        quantity_availabale = data['quantity_availabale']
+        price = data['price']
+        quantity_available = data['quantity_available']
 
         event = get_event(event_id)
 
@@ -37,7 +37,7 @@ def create_ticket(event_id):
             event_id=event_id,
             ticket_type=ticket_type,
             price=price,
-            quantity_availabale=quantity_availabale
+            quantity_available=quantity_available
         )
 
         db.session.add(new_ticket)
@@ -132,15 +132,15 @@ def update_ticket(event_id, ticket_id):
             return jsonify({'message': 'Ticket not found'}), 404
 
         ticket_type = data['ticket_type']
-        price = data['_price']
-        quantity_availabale = data['quantity_availabale']
+        price = data['price']
+        quantity_available = data['quantity_available']
 
         if ticket_type:
             ticket.ticket_type = ticket_type
         if price:
             ticket.price = price
-        if quantity_availabale:
-            ticket.quantity_availabale = quantity_availabale
+        if quantity_available:
+            ticket.quantity_available = quantity_available
 
         db.session.commit()
 
