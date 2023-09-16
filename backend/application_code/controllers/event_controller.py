@@ -53,7 +53,17 @@ def get_events():
         events = Event.query.all()
 
         if events:
-            events_list = [event.serialize() for event in events]
+            events_list = [
+                    {
+                        'event_id': event.event_id,
+                        'event_name': event.event_name,
+                        'event_date': event.event_date,
+                        'event_time': event.event_time.strftime('%H:%M:%S'),
+                        'location': event.location,
+                        'description': event.description
+                    }
+                    for event in events
+                ]
             return jsonify({
                 'message': 'All events retrieved successfully.',
                 'events': events_list}), 200
@@ -90,7 +100,8 @@ def delete_event(event_id):
         if event:
             db.session.delete(event)
             db.session.commit()
-            return jsonify({'message': 'Event deleted successfully'}), 200
+            return jsonify({'message': 'Event deleted successfully',
+                            'event_id': event.event_id}), 200
         return jsonify({'message': 'Event not found'}), 404
 
     except Exception as e:
@@ -117,7 +128,8 @@ def update_event(event_id):
             event.location = data['location']
             event.description = data['description']
             db.session.commit()
-            return jsonify({'message': 'Event updated successfully'}), 200
+            return jsonify({'message': 'Event updated successfully',
+                            'event_id': event.event_id}), 200
         return jsonify({'message': 'Event not found'}), 404
     except Exception as e:
         return jsonify({'message': 'An error occurred',
