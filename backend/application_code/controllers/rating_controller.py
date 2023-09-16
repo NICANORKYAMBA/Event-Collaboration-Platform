@@ -60,6 +60,7 @@ def create_rating(event_id):
             "message": "Rating created successfully",
             "rating_id": new_rating.rating_id,
         }), 201
+
     except Exception as e:
         return jsonify({
             'mesage': 'An error occurred creating the rating',
@@ -82,15 +83,18 @@ def get_ratings(event_id):
 
         ratings = EventRating.query.filter_by(event_id=event_id).all()
 
-        if not ratings:
-            return jsonify({"message": "No ratings found for this event"}), 404
+        if ratings:
+            rating_list = [rating.serialize() for rating in ratings]
 
-        rating_list = [rating.serialize() for rating in ratings]
+            return jsonify({
+                'message': 'Ratings retrieved successfully',
+                'ratings': rating_list
+                }), 200
 
         return jsonify({
-            'message': 'Ratings retrieved successfully',
-            'ratings': rating_list
-        }), 200
+            'message': 'No ratings found for this event'
+        }), 404
+
     except Exception as e:
         return jsonify({
             'mesage': 'An error occurred retrieving the ratings',
@@ -116,13 +120,15 @@ def get_rating(event_id, rating_id):
             rating_id=rating_id, event_id=event_id
         ).first()
 
-        if not rating:
-            return jsonify({"message": "Rating not found"}), 404
+        if rating:
+            return jsonify({
+                'message': 'Rating retrieved successfully',
+                'rating': rating.serialize()
+            }), 200
 
         return jsonify({
-            'message': 'Rating retrieved successfully',
-            'rating': rating.serialize()
-        }), 200
+            'message': 'Rating not found'
+        }), 404
 
     except Exception as e:
         return jsonify({
@@ -168,6 +174,7 @@ def update_rating(event_id, rating_id):
             "message": "Rating updated successfully",
             "rating_id": existing_rating.rating_id
         }), 200
+
     except Exception as e:
         return jsonify({
             'mesage': 'An error occurred updating the rating',
@@ -193,15 +200,19 @@ def delete_rating(event_id, rating_id):
             rating_id=rating_id, event_id=event_id
         ).first()
 
-        if not rating:
-            return jsonify({"message": "Rating not found"}), 404
+        if rating:
+            db.session.delete(rating)
+            db.session.commit()
 
-        db.session.delete(rating)
-        db.session.commit()
+            return jsonify({
+                "message": "Rating deleted successfully",
+                "rating_id": rating.rating_id
+            }), 200
 
         return jsonify({
-            "message": "Rating deleted successfully",
-        }), 200
+            'message': 'Rating not found'
+        }), 404
+
     except Exception as e:
         return jsonify({
             'mesage': 'An error occurred deleting the rating',
