@@ -56,6 +56,7 @@ def get_events():
             events_list = [
                     {
                         'event_id': event.event_id,
+                        'organizer_id': event.organizer_id,
                         'event_name': event.event_name,
                         'event_date': event.event_date,
                         'event_time': event.event_time.strftime('%H:%M:%S'),
