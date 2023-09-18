@@ -11,7 +11,7 @@ from flask_migrate import Migrate
 
 load_dotenv()
 
-from application_code import create_app, db
+from api import create_app, db
 
 app = create_app()
 

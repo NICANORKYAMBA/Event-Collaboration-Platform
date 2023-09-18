@@ -1,0 +1,170 @@
+/* Reset some default styles to ensure consistent rendering across browsers */
+body,
+h1,
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set a background color and text color for the entire page */
+body {
+    background-color: #f0f0f0; /* Change to your preferred background color */
+    font-family: Arial, sans-serif; /* Choose an appropriate font */
+    color: #333; /* Text color */
+}
+
+/* Style the header container */
+#header-container {
+    background-color: #333; /* Header background color */
+    color: #fff; /* Header text color */
+}
+
+/* Style the header */
+header {
+    max-width: 1200px; /* Limit the header width */
+    margin: 0 auto; /* Center the header horizontally */
+    padding: 20px 0; /* Add padding to the header */
+}
+
+nav ul {
+    list-style: none; /* Remove list bullet points */
+}
+
+nav ul li {
+    display: inline; /* Display navigation items inline */
+    margin-right: 20px; /* Add space between navigation items */
+}
+
+nav ul li:last-child {
+    margin-right: 0; /* Remove margin from the last navigation item */
+}
+
+nav a {
+    text-decoration: none; /* Remove underline from navigation links */
+    color: #fff; /* Navigation link color */
+    font-weight: bold; /* Bold navigation links */
+}
+
+/* Style the container for the main content */
+.container {
+    max-width: 1200px; /* Limit the content width */
+    margin: 20px auto; /* Center the content horizontally with top margin */
+    padding: 20px; /* Add padding to the content */
+    background-color: #fff; /* Container background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/* Style the heading and paragraph in the main content */
+.container h1 {
+    font-size: 24px; /* Adjust the font size */
+    color: #333; /* Heading text color */
+    margin-bottom: 10px; /* Space below the heading */
+}
+
+.container p {
+    font-size: 16px; /* Adjust the font size */
+    color: #666; /* Paragraph text color */
+    line-height: 1.5; /* Line spacing */
+}
+
+/* Style the featured events section */
+.featured-events {
+    margin-top: 30px; /* Add space above the featured events section */
+}
+
+.featured-events h2 {
+    font-size: 20px; /* Adjust the font size */
+    color: #333; /* Heading text color */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+/* Style the event cards */
+.event-card {
+    border: 1px solid #ccc; /* Add a border around event cards */
+    padding: 20px; /* Add padding to event cards */
+    margin-bottom: 20px; /* Space between event cards */
+    background-color: #fff; /* Event card background color */
+}
+
+.event-card img {
+    max-width: 100%; /* Ensure images fit within event cards */
+    height: auto; /* Maintain image aspect ratio */
+}
+
+.event-card h3 {
+    font-size: 18px; /* Adjust the font size */
+    color: #333; /* Event name text color */
+    margin-top: 10px; /* Space above the event name */
+}
+
+.event-card p {
+    font-size: 14px; /* Adjust the font size for event details */
+    color: #666; /* Event details text color */
+    margin-bottom: 10px; /* Space below each event detail */
+}
+
+.event-card a {
+    display: inline-block; /* Display the "Learn More" link as a block element */
+    padding: 10px 20px; /* Add padding to the link */
+    background-color: #333; /* Link background color */
+    color: #fff; /* Link text color */
+    text-decoration: none; /* Remove underlines from the link */
+    font-weight: bold; /* Bold link text */
+    border-radius: 5px; /* Add rounded corners to the link */
+}
+
+.event-card a:hover {
+    background-color: #555; /* Change link background color on hover */
+}
+
+/* Style the footer container */
+#footer-container {
+    background-color: #333; /* Footer background color */
+    color: #fff; /* Footer text color */
+    margin-top: 20px; /* Add space above the footer */
+    padding: 10px 0; /* Add padding to the footer */
+}
+
+/* Style the footer content */
+.footer-content {
+    max-width: 1200px; /* Limit the footer content width */
+    margin: 0 auto; /* Center the footer content horizontally */
+    text-align: center; /* Center-align footer content */
+}
+
+.footer-logo img {
+    max-width: 100px; /* Limit the logo width */
+    height: auto; /* Maintain logo aspect ratio */
+    margin-bottom: 10px; /* Space below the logo */
+}
+
+.footer-logo p {
+    font-size: 16px; /* Adjust the font size for footer text */
+    font-weight: bold; /* Bold footer text */
+}
+
+.footer-links ul {
+    list-style: none; /* Remove list bullet points */
+}
+
+.footer-links ul li {
+    display: inline; /* Display footer links inline */
+    margin-right: 10px; /* Add space between footer links */
+}
+
+.footer-links ul li:last-child {
+    margin-right: 0; /* Remove margin from the last footer link */
+}
+
+.footer-links a {
+    text-decoration: none; /* Remove underlines from footer links */
+    color: #fff; /* Footer link text color */
+    font-size: 14px; /* Adjust the font size for footer links */
+    font-weight: bold; /* Bold footer links */
+}
+
+.footer-links a:hover {
+    text-decoration: underline; /* Underline footer links on hover */
+}
