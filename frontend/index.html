@@ -1,73 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/main.css">
-    <title>Event Collaboration Platform</title>
+    <title>EVENTBUDDY</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- Include the header -->
-    <div id="header-container">
-        <header>
-            <nav>
+    <div id="header">
+        <div class="">
+            <nav class="">
+                <div class="logo">
+                <img src="pita2.png" class="logo"></img>
+                </div>
+                <div class="navelements">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Tickets</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#Blogs">Blogs</a></li>
+                    <li><a href="#About US">About US</a></li>
+                    <li><a href="#services">services</a></li>
+                    <li><a target="_blank" href="user.html">Log in</a></li>
+                    <li><a href="#Contact us">Contact us</a></li>
+                    <i class="fas fa-times"></i>
                 </ul>
+                </div>
+                <i class="fas fa-bars"></i>
             </nav>
-        </header>
-    </div>
-
-    <!-- Main content goes here -->
-    <div class="container">
-        <h1>Welcome to the Event Platform</h1>
-        <p>Explore events, buy tickets, and more...!</p>
-
-        <!-- Featured Events Section -->
-        <section class="featured-events">
-            <h2>Featured Events</h2>
-            <div class="event-card">
-                <img src="assets/images/event1.jpg" alt="Event 1">
-                <h3>Event Name 1</h3>
-                <p>Date: January 1, 2024</p>
-                <p>Location: City, Country</p>
-                <a href="#">Learn More</a>
+            <div class="header-text">
+                <p>EVENTBUDDY</p>
+                <h1>YOUR<span> EVENT</span> COLLABORATION PARTNER<br></h1>
             </div>
-
-            <div class="event-card">
-                <img src="assets/images/event2.jpg" alt="Event 2">
-                <h3>Event Name 2</h3>
-                <p>Date: February 15, 2024</p>
-                <p>Location: City, Country</p>
-                <a href="#">Learn More</a>
-            </div>
-
-            <!-- Add more event cards here -->
-        </section>
+        </div>
     </div>
-
-    <!-- Include the footer -->
-    <div id="footer-container">
-        <footer>
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="assets/images/logo.png" alt="Event Platform Logo">
-                    <p>Event Collaboration Platform</p>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <!-- ----------About us---------- -->
+    <div id="About us">
+        <a name="About US"></a>
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="images/user.png.jpg">
                 </div>
-                <div class="footer-links">
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
+                <div class="about-col-2">
+                    <h1 class="sub-title">About us</h1>
+                    <p>EventBuddy is an all-in-one event collaboration platform designed to simplify the event planning 
+                        and participation experience. Event organizers can efficiently plan, manage, and collaborate on
+                         events, while attendees can easily discover, engage with, and attend events of their interest.</p>
+                    <div class="tab-titles">
+                        <p class="tab-links active-link" onclick="openTab('Easy-to-use')">Easy-to-use</p>
+                        <p class="tab-links" onclick="openTab('our prices')">our prices</p>
+                        <p class="tab-links" onclick="openTab('our impact')">our impact</p>
+                    </div>
+                    <div class="tab-contents active-tab" id="Easy-to-use">
+                        <ul>
+                            <li><span>You’re busy planning your event, so let us make the ticketing easy. 
+                                Our feature-rich platform is simple, yet powerful, making anything possible.
+                                 And if you need our help, we’re on hand 24/7.</span>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="our prices">
+                        <ul>
+                            <li><span>Flexible and fair pricing helps your event budget go further.
+                                 There are no contracts or tiers. 
+                                 Just the same great service and support for everyone.
+                                  Save 73% on your ticketing vs our lead competitor*.</span>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="our impact">
+                        <ul>
+                            <li><span>What if the next ticket you sold could have a positive impact on the planet?
+                                 With Ticket Tailor it can. We’re not climate-experts, or as legendary 
+                                 as Attenborough, but you would be choosing to partner with a carbon-neutral 
+                                 B Corp that balances profit with purpose.</span>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+    <!-- ----------SERVICES---------- -->
+    <div id="services">
+        <a name="services"></a>
+        <div class="container">
+            <h1 class="sub-title">services</h1>
+            <div class="services-list">
+                <div>
+                    <i class="fa-solid fa-calenda"></i>
+                    <h2>Event creators</h2>
+                    <p>plan</p>
+                    <a target="_blank" href="https://www.tickettailor.com/">start now</a>
+                </div>
+                <div>
+                    <i class="fa-sharp fa-light"></i>
+                    <h2>user</h2>
+                    <p>make</p>
+                    <a target="_blank" href="user.html">start now</a>
+
+                </div>
+                <div>
+
+                    <i class="fa-solid fa-crop-simple"></i>
+                    <h2>secure</h2>
+                    <p>We email ticket buyers once to confirm their ticket order, and never again.
+                         They’re your customers, not a marketing opportunity for us. </p>
+                    <a href="#"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ----------Blogs--------- -->
+    <div id="portfolio">
+        <a name="Blogs"></a>
+        <div class="container">
+            <h1 class="sub-title">Blogs</h1>
+            <div class="work-list">
+                <div class="work">
+                    <img src="images/work-1.png" alt="">
+                    <div class="layer">
+                        <h2>Team</h2>
+                        <p></p>
+                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="images/work-2.png" alt="">
+                    <div class="layer">
+                        <h2>Spotify</h2>
+                        <p></p>
+                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="images/work-3.png" alt="">
+                    <div class="layer">
+                        <h2>Slido</h2>
+                        <p></p>
+                        <a target="_blank" href="https://blog.slido.com/"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+            <a href="" class="btn">Get started</a>
+        </div>
     </div>
 
-    <!-- Include main JavaScript file -->
-    <script src="scripts/main.js"></script>
+    <!-- ----------CONTACT---------- -->
+    <div id="contact">
+        <a name="Contact us"></a>
+        <a name="Log in"></a>
+        <div class="container">
+            <div class="row">
+                <div class="contact-left">
+                    <h1 class="sub-title">Contact us</h1>
+                    <p><i class="fas fa-paper-plane"></i> example@gmail.com</p>
+                    <p><i class="fas fa-phone-square-alt"></i> 1234567890</p>
+                    <div class="social-icons">
+                        <a href="wellcome to my facebook page" target="_blank">
+                            <ion-icon name="logo-facebook"></ion-icon>
+                        </a>
+                        <a href="https://twitter.com/_Elixs1" target="_blank">
+                            <ion-icon name="logo-twitter"></ion-icon>
+                        </a>
+                        <a href="https://www.instagram.com/_1e.l.i.x.s_" target="_blank">
+                            <ion-icon name="logo-instagram"></ion-icon>
+                        </a>
+                        <a href="https://www.linkedin.com/in/elvis-murithi" target="_blank">
+                            <ion-icon name="logo-linkedin"></ion-icon>
+                        </a>
+                    </div>
+                    <a href="images/my-cv.pdf" download class="btn btn2">create your event</a>
+                </div>
+                <div class="contact-right">
+                    <form>
+                        <input type="text" name="Name" placeholder="Username" required>
+                        <input type="email" name="Email" placeholder="Your Email" required>
+                        <button type="submit" class="btn btn3">submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>copyright @ elixs. Made with <i class="fas fa-heart"></i> by Elvis</p>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        var tabLinks = document.getElementsByClassName('tab-links');
+        var tabContents = document.getElementsByClassName('tab-contents');
+
+        function openTab(tabName) {
+            for (tabLink of tabLinks) {
+                tabLink.classList.remove('active-link');
+            }
+            for (tabContent of tabContents) {
+                tabContent.classList.remove('active-tab');
+            }
+            event.currentTarget.classList.add('active-link');
+            document.getElementById(tabName).classList.add('active-tab');
+        }
+
+        // JavaScript for handling the mobile navigation menu
+        document.querySelector('.fas.fa-bars').addEventListener('click', function () {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+
+        document.querySelector('.fas.fa-times').addEventListener('click', function () {
+            document.querySelector('nav ul').classList.remove('show');
+        });
+
+    </script>
 </body>
+
 </html>
