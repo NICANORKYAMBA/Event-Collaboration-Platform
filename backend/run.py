@@ -7,6 +7,7 @@ Created on Fri Sep  08 13:00:00 2023
 """
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 load_dotenv()
@@ -14,6 +15,8 @@ load_dotenv()
 from api import create_app, db
 
 app = create_app()
+
+CORS(app)
 
 migrate = Migrate(app, db)
 
