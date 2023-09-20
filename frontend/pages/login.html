@@ -4,66 +4,182 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/login.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="boxicons/css/boxicons.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../assets/styles/login.css">
+    <title>Login & Registration</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Events</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
-    <main>
-        <section class="login">
-            <h1>Login to Your Account</h1>
+<div class="wrapper">
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>Event buddy</p>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#" class="link active">Home</a></li>
+            </ul>
+        </div>
+        <div class="nav-button">
+            <button class="btn white-btn" id="loginBtn" onclick="switchForm('login')">Sign In</button>
+            <button class="btn" id="registerBtn" onclick="switchForm('register')">Sign Up</button>
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+    <!-- Form box -->
+    <div class="form-box">
+        <!-- Login Form -->
+        <div class="login-container" id="login">
             <form id="loginForm">
-                <div class="input-box">
-                    <input type="text" name="email" id="email" class="input-field" placeholder="Email">
+                <div class="top">
+                    <span>Don't have an account? <a href="#" onclick="switchForm('register')">Sign Up</a></span>
+                    <header>Login</header>
                 </div>
                 <div class="input-box">
-                    <input type="password" name="password" id="password" class="input-field" placeholder="Password">
+                    <input type="text" name="email" id="loginEmail" class="input-field" placeholder="Email">
+                    <i class="bx bx-user"></i>
                 </div>
                 <div class="input-box">
-                    <input type="button" class="submit" value="Login" onclick="login()">
+                    <input type="password" name="password" id="loginPassword" class="input-field" placeholder="Password">
+                    <i class="bx bx-lock-alt"></i>
+                </div>
+                <div class="input-box">
+                    <input type="button" class="submit" value="Sign In" onclick="loginUser()">
+                </div>
+                <div class="two-col">
+                    <div class="one">
+                        <input type="checkbox" id="login-check">
+                        <label for="login-check"> Remember Me</label>
+                    </div>
+                    <div class="two">
+                        <label><a href="#">Forgot password?</a></label>
+                    </div>
                 </div>
             </form>
-        </section>
-    </main>
-    <footer>
-        &copy; 2023 Your Event Website
-    </footer>
-    <script>
-        function login() {
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
+        </div>
 
-            fetch("http://localhost:5000/api/v1/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email: email, password: password }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-
-                if (data.success) {
-                    if (data.role === "organizer") {
-                        window.location.href = "organizer-dashboard.html";
-                    } else {
-                        window.location.href = "user-dashboard.html";
-                    }
-                } else {
-                    alert("Login failed. Please check your credentials.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+        <!-- Registration Form -->
+        <div class="register-container" id="register">
+            <form id="registerForm">
+                <div class="top">
+                    <span>Have an account? <a href="#" onclick="switchForm('login')">Login</a></span>
+                    <header>Sign Up</header>
+                </div>
+                <div class="two-forms">
+                    <div class="input-box">
+                        <input type="text" name="firstname" id="registerUsername" class="input-field" placeholder="Username">
+                        <i class="bx bx-user"></i>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="email" id="registerEmail" class="input-field" placeholder="Email">
+                    <i class="bx bx-envelope"></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password" id="registerPassword" class="input-field" placeholder="Password">
+                    <i class="bx bx-lock-alt"></i>
+                </div>
+                <div class="input-box">
+                    <input type="button" class="submit" value="Register" onclick="registerUser()">
+                </div>
+                <div class="two-col">
+                    <div class="one">
+                        <input type="checkbox" id="register-check">
+                        <label for="register-check"> Remember Me</label>
+                    </div>
+                    <div class="two">
+                        <label><a href="#">Terms & conditions</a></label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function myMenuFunction() {
+        var i = document.getElementById("navMenu");
+        if (i.className === "nav-menu") {
+            i.className += " responsive";
+        } else {
+            i.className = "nav-menu";
         }
-    </script>
+    }
+
+    function switchForm(formId) {
+        var loginForm = document.getElementById("login");
+        var registerForm = document.getElementById("register");
+        var loginBtn = document.getElementById("loginBtn");
+        var registerBtn = document.getElementById("registerBtn");
+
+        if (formId === "login") {
+            loginForm.style.left = "4px";
+            registerForm.style.right = "-520px";
+            loginBtn.classList.add("white-btn");
+            registerBtn.classList.remove("white-btn");
+            loginForm.style.opacity = 1;
+            registerForm.style.opacity = 0;
+        } else {
+            loginForm.style.left = "-510px";
+            registerForm.style.right = "5px";
+            loginBtn.classList.remove("white-btn");
+            registerBtn.classList.add("white-btn");
+            loginForm.style.opacity = 0;
+            registerForm.style.opacity = 1;
+        }
+    }
+
+    function loginUser() {
+        // Fetch login form data and send a POST request to the server
+        var email = document.getElementById("loginEmail").value;
+        var password = document.getElementById("loginPassword").value;
+
+        // Perform AJAX login request here
+        // Example: Use fetch API to send a POST request
+        fetch("http://localhost:5000/api/v1/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email, password: password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the login response here
+            console.log(data);
+            // You can redirect or show a message to the user based on the response
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+    function registerUser() {
+        // Fetch registration form data and send a POST request to the server
+        var username = document.getElementById("registerUsername").value;
+        var email = document.getElementById("registerEmail").value;
+        var password = document.getElementById("registerPassword").value;
+
+        // Perform AJAX registration request here
+        // Example: Use fetch API to send a POST request
+        fetch("http://localhost:5000/api/v1/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: username, email: email, password: password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the registration response here
+            console.log(data);
+            // You can redirect or show a message to the user based on the response
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+</script>
 </body>
 </html>
