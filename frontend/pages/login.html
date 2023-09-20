@@ -17,7 +17,8 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <ul>
-                <li><a href="#" class="link active">Home</a></li>
+                <li><a href="#" class="link active"></a></li>
+                <li><a href="#" class="link active"></a></li>
             </ul>
         </div>
         <div class="nav-button">
@@ -81,6 +82,15 @@
                     <input type="password" name="password" id="registerPassword" class="input-field" placeholder="Password">
                     <i class="bx bx-lock-alt"></i>
                 </div>
+                <div>
+                    <label for="registerRole">Role</label>
+                    <select name="role" id="registerRole">
+                        <option value="user">User</option>
+                        <option value="event-creator">Event Creator</option>   
+                </div>
+                <br>
+                <br>
+                <br>
                 <div class="input-box">
                     <input type="button" class="submit" value="Register" onclick="registerUser()">
                 </div>

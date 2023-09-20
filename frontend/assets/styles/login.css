@@ -83,8 +83,8 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 512px;
-    height: 420px;
+    width: 600px;
+    height: 600px;
     overflow: hidden;
     z-index: 2;
 }
@@ -104,8 +104,26 @@ body{
     flex-direction: column;
     transition: .5s ease-in-out;
 }
+div {
+    margin: 10px 0;
+    margin-bottom: 0%;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 3%;
+  }
 .top span{
-    color: #fff;
+    color: #e7e1e1
     font-size: small;
     padding: 10px 0;
     display: flex;
