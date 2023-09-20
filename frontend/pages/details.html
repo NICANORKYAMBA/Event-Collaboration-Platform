@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <script src="assets/scripts/main.js"></script>
+    <title>Event Details</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Events</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <section class="event-details">
+            <h1 id="event-title">Event Title</h1>
+            <p>Date: <span id="event-date">Event Date</span></p>
+            <p>Location: <span id="event-location">Event Location</span></p>
+            <p>Description:</p>
+            <p id="event-description">
+                This is a description of the event. You can provide details about the event here.
+            </p>
+        </section>
+    </main>
+    <footer>
+        &copy; 2023 Your Event Website
+    </footer>
+
+    <script>
+        // Function to extract event ID from URL
+        function getEventIdFromUrl() {
+            const url = window.location.href;
+            const parts = url.split('/');
+            const eventId = parts[parts.length - 1];
+            return eventId;
+        }
+
+        // Fetch event details from your backend based on event ID
+        const eventId = getEventIdFromUrl();
+        fetch(`http://localhost:5000/api/v1/events/${eventId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update the event details on the page
+                document.getElementById('event-title').textContent = data.title;
+                document.getElementById('event-date').textContent = data.date;
+                document.getElementById('event-location').textContent = data.location;
+                document.getElementById('event-description').textContent = data.description;
+            })
+            .catch(error => {
+                console.error('Error fetching event details:', error);
+            });
+    </script>
+</body>
+</html>

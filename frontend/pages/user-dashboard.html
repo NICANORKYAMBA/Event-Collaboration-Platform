@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/style.css">
-    <title>Events</title>
+    <link rel="stylesheet" href="assets/styles/dashboard.css">
+    <title>User Dashboard</title>
 </head>
 <body>
     <header>
         <nav>
             <a href="#">Home</a>
-            <a href="#">Events</a>
-            <a href="#">Contact</a>
+            <a href="#">Dashboard</a>
+            <a href="#">Discover Events</a>
+            <a href="#">Profile</a>
+            <a href="#">Logout</a>
         </nav>
     </header>
     <main>
-        <section class="events">
-            <h1>All Events</h1>
+        <section class="discover-events">
+            <h1>Discover Events</h1>
             <div class="event-list" id="eventList">
-                <!-- Event cards will be displayed here -->
+                <!-- All available event cards will be displayed here -->
             </div>
         </section>
     </main>
@@ -27,10 +29,10 @@
         &copy; 2023 Your Event Website
     </footer>
     <script>
-        // Function to fetch event data from the backend
-        async function fetchEvents() {
+        // Function to fetch all available events from the backend
+        async function fetchAllEvents() {
             try {
-                const response = await fetch('http://localhost:5000/api/v1/events');
+                const response = await fetch(`http://localhost:5000/api/v1/events`);
                 const data = await response.json();
                 return data;
             } catch (error) {
@@ -46,15 +48,15 @@
             // Clear existing content
             eventList.innerHTML = "";
 
-            // Check if there are no events
+            // Check if there are no available events
             if (events.length === 0) {
                 const noEventsMessage = document.createElement("p");
-                noEventsMessage.textContent = "No events available.";
+                noEventsMessage.textContent = "There are no events available at the moment.";
                 eventList.appendChild(noEventsMessage);
                 return; // Exit early, no need to create event cards
             }
 
-            // Loop through events and create event cards
+            // Loop through available events and create event cards
             events.forEach(event => {
                 const eventCard = document.createElement("div");
                 eventCard.classList.add("event-card");
@@ -73,10 +75,10 @@
             });
         }
 
-        // Fetch events and render event cards when the page loads
+        // Fetch all available events and render event cards when the page loads
         window.addEventListener("load", async () => {
-            const events = await fetchEvents();
-            renderEventCards(events);
+            const availableEvents = await fetchAllEvents();
+            renderEventCards(availableEvents);
         });
     </script>
 </body>
