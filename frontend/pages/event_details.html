@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="/frontend/assets/styles/event_details.css">
+     <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+    />
+    <title>Events Slider</title>
+    <br>
+    <br>
+    <br>
+<body>
+     <!-- Swiper -->
+	 <div class="container">
+     <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="card">
+                <img src="/frontend/assets/images/dr.png" alt="" srcset="">
+				<div class="review">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+				</div>
+                <p> <h3>The Room Fellowship</h3> <br> - On 5th of march <br> <br> <h3>Nation center</h3> <br> -Businesses across industries and around the world are looking for you – someone with tech talent and experience – to create digital solutions that help them succeed. They need engineers, programmers, data scientists, and other advanced technical professionals more than ever, and The ROOM helps propel you to the top of their hiring lists.</p>
+                <h3>Alx Nairobi</h3>
+                <a href="" target=""><h4></h4></a>
+            </div>
+          </div>
+        </div>
+      </div>
+	    <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    var slider = new  Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        slidesPerGroup: 1,
+        loop: true,
+        breakpoints: {  
+        '480': {
+        slidesPerView: 2,
+        spaceBetween: 40,},
+        '640': {
+        slidesPerView: 3,
+        spaceBetween: 50, },
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+            delay: 2000,
+        }
+    })
+</script>
+</body>
+</html>
