@@ -17,7 +17,7 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <ul>
-                <li><a href="#" class="link active">Home</a></li>
+                <li><a href="#" class="link active"></a></li>
             </ul>
         </div>
         <div class="nav-button">
@@ -46,6 +46,13 @@
                     <i class="bx bx-lock-alt"></i>
                 </div>
                 <div class="input-box">
+                    <label for="role">Select Role:</label>
+                    <select id="role" class="input-field">
+                        <option value="user">User</option>
+                        <option value="organizer">Organizer</option>
+                    </select>
+                </div>
+                <div class="input-box">
                     <input type="button" class="submit" value="Sign In" onclick="loginUser()">
                 </div>
                 <div class="two-col">
@@ -64,10 +71,10 @@
         <div class="register-container" id="register">
             <form id="registerForm">
                 <div class="top">
-                    <span>Have an account? <a href="#" onclick="switchForm('login')">Login</a></span>
+                    <span>Have an account? <a href="#" onclick="switchForm('login')">Log in</a></span>
                     <header>Sign Up</header>
                 </div>
-                <div class="two-forms">
+                <div class="input-box">
                     <div class="input-box">
                         <input type="text" name="firstname" id="registerUsername" class="input-field" placeholder="Username">
                         <i class="bx bx-user"></i>
@@ -80,6 +87,13 @@
                 <div class="input-box">
                     <input type="password" name="password" id="registerPassword" class="input-field" placeholder="Password">
                     <i class="bx bx-lock-alt"></i>
+                </div>
+                <div class="input-box">
+                    <label for="role">Select Role:</label>
+                    <select id="role" class="input-field">
+                        <option value="user">User</option>
+                        <option value="organizer">Organizer</option>
+                    </select>
                 </div>
                 <div class="input-box">
                     <input type="button" class="submit" value="Register" onclick="registerUser()">
@@ -131,24 +145,30 @@
     }
 
     function loginUser() {
-        // Fetch login form data and send a POST request to the server
         var email = document.getElementById("loginEmail").value;
         var password = document.getElementById("loginPassword").value;
+        var role = document.getElementById("role").value; // Get selected role
 
-        // Perform AJAX login request here
-        // Example: Use fetch API to send a POST request
         fetch("http://localhost:5000/api/v1/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: email, password: password }),
+            body: JSON.stringify({ email: email, password: password, role: role }), // Include role in the request
         })
         .then(response => response.json())
         .then(data => {
-            // Handle the login response here
             console.log(data);
-            // You can redirect or show a message to the user based on the response
+
+            if (data.token) {
+                if (data.role === "organizer") {
+                    window.location.href = "organizer-dashboard.html";
+                } else {
+                    window.location.href = "user-dashboard.html";
+                }
+            } else {
+                alert("Login failed. Please check your credentials.");
+            }
         })
         .catch(error => {
             console.error("Error:", error);
@@ -156,25 +176,31 @@
     }
 
     function registerUser() {
-        // Fetch registration form data and send a POST request to the server
         var username = document.getElementById("registerUsername").value;
         var email = document.getElementById("registerEmail").value;
         var password = document.getElementById("registerPassword").value;
+        var role = document.getElementById("role").value; // Get selected role
 
-        // Perform AJAX registration request here
-        // Example: Use fetch API to send a POST request
         fetch("http://localhost:5000/api/v1/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: username, email: email, password: password }),
+            body: JSON.stringify({ username: username, email: email, password: password, role: role }), // Include role in the request
         })
         .then(response => response.json())
         .then(data => {
-            // Handle the registration response here
             console.log(data);
-            // You can redirect or show a message to the user based on the response
+
+            if (data.token) {
+                if (data.role === "organizer") {
+                    window.location.href = "organizer-dashboard.html";
+                } else {
+                    window.location.href = "user-dashboard.html";
+                }
+            } else {
+                alert("Registration failed. Please try again.");
+            }
         })
         .catch(error => {
             console.error("Error:", error);
