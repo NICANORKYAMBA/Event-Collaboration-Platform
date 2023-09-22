@@ -6,7 +6,7 @@
 }
 
 body {
-    background: #524b4bd3;
+    background: #a09e9ed3;
     color: #e9d8d8;
 }
 
@@ -97,7 +97,7 @@ nav ul li a:hover::after {
 }
 
 .header-text h1 span {
-    color: #ff004f;
+    color: #d12525;
 }
 
 /* ----------ABOUT---------- */
@@ -339,7 +339,7 @@ width: 100%;
     text-decoration: none;
     font-size: 30px;
     margin-right: 15px;
-    color: #ababab;
+    color: #1d1c1c;
     display: inline-block;
     transition: color 0.5s, transform 0.5s;
 }
