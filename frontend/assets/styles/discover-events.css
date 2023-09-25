@@ -1,0 +1,119 @@
+/* Reset some default styles */
+body, h1, h2, p, a, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 50px; /* Add padding to account for the fixed header */
+    padding-bottom: 50px; /* Add padding to account for the fixed footer */
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+nav {
+    text-align: right;
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #007BFF;
+}
+
+main {
+    padding: 20px;
+    margin-top: 70px; /* Add margin to account for the fixed header */
+    margin-bottom: 70px; /* Add margin to account for the fixed footer */
+}
+
+.event-list {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.event-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.event-info {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.event-description {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #444;
+}
+
+.register-button {
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.register-button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

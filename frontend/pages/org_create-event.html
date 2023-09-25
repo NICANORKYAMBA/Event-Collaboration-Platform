@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/org-create-event.css">
+    <title>Create Event</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Dashboard</a>
+            <a href="#">Create Event</a>
+            <a href="#">Profile</a>
+            <a href="#">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section class="create-event">
+            <h1>Create Event</h1>
+            <form id="eventForm">
+                <div class="input-box">
+                    <label for="eventTitle">Event Title</label>
+                    <input type="text" name="title" id="eventTitle" class="input-field" placeholder="Enter Event Title" required>
+                </div>
+                <div class="input-box">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" name="date" id="eventDate" class="input-field" required>
+                </div>
+                <div class="input-box">
+                    <label for="eventTime">Event Time</label>
+                    <input type="time" name="time" id="eventTime" class="input-field" required>
+                </div>
+                <div class="input-box">
+                    <label for="eventLocation">Event Location</label>
+                    <input type="text" name="location" id="eventLocation" class="input-field" placeholder="Enter Event Location" required>
+                </div>
+                <div class="input-box">
+                    <label for="eventDescription">Event Description</label>
+                    <textarea name="description" id="eventDescription" class="input-field" placeholder="Enter Event Description" required></textarea>
+                </div>
+                <div class="input-box">
+                    <input type="button" class="submit" value="Create Event" onclick="createEvent()">
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        &copy; 2023 Your Event Website
+    </footer>
+    <script>
+        // Function to create a new event
+        function createEvent() {
+            // Fetch event details from the form
+            var title = document.getElementById("eventTitle").value;
+            var date = document.getElementById("eventDate").value;
+            var location = document.getElementById("eventLocation").value;
+            var description = document.getElementById("eventDescription").value;
+
+            // Perform AJAX request to create the event
+            fetch("http://localhost:5000/api/v1/organizer/events/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ title: title, date: date, location: location, description: description }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response here
+                console.log(data);
+
+                // Check if event creation was successful and redirect to organizer dashboard
+                if (data.success) {
+                    window.location.href = "organizer-dashboard.html"; // Redirect to organizer dashboard
+                } else {
+                    alert("Event creation failed. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

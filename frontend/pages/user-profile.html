@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/user-profile.css">
+    <title>User Profile</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Profile</a>
+            <a href="#">My RSVPs</a>
+            <a href="#">My Tickets</a>
+            <a href="#">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section class="user-rsvps">
+            <h1>Your RSVPs</h1>
+            <div class="rsvp-list" id="rsvpList">
+                <!-- User's RSVPs will be displayed here -->
+            </div>
+        </section>
+        <section class="ticket-details">
+            <h1>Ticket Details</h1>
+            <div class="ticket-list" id="ticketList">
+                <!-- User's ticket details will be displayed here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        &copy; 2023 Your Event Website
+    </footer>
+    <script>
+        // Function to fetch user's RSVPs from the backend
+        async function fetchUserRSVPs(token) {
+            try {
+                // Use the provided token to authenticate the request
+                const response = await fetch(`http://localhost:5000/api/v1/user/rsvps`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching user RSVPs:', error);
+                return [];
+            }
+        }
+
+        // Function to fetch user's ticket details from the backend
+        async function fetchUserTickets(token) {
+            try {
+                // Use the provided token to authenticate the request
+                const response = await fetch(`http://localhost:5000/api/v1/user/tickets`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching user tickets:', error);
+                return [];
+            }
+        }
+
+        // Function to render user's RSVPs
+        function renderUserRSVPs(rsvps) {
+            const rsvpList = document.getElementById("rsvpList");
+
+            // Clear existing content
+            rsvpList.innerHTML = "";
+
+            // Check if the user has no RSVPs
+            if (rsvps.length === 0) {
+                const noRSVPsMessage = document.createElement("p");
+                noRSVPsMessage.textContent = "You haven't RSVPed for any events.";
+                rsvpList.appendChild(noRSVPsMessage);
+                return;
+            }
+
+            // Loop through user's RSVPs and create RSVP cards
+            rsvps.forEach(rsvp => {
+                const rsvpCard = document.createElement("div");
+                rsvpCard.classList.add("rsvp-card");
+
+                // Populate RSVP card with event details
+                rsvpCard.innerHTML = `
+                    <h2>${rsvp.event.title}</h2>
+                    <p>Date: ${rsvp.event.date}</p>
+                    <p>Location: ${rsvp.event.location}</p>
+                    <p>Description:</p>
+                    <p>${rsvp.event.description}</p>
+                    
+                    <!-- Add a button to cancel RSVP -->
+                    <button onclick="cancelRSVP('${rsvp.event.id}')">Cancel RSVP</button>
+                `;
+
+                // Append RSVP card to the RSVP list
+                rsvpList.appendChild(rsvpCard);
+            });
+        }
+
+        // Function to render user's ticket details
+        function renderUserTickets(tickets) {
+            const ticketList = document.getElementById("ticketList");
+
+            // Clear existing content
+            ticketList.innerHTML = "";
+
+            // Check if the user has no tickets
+            if (tickets.length === 0) {
+                const noTicketsMessage = document.createElement("p");
+                noTicketsMessage.textContent = "You haven't booked any tickets yet.";
+                ticketList.appendChild(noTicketsMessage);
+                return;
+            }
+
+            // Loop through user's tickets and create ticket cards
+            tickets.forEach(ticket => {
+                const ticketCard = document.createElement("div");
+                ticketCard.classList.add("ticket-card");
+
+                // Populate ticket card with ticket details
+                ticketCard.innerHTML = `
+                    <h2>${ticket.event.title}</h2>
+                    <p>Date: ${ticket.event.date}</p>
+                    <p>Location: ${ticket.event.location}</p>
+                    <p>Description:</p>
+                    <p>${ticket.event.description}</p>
+                    <p>Attendees:</p>
+                    <ul>
+                        ${ticket.attendees.map(attendee => `<li>${attendee.name}</li>`).join('')}
+                    </ul>
+                `;
+
+                // Append ticket card to the ticket list
+                ticketList.appendChild(ticketCard);
+            });
+        }
+
+        // Function to cancel an RSVP for a specific event
+        async function cancelRSVP(eventId) {
+            if (token) {
+                // Implement cancellation logic here (make a request to the backend)
+                // You can display a success message or handle errors as needed
+                console.log(`RSVP for event with ID ${eventId} canceled.`);
+            }
+        }
+
+        // Function to get the value of a cookie by name
+        function getCookie(name) {
+            const cookies = document.cookie.split('; ');
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName === name) {
+                    return decodeURIComponent(cookieValue);
+                }
+            }
+            return null;
+        }
+
+        // Retrieve the authentication token from the cookie
+        const token = getCookie('auth_token');
+
+        // Fetch user's RSVPs and tickets when the page loads
+        window.addEventListener("load", async () => {
+            if (token) {
+                const userRSVPs = await fetchUserRSVPs(token);
+                const userTickets = await fetchUserTickets(token);
+                renderUserRSVPs(userRSVPs);
+                renderUserTickets(userTickets);
+            }
+        });
+    </script>
+</body>
+</html>

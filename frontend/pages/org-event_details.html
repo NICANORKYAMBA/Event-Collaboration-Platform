@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/org_event_details.css">
+    <title>Organizer - Event Details</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="navigation-menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="event-details">
+            <h1 class="event-title">Event Name</h1>
+            <div class="event-info">
+                <div class="event-info-item">
+                    <span class="label">Date:</span>
+                    <span class="value">Event Date</span>
+                </div>
+                <div class="event-info-item">
+                    <span class="label">Time:</span>
+                    <span class="value">Event Time</span>
+                </div>
+                <div class="event-info-item">
+                    <span class="label">Location:</span>
+                    <span class="value">Event Location</span>
+                </div>
+            </div>
+            <div class="event-description">
+                <h2>Description</h2>
+                <p class="description-text">
+                    Event Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod sapien eget orci bibendum, in bibendum quam rhoncus. Integer convallis nulla eu justo maximus, ac aliquam quam ullamcorper.
+                </p>
+            </div>
+            <div class="event-actions">
+                <button class="edit-button" id="editEventButton" onclick="editEvent()">Edit Event</button>
+                <button class="remove-button" id="removeEventButton" onclick="removeEvent()">Remove Event</button>
+            </div>
+        </section>
+    </main>
+    <footer class="page-footer">
+        &copy; 2023 Your Event Website
+    </footer>
+    <script>
+        function editEvent() {
+            // Implement edit event functionality here
+            alert("Edit Event: Redirect to Edit Event Page");
+        }
+
+        function removeEvent() {
+            // Implement remove event functionality here
+            const confirmation = confirm("Are you sure you want to remove this event?");
+            if (confirmation) {
+                alert("Event Removed!");
+                // Redirect to organizer dashboard or perform remove action
+            }
+        }
+    </script>
+</body>
+</html>

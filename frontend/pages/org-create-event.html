@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/create-event.css">
+    <link rel="stylesheet" href="../assets/styles/org-create-event.css">
     <title>Create Event</title>
 </head>
 <body>
@@ -22,16 +22,24 @@
             <h1>Create Event</h1>
             <form id="eventForm">
                 <div class="input-box">
-                    <input type="text" name="title" id="eventTitle" class="input-field" placeholder="Event Title">
+                    <label for="eventTitle">Event Title</label>
+                    <input type="text" name="title" id="eventTitle" class="input-field" placeholder="Enter Event Title" required>
                 </div>
                 <div class="input-box">
-                    <input type="date" name="date" id="eventDate" class="input-field" placeholder="Event Date">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" name="date" id="eventDate" class="input-field" required>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="location" id="eventLocation" class="input-field" placeholder="Event Location">
+                    <label for="eventTime">Event Time</label>
+                    <input type="time" name="time" id="eventTime" class="input-field" required>
                 </div>
                 <div class="input-box">
-                    <textarea name="description" id="eventDescription" class="input-field" placeholder="Event Description"></textarea>
+                    <label for="eventLocation">Event Location</label>
+                    <input type="text" name="location" id="eventLocation" class="input-field" placeholder="Enter Event Location" required>
+                </div>
+                <div class="input-box">
+                    <label for="eventDescription">Event Description</label>
+                    <textarea name="description" id="eventDescription" class="input-field" placeholder="Enter Event Description" required></textarea>
                 </div>
                 <div class="input-box">
                     <input type="button" class="submit" value="Create Event" onclick="createEvent()">

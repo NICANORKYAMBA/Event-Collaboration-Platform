@@ -147,20 +147,23 @@
     function loginUser() {
         var email = document.getElementById("loginEmail").value;
         var password = document.getElementById("loginPassword").value;
-        var role = document.getElementById("role").value; // Get selected role
+        var role = document.getElementById("role").value;
 
         fetch("http://localhost:5000/api/v1/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: email, password: password, role: role }), // Include role in the request
+            body: JSON.stringify({ email: email, password: password, role: role }),
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
 
             if (data.token) {
+                // Set the received token as a cookie
+                document.cookie = `access_token=${data.token}; Secure; HttpOnly; SameSite=Strict`;
+
                 if (data.role === "organizer") {
                     window.location.href = "organizer-dashboard.html";
                 } else {
@@ -179,20 +182,23 @@
         var username = document.getElementById("registerUsername").value;
         var email = document.getElementById("registerEmail").value;
         var password = document.getElementById("registerPassword").value;
-        var role = document.getElementById("role").value; // Get selected role
+        var role = document.getElementById("role").value;
 
         fetch("http://localhost:5000/api/v1/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: username, email: email, password: password, role: role }), // Include role in the request
+            body: JSON.stringify({ username: username, email: email, password: password, role: role }),
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
 
             if (data.token) {
+                // Set the received token as a cookie
+                document.cookie = `access_token=${data.token}; Secure; HttpOnly; SameSite=Strict`;
+
                 if (data.role === "organizer") {
                     window.location.href = "organizer-dashboard.html";
                 } else {

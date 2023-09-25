@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Booking</title>
+    <link rel="stylesheet" href="../assets/styles/ticket-booking.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">My Profile</a>
+            <a href="#">Create Event</a>
+            <a href="#">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <div class="booking-container">
+            <h1>Ticket Booking</h1>
+            <p>Select the number of tickets you wish to purchase:</p>
+            <div class="ticket-selection">
+                <label for="ticketQuantity">Number of Tickets:</label>
+                <input type="number" id="ticketQuantity" name="ticketQuantity" min="1" value="1">
+            </div>
+            <p>Enter attendee details for each ticket:</p>
+            <div class="attendee-details">
+                <!-- Attendee input fields will be generated here -->
+            </div>
+            <p>Payment Information:</p>
+            <div class="payment-details">
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+            </div>
+            <button id="bookButton">Book Tickets</button>
+        </div>
+        <div class="booking-confirmation">
+            <!-- Display booking confirmation details here -->
+        </div>
+    </main>
+        <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 Ticket Booking</p>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script>
+        // JavaScript for dynamically updating the attendee details
+        const ticketQuantityInput = document.getElementById('ticketQuantity');
+        const attendeeDetails = document.querySelector('.attendee-details');
+        const bookButton = document.getElementById('bookButton');
+        const bookingConfirmation = document.querySelector('.booking-confirmation');
+
+        // Listen for changes in the ticket quantity input
+        ticketQuantityInput.addEventListener('input', () => {
+            const quantity = parseInt(ticketQuantityInput.value);
+            attendeeDetails.innerHTML = ''; // Clear existing attendee details
+
+            // Generate attendee input fields based on the selected quantity
+            for (let i = 1; i <= quantity; i++) {
+                const attendeeDiv = document.createElement('div');
+                attendeeDiv.className = 'attendee';
+                attendeeDiv.innerHTML = `
+                    <label for="attendeeName${i}">Name:</label>
+                    <input type="text" id="attendeeName${i}" name="attendeeName${i}" required>
+                `;
+                attendeeDetails.appendChild(attendeeDiv);
+            }
+        });
+
+        // Fetch data from the server and display booking confirmation
+        bookButton.addEventListener('click', () => {
+            const quantity = parseInt(ticketQuantityInput.value);
+            const attendeeNameInputs = document.querySelectorAll('.attendee input');
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+
+            // Collect attendee names
+            const attendeeNames = Array.from(attendeeNameInputs).map(input => input.value);
+
+            // Create the request body
+            const requestBody = JSON.stringify({
+                quantity,
+                attendeeNames,
+                cardNumber,
+                expiryDate,
+                cvv,
+            });
+
+            // Make a POST request to your server
+            fetch('http://localhost:5000/api/v1/tickets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: requestBody,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Display booking confirmation details
+                    bookingConfirmation.innerHTML = `
+                        <h2>Booking Confirmation</h2>
+                        <p>Congratulations! You have successfully booked <span id="bookingQuantity">${data.quantity}</span> ticket(s) for the event:</p>
+                        <h3 id="eventTitle">${data.event.title}</h3>
+                        <p>Date: <span id="eventDate">${data.event.date}</span></p>
+                        <p>Time: <span id="eventTime">${data.event.time}</span></p>
+                        <p>Location: <span id="eventLocation">${data.event.location}</span></p>
+                        <p>Attendees:</p>
+                        <ul id="attendeeList">
+                            ${data.attendeeNames.map(name => `<li>Name: <span class="attendee-name">${name}</span></li>`).join('')}
+                        </ul>
+                        <p>Total Amount: <span id="totalAmount">$${data.totalAmount.toFixed(2)}</span></p>
+                        <button id="downloadTickets">Download Tickets</button>
+                    `;
+
+                    // Show booking confirmation section
+                    bookingConfirmation.style.display = 'block';
+                } else {
+                    // Handle booking error
+                    console.error('Booking failed:', data.error);
+                    // You can display an error message or take other actions here
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle network or other errors here
+            });
+        });
+    </script>
+</body>
+</html>

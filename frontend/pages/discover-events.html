@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/discover-events.css">
+    <title>Discover Events</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">My Profile</a>
+            <a href="#">Create Event</a>
+            <a href="#">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section class="event-list">
+            <h1>Discover Events</h1>
+            <div class="events" id="eventContainer">
+                <!-- Event cards will be dynamically generated here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        &copy; 2023 Your Event Platform
+    </footer>
+    <script>
+        // Function to fetch events and populate event cards
+        function fetchEvents() {
+            // Replace the URL with your API endpoint that provides event data
+            fetch('https://your-api-endpoint.com/events')
+                .then(response => response.json())
+                .then(data => {
+                    const eventContainer = document.getElementById('eventContainer');
+
+                    // Loop through the event data and create event cards
+                    data.forEach(event => {
+                        const eventCard = document.createElement('div');
+                        eventCard.classList.add('event-card');
+
+                        eventCard.innerHTML = `
+                            <h2>${event.title}</h2>
+                            <p class="event-info"><strong>Date:</strong> ${event.date}</p>
+                            <p class="event-info"><strong>Time:</strong> ${event.time}</p>
+                            <p class="event-info"><strong>Location:</strong> ${event.location}</p>
+                            <p class="event-description">${event.description}</p>
+                            <button class="register-button">Register</button>
+                        `;
+
+                        eventContainer.appendChild(eventCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                });
+        }
+
+        // Call the fetchEvents function to populate event cards
+        fetchEvents();
+    </script>
+</body>
+</html>

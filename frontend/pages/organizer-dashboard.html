@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/styles/organizer-dashboard.css">
-    <title>User Dashboard</title>
+    <title>Event Organizer Dashboard</title>
 </head>
 <body>
     <header>
@@ -22,6 +22,12 @@
             <h1>Your Created Events</h1>
             <div class="event-list" id="eventList">
                 <!-- User's created event cards will be displayed here -->
+            </div>
+        </section>
+        <section class="event-attendees">
+            <h1>Event Attendees</h1>
+            <div class="attendee-list" id="attendeeList">
+                <!-- Attendee list for the selected event will be displayed here -->
             </div>
         </section>
     </main>
@@ -42,6 +48,23 @@
                 return data;
             } catch (error) {
                 console.error('Error fetching user events:', error);
+                return [];
+            }
+        }
+
+        // Function to fetch event attendees for a specific event
+        async function fetchEventAttendees(token, eventId) {
+            try {
+                // Use the provided token to authenticate the request
+                const response = await fetch(`http://localhost:5000/api/v1/events/${eventId}/attendees`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching event attendees:', error);
                 return [];
             }
         }
@@ -73,11 +96,54 @@
                     <p>Location: ${event.location}</p>
                     <p>Description:</p>
                     <p>${event.description}</p>
+                    
+                    <!-- Add a button to view attendees for this event -->
+                    <button onclick="viewEventAttendees('${event.id}')">View Attendees</button>
                 `;
 
                 // Append event card to the event list
                 eventList.appendChild(eventCard);
             });
+        }
+
+        // Function to render event attendees for the selected event
+        function renderEventAttendees(attendees) {
+            const attendeeList = document.getElementById("attendeeList");
+
+            // Clear existing content
+            attendeeList.innerHTML = "";
+
+            // Check if there are no attendees for this event
+            if (attendees.length === 0) {
+                const noAttendeesMessage = document.createElement("p");
+                noAttendeesMessage.textContent = "No attendees for this event yet.";
+                attendeeList.appendChild(noAttendeesMessage);
+                return;
+            }
+
+            // Loop through event attendees and display their information
+            attendees.forEach(attendee => {
+                const attendeeCard = document.createElement("div");
+                attendeeCard.classList.add("attendee-card");
+
+                // Populate attendee card with attendee details
+                attendeeCard.innerHTML = `
+                    <h3>${attendee.name}</h3>
+                    <p>Email: ${attendee.email}</p>
+                    <!-- You can display more attendee information here -->
+                `;
+
+                // Append attendee card to the attendee list
+                attendeeList.appendChild(attendeeCard);
+            });
+        }
+
+        // Function to view event attendees for a specific event
+        async function viewEventAttendees(eventId) {
+            if (token) {
+                const attendees = await fetchEventAttendees(token, eventId);
+                renderEventAttendees(attendees);
+            }
         }
 
         // Function to get the value of a cookie by name

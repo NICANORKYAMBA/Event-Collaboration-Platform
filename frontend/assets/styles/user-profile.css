@@ -1,5 +1,5 @@
 /* Reset some default styles */
-body, h1, h2, h3, p, ul, li, label, input, button {
+body, h1, h2, h3, p, ul, li, button {
     margin: 0;
     padding: 0;
     border: 0;
@@ -26,8 +26,9 @@ header {
     color: #fff;
     padding: 10px 0;
     position: fixed;
-    width: 100%;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
 }
 
@@ -43,36 +44,33 @@ header nav a {
 
 /* Main content styles */
 main {
-    display: flex;
-    justify-content: space-between;
+    margin-top: 80px; /* Adjust to match the header height */
     padding: 20px;
-    margin-top: 60px; /* Ensure content starts below the fixed header */
 }
 
-.user-events,
-.event-attendees {
-    flex: 1;
+.user-rsvps,
+.ticket-details {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
-.user-events h1,
-.event-attendees h1 {
+.user-rsvps h1,
+.ticket-details h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.event-list,
-.attendee-list {
+.rsvp-list,
+.ticket-list {
     list-style: none;
     padding: 0;
 }
 
-.event-card,
-.attendee-card {
+.rsvp-card,
+.ticket-card {
     background-color: #f8f8f8;
     border: 1px solid #ccc;
     padding: 20px;
@@ -80,18 +78,18 @@ main {
     border-radius: 5px;
 }
 
-.event-card h2,
-.attendee-card h3 {
+.rsvp-card h2,
+.ticket-card h2 {
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-.event-card p,
-.attendee-card p {
+.rsvp-card p,
+.ticket-card p {
     margin-bottom: 10px;
 }
 
-.event-card button {
+.rsvp-card button {
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -102,7 +100,7 @@ main {
     transition: background-color 0.2s;
 }
 
-.event-card button:hover {
+.rsvp-card button:hover {
     background-color: #0056b3;
 }
 
@@ -113,9 +111,9 @@ footer {
     padding: 20px 0;
     text-align: center;
     position: fixed;
-    width: 100%;
     bottom: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
 }
 
 .footer-content {

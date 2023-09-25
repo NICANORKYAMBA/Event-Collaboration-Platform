@@ -1,0 +1,282 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li, a, img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+header nav {
+    text-align: right;
+}
+
+header .logo {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+header .logo a {
+    text-decoration: none;
+}
+
+header ul {
+    list-style: none;
+}
+
+header ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+header ul li:first-child {
+    margin-left: 0;
+}
+
+header ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+header ul li a:hover {
+    color: #ff9900;
+}
+
+/* Main content styles */
+main {
+    margin-top: 80px; /* Adjust to match the header height */
+    padding: 20px;
+}
+
+/* Hero section styles */
+.hero {
+    background-image: url('hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 100px 0;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    background-color: #ff9900;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #ff6600;
+}
+
+/* About Us section styles */
+.about-us {
+    display: flex;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.about-content {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.about-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Services section styles */
+.services {
+    margin-bottom: 40px;
+}
+
+.services h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.service {
+    margin-bottom: 30px;
+}
+
+.service img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.service h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Portfolio section styles */
+.portfolio {
+    margin-bottom: 40px;
+}
+
+.portfolio h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.portfolio-item {
+    margin-bottom: 30px;
+}
+
+.portfolio-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.portfolio-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Contact section styles */
+.contact {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.contact p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-links li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 768px) {
+    header ul {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    header ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    header ul li:first-child {
+        margin-top: 0;
+    }
+
+    .about-us {
+        flex-direction: column;
+    }
+
+    .about-image {
+        order: 2;
+        margin-top: 20px;
+    }
+
+    .about-content {
+        order: 1;
+        text-align: center;
+    }
+
+    .portfolio-item {
+        text-align: center;
+    }
+}

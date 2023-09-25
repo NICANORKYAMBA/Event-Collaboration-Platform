@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../assets/styles/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <form id="login-form" class="login-form" action="javascript:void(0);" method="POST">
+            <h1>Welcome Back</h1>
+            <p>Login to your account</p>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="john.doe@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Your Password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="user">User</option>
+                    <option value="organizer">Organizer</option>
+                </select>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+            <div class="form-group">
+                <p class="forgot-password"><a href="#">Forgot password?</a></p>
+            </div>
+        </form>
+        <div class="signup-link">
+            <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+        </div>
+    </div>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("login-form");
+
+    loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value;
+
+        // You can add your login logic here
+        // For example, you can send a POST request to your server to authenticate the user
+        if (email && password) {
+            alert(`Logged in as ${role}`);
+            // Redirect to the appropriate dashboard based on the 'role' value
+            if (role === "organizer") {
+                window.location.href = "organizer-dashboard.html";
+            } else {
+                window.location.href = "user-dashboard.html";
+            }
+        } else {
+            alert("Please fill in all fields.");
+        }
+    });
+});
+</script>
+</body>
+</html>
