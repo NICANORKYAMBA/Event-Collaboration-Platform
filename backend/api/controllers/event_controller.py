@@ -91,6 +91,35 @@ def get_event(event_id):
                         'error': str(e)}), 500
 
 
+def get_events_by_user(user_id):
+    """
+    Get event by user id
+    """
+    try:
+        events = Event.query.filter_by(organizer_id=user_id).all()
+
+        if events:
+            events_list = [
+                    {
+                        'event_id': event.event_id,
+                        'organizer_id': event.organizer_id,
+                        'event_name': event.event_name,
+                        'event_date': event.event_date,
+                        'event_time': event.event_time.strftime('%H:%M:%S'),
+                        'location': event.location,
+                        'description': event.description
+                    }
+                    for event in events
+                ]
+            return jsonify({
+                'message': 'All events retrieved successfully.',
+                'events': events_list}), 200
+        return jsonify({'message': 'No events found'}), 404
+    except Exception as e:
+        return jsonify({'message': 'An error occurred',
+                        'error': str(e)}), 500
+
+
 def delete_event(event_id):
     """
     Delete event by id

@@ -14,6 +14,7 @@ from api.controllers.event_controller import (
     create_event,
     get_event,
     get_events,
+    get_events_by_user,
     update_event,
     delete_event,
 )
@@ -56,6 +57,18 @@ def get_events_route():
     Get all events
     """
     return get_events()
+
+
+@event_bp.route('/user/<uuid:user_id>',
+                methods=['GET'],
+                strict_slashes=False,
+                endpoint='user')
+@jwt_required()
+def get_events_by_user_route(user_id):
+    """
+    Get all events by user id
+    """
+    return get_events_by_user(user_id)
 
 
 @event_bp.route('/update/<uuid:event_id>',

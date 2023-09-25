@@ -38,10 +38,10 @@ def register_user():
         ).decode('utf-8')
 
         new_user = User(
-                username=data['username'],
-                email=data['email'],
-                password=hashed_password
-            )
+            username=data['username'],
+            email=data['email'],
+            password=hashed_password
+        )
 
         db.session.add(new_user)
         db.session.commit()
@@ -123,7 +123,7 @@ def get_user(user_id):
             return jsonify({
                 'message': 'User retrieved successfully',
                 'user': user_info
-                }), 200
+            }), 200
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
@@ -158,11 +158,11 @@ def update_user(user_id):
                 db.session.commit()
                 return jsonify({
                     'message': 'User updated successfully'
-                    }), 200
+                }), 200
             else:
                 return jsonify({
                     'message': 'Unauthorized'
-                    }), 401
+                }), 401
         else:
             return jsonify({'message': 'User not found'}), 404
     except EmailNotValidError:
@@ -194,3 +194,10 @@ def delete_user(user_id):
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
+
+
+def logout_user():
+    """
+    Logout a user
+    """
+    return jsonify({'message': 'User logged out successfully'}), 200
