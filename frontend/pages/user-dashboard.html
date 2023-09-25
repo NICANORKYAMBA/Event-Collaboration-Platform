@@ -29,9 +29,36 @@
         &copy; 2023 Your Event Website
     </footer>
     <script>
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            console.log('Cookies: ', cookies);
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.trim().split('=');
+                console.log('CookieName: ', cookieName);
+                console.log('CookieValue: ', cookieValue);
+                if (cookieName === name) {
+                    return decodeURIComponent(cookieValue);
+                }
+            }
+            return null;
+        }
+
         async function fetchAllEvents() {
             try {
-                const response = await fetch(`http://localhost:5000/api/v1/events`);
+                const token = getCookie('access_token');
+                console.log('Token for this user:', token);
+
+                if (!token) {
+                    console.error('JWT token not found in cookies.');
+                    return [];
+                }
+
+                const response = await fetch(`http://localhost:5000/api/v1/events`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
                 const data = await response.json();
                 return data;
             } catch (error) {
