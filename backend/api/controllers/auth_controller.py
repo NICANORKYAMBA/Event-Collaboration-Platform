@@ -11,7 +11,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token
 from email_validator import validate_email, EmailNotValidError
 from sqlalchemy.exc import IntegrityError
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, make_response
 from api import db
 from api.models.user import User
 
@@ -74,9 +74,11 @@ def login_user():
             provided_password = data['password']
 
             if bbcrypt.check_password_hash(user.password, provided_password):
-                acess_token = create_access_token(identity=user.user_id)
-                return jsonify({'message': 'User logged in successfully',
-                                'token': acess_token}), 200
+                access_token = create_access_token(identity=user.user_id)
+                return jsonify({
+                    'message': 'User logged in successfully',
+                    'access_token': access_token
+                }), 200
 
         return jsonify({'message': 'Invalid email or password'}), 401
     except Exception as e:
@@ -200,4 +202,8 @@ def logout_user():
     """
     Logout a user
     """
-    return jsonify({'message': 'User logged out successfully'}), 200
+    response = make_response(
+        jsonify({
+            'message': 'User logged out successfully'
+        }), 200)
+    response.delete_cookie('access_token')

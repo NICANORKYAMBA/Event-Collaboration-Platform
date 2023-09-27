@@ -13,6 +13,7 @@ from api.controllers.auth_controller import (
     get_user,
     update_user,
     delete_user,
+    logout_user
 )
 from flask import Blueprint
 
@@ -88,3 +89,14 @@ def delete_single_user(user_id):
     Delete a user by their id
     """
     return delete_user(user_id)
+
+
+@auth_bp.route('/logout',
+               methods=['POST'],
+               strict_slashes=False,
+               endpoint='logout')
+def logout():
+    """
+    Logout a user
+    """
+    return logout_user()

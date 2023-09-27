@@ -27,6 +27,7 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(255), nullable=False)
     profile_image = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
@@ -40,7 +41,7 @@ class User(db.Model):
     comments = db.relationship('EventComment', back_populates='user')
     ratings = db.relationship('EventRating', back_populates='user')
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, role):
         """
         Initialize the user model
         """
@@ -48,6 +49,7 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password
+        self.role = role
 
     def serialize(self):
         """
@@ -57,5 +59,6 @@ class User(db.Model):
             'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
+            'role': self.role,
             'profile_image': self.profile_image
         }

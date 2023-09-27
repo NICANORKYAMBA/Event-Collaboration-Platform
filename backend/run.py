@@ -16,7 +16,7 @@ from api import create_app, db
 
 app = create_app()
 
-CORS(app)
+CORS(app, resources={r'/api/*': {'origins': 'http://localhost:8000'}}, supports_credentials=True)
 
 migrate = Migrate(app, db)
 
