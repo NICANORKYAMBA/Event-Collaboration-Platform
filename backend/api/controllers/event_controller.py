@@ -14,6 +14,32 @@ from api.models.event import Event
 from api.controllers.auth_controller import get_user
 
 
+def is_organizer(user):
+    """
+    Check if user is organizer
+    """
+    return user.role == 'organizer'
+
+def organizer_required(f):
+    """
+    Check if user is organizer
+    """
+    @wraps(f)
+    def decorated_func(*args, **kwargs):
+        """
+        Check if user is organizer
+        """
+        user = get_user(get_jwt_identity())
+
+        if not is_organizer(user):
+            return jsonify({
+                'message': 'Only Event Organizers can perform this action'
+                }), 403
+        return f(*args, **kwargs)
+    return decorated_func
+
+
+@organizer_required
 def create_event():
     """
     Create a new event and add to the database
@@ -47,7 +73,7 @@ def create_event():
 
 def get_events():
     """
-    Get all events
+    Get all events created
     """
     try:
         events = Event.query.all()
@@ -76,7 +102,7 @@ def get_events():
 
 def get_event(event_id):
     """
-    Get event by id
+    Get an event by its event id
     """
     try:
         event = Event.query.get(event_id)
@@ -91,9 +117,10 @@ def get_event(event_id):
                         'error': str(e)}), 500
 
 
+@organizer_required
 def get_events_by_user(user_id):
     """
-    Get event by user id
+    Get all events created by a specific user by their id
     """
     try:
         events = Event.query.filter_by(organizer_id=user_id).all()
@@ -120,9 +147,10 @@ def get_events_by_user(user_id):
                         'error': str(e)}), 500
 
 
+@organizer_required
 def delete_event(event_id):
     """
-    Delete event by id
+    Delete event by its event id
     """
     try:
         event = Event.query.get(event_id)
@@ -139,9 +167,10 @@ def delete_event(event_id):
                         'error': str(e)}), 500
 
 
+@organizer_required
 def update_event(event_id):
     """
-    Update event by id
+    Update event by its event id
     """
     data = request.json
 

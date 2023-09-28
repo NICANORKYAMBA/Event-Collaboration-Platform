@@ -24,7 +24,6 @@ class User(db.Model):
 
     user_id = db.Column(
             db.String(255),
-            default=lambda: str(uuid.uuid4()),
             primary_key=True
             )
     username = db.Column(
@@ -57,15 +56,27 @@ class User(db.Model):
             default=db.func.current_timestamp(),
             onupdate=db.func.current_timestamp())
 
-    # Define one to many relationship with events
+    # Define one to many relationship with events,
+    # organizer, attendee, collaborator, rsvp, comment, rating models
+
     events = db.relationship(
             'Event',
             back_populates='organizer'
             )
+    events_registered = db.relationship(
+            'UserEvent',
+            back_populates='user',
+            lazy='dynamic'
+            )
+    attended_events = db.relationship(
+            'EventAttendee',
+            back_populates='user',
+            lazy='dynamic'
+            )
     collaborations = db.relationship(
-        'EventCollaborator',
-        back_populates='user'
-        )
+            'EventCollaborator',
+            back_populates='user'
+            )
     rsvps = db.relationship(
             'RSVP',
             back_populates='user'

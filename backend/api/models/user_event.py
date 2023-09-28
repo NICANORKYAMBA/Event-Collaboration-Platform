@@ -20,22 +20,27 @@ class UserEvent(db.Model):
 
     user_event_id = db.Column(
             db.String(255),
-            primary_key=True)
-    user_id = db.Column(
-            db.String(255),
-            db.ForeignKey('users.user_id'),
-            nullable=False)
+            primary_key=True
+            )
     event_id = db.Column(
             db.String(255),
             db.ForeignKey('events.event_id'),
-            nullable=False)
+            nullable=False
+            )
+    user_id = db.Column(
+            db.String(255),
+            db.ForeignKey('users.user_id'),
+            nullable=False
+            )
     created_at = db.Column(
             db.DateTime,
-            default=db.func.current_timestamp())
+            default=db.func.current_timestamp()
+            )
     updated_at = db.Column(
             db.DateTime,
             default=db.func.current_timestamp(),
-            onupdate=db.func.current_timestamp())
+            onupdate=db.func.current_timestamp()
+            )
 
     # Define relationships with User and Event models
     user = db.relationship(
@@ -57,10 +62,19 @@ class UserEvent(db.Model):
         """
         Serialize UserEvent model
         """
+        event_details = {
+                'event_id': self.event.event_id,
+                'event_name': self.event.event_name,
+                'event_date': self.event.event_date.strftime('%Y-%m-%d'),
+                'event_time': self.event.event_time.strftime('%H:%M:%S'),
+                'location': self.event.location
+                }
+
         return {
-            'user_event_id': self.user_event_id,
-            'user_id': self.user_id,
-            'event_id': self.event_id,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
-        }
+                'user_event_id': self.user_event_id,
+                'user_id': self.user_id,
+                'event_id': self.event_id,
+                'event_details': event_details,
+                'created_at': self.created_at,
+                'updated_at': self.updated_at
+                }

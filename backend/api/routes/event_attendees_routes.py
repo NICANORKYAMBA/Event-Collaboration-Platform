@@ -7,7 +7,7 @@ Created on Wed Sep  27 20:00:00 2023
 """
 from flask import Blueprint
 from flask_jwt_extended import jwt_required
-from api.controllers.event_attendee_controller import (
+from api.controllers.event_attendees_controller import (
         add_attendee,
         get_event_attendees,
         delete_attendee,

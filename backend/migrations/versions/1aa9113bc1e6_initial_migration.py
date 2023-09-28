@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial Migration
 
-Revision ID: de45642f82a1
+Revision ID: 1aa9113bc1e6
 Revises: 
-Create Date: 2023-09-14 13:32:42.986116
+Create Date: 2023-09-28 12:12:05.977175
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'de45642f82a1'
+revision = '1aa9113bc1e6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,9 +23,11 @@ def upgrade():
     sa.Column('username', sa.String(length=255), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
+    sa.Column('role', sa.String(length=255), server_default='Attendee', nullable=False),
     sa.Column('profile_image', sa.String(length=255), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.CheckConstraint('role IN ("Organizer", "Attendee")', name='user_role'),
     sa.PrimaryKeyConstraint('user_id'),
     sa.UniqueConstraint('email')
     )
@@ -74,6 +76,7 @@ def upgrade():
     )
     op.create_table('tickets',
     sa.Column('ticket_id', sa.String(length=255), nullable=False),
+    sa.Column('user_id', sa.String(length=255), nullable=False),
     sa.Column('event_id', sa.String(length=255), nullable=False),
     sa.Column('ticket_type', sa.String(length=255), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
@@ -81,6 +84,7 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['event_id'], ['events.event_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
     sa.PrimaryKeyConstraint('ticket_id')
     )
     op.create_table('rsvps',

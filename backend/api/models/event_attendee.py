@@ -20,22 +20,27 @@ class EventAttendee(db.Model):
 
     event_attendee_id = db.Column(
             db.String(255),
-            primary_key=True)
+            primary_key=True
+            )
     event_id = db.Column(
             db.String(255),
             db.ForeignKey("events.event_id"),
-            nullable=False)
+            nullable=False
+            )
     user_id = db.Column(
             db.String(255),
             db.ForeignKey("users.user_id"),
-            nullable=False)
+            nullable=False
+            )
     created_at = db.Column(
             db.DateTime,
-            default=db.func.current_timestamp())
+            default=db.func.current_timestamp()
+            )
     updated_at = db.Column(
             db.DateTime,
             default=db.func.current_timestamp(),
-            onupdate=db.func.current_timestamp())
+            onupdate=db.func.current_timestamp()
+            )
 
     # Define relationships with User and Event models
     user = db.relationship(
@@ -59,10 +64,16 @@ class EventAttendee(db.Model):
         """
         Serialize EventAttendee model
         """
+        attendee_details = {
+                'username': self.user.username,
+                'email': self.user.email
+                }
+
         return {
-            "event_attendee_id": self.event_attendee_id,
-            "event_id": self.event_id,
-            "user_id": self.user_id,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
-        }
+                "event_attendee_id": self.event_attendee_id,
+                "event_id": self.event_id,
+                "user_id": self.user_id,
+                "attendee_details": attendee_details,
+                "created_at": self.created_at,
+                "updated_at": self.updated_at
+                }

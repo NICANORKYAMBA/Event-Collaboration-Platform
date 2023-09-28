@@ -42,6 +42,8 @@ def create_app(config_class=Config):
     from api.routes.ratings_routes import rating_bp
     from api.routes.rsvp_routes import rsvp_bp
     from api.routes.ticket_routes import ticket_bp
+    from api.routes.event_attendees_routes import event_attendee_bp
+    from api.routes.user_event_routes import user_event_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(event_bp)
@@ -51,5 +53,7 @@ def create_app(config_class=Config):
     app.register_blueprint(rating_bp)
     app.register_blueprint(rsvp_bp)
     app.register_blueprint(ticket_bp)
+    app.register_blueprint(event_attendee_bp)
+    app.register_blueprint(user_event_bp)
 
     return app
