@@ -70,7 +70,7 @@ def get_single_user(user_id):
         methods=['PUT'],
         strict_slashes=False,
         endpoint='update')
-@jwt_required
+@jwt_required()
 def update_single_user(user_id):
     """
     Update a user by their id
@@ -83,7 +83,7 @@ def update_single_user(user_id):
         methods=['DELETE'],
         strict_slashes=False,
         endpoint='delete')
-@jwt_required
+@jwt_required()
 def delete_single_user(user_id):
     """
     Delete a user by their id
