@@ -16,25 +16,63 @@ class Ticket(db.Model):
     """
     __tablename__ = 'tickets'
 
-    ticket_id = db.Column(db.String(255),
-                          default=lambda: str(uuid.uuid4()),
-                          primary_key=True)
-    event_id = db.Column(db.String(255),
-                         db.ForeignKey('events.event_id'),
-                         nullable=False)
-    ticket_type = db.Column(db.String(255), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    quantity_available = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime,
-                           default=db.func.current_timestamp(),
-                           onupdate=db.func.current_timestamp())
+    ticket_id = db.Column(
+            db.String(255),
+            default=lambda: str(uuid.uuid4()),
+            primary_key=True
+            )
+    user_id = db.Column(
+            db.String(255),
+            db.ForeignKey('users.user_id'),
+            nullable=False
+            )
+    event_id = db.Column(
+            db.String(255),
+            db.ForeignKey('events.event_id'),
+            nullable=False
+            )
+    ticket_type = db.Column(
+            db.String(255),
+            nullable=False
+            )
+    price = db.Column(
+            db.Float,
+            nullable=False
+            )
+    quantity_available = db.Column(
+            db.Integer,
+            nullable=False
+            )
+    created_at = db.Column(
+            db.DateTime,
+            default=db.func.current_timestamp()
+            )
+    updated_at = db.Column(
+            db.DateTime,
+            default=db.func.current_timestamp(),
+            onupdate=db.func.current_timestamp()
+            )
 
     # Define many to one relationship with events
-    event = db.relationship('Event', back_populates='tickets')
-    rsvps = db.relationship('RSVP', back_populates='ticket')
+    user = db.relationship(
+            'User',
+            back_populates='tickets'
+            )
+    event = db.relationship(
+            'Event',
+            back_populates='tickets'
+            )
+    rsvps = db.relationship(
+            'RSVP',
+            back_populates='ticket'
+            )
 
-    def __init__(self, event_id, ticket_type, price, quantity_available):
+    def __init__(
+            self,
+            event_id,
+            ticket_type,
+            price,
+            quantity_available):
         """
         Initialize the ticket model
 

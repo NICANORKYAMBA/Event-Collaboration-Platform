@@ -20,7 +20,6 @@ class EventAttendee(db.Model):
 
     event_attendee_id = db.Column(
             db.String(255),
-            default=lambda: str(uuid.uuid4()),
             primary_key=True)
     event_id = db.Column(
             db.String(255),
@@ -52,6 +51,7 @@ class EventAttendee(db.Model):
         """
         Constructor for EventAttendee model
         """
+        self.event_attendee_id = str(uuid.uuid4())
         self.event_id = event_id
         self.user_id = user_id
 
