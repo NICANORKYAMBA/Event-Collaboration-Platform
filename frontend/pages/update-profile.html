@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link rel="stylesheet" href="../assets/styles/update-profile.css">
+</head>
+<body>
+<header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="#">EventHub</a></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<main>
+    <section class="profile-update">
+        <h1>Update Your Profile</h1>
+        <form id="profile-update-form" class="profile-update-form" action="#" method="POST">
+            <div class="input-box">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" class="input-field" placeholder="Enter your username" required>
+            </div>
+            <div class="input-box">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" class="input-field" placeholder="Enter your email" required>
+            </div>
+            <div class="input-box">
+                <label for="password">New Password:</label>
+                <input type="password" name="new-password" id="new-password" class="input-field" placeholder="Enter a new password">
+            </div>
+            <div class="input-box">
+                <label for="confirm-password">Confirm New Password:</label>
+                <input type="password" name="confirm-new-password" id="confirm-new-password" class="input-field" placeholder="Confirm your new password">
+            </div>
+            <button type="submit" class="update-button">Update Profile</button>
+        </form>
+    </section>
+</main>
+
+
+    <footer class="footer">
+        &copy; 2023 Your Event Website
+    </footer>
+
+    <script src="update-profile.js"></script>
+</body>
+</html>

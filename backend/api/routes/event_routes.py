@@ -20,7 +20,10 @@ from api.controllers.event_controller import (
 )
 
 
-event_bp = Blueprint('event_bp', __name__, url_prefix='/api/v1/events')
+event_bp = Blueprint(
+        'event_bp',
+        __name__,
+        url_prefix='/api/v1/events')
 
 
 @event_bp.route('/create',

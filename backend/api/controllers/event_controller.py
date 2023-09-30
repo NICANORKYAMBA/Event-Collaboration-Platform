@@ -18,6 +18,7 @@ def is_organizer(user):
     """
     Check if user is organizer
     """
+    print(user.role)
     return user.role == 'organizer'
 
 def organizer_required(f):
@@ -29,7 +30,10 @@ def organizer_required(f):
         """
         Check if user is organizer
         """
-        user = get_user(get_jwt_identity())
+        user_id = get_jwt_identity()
+        print(user_id)
+        user = get_user(user_id)
+        print(user)
 
         if not is_organizer(user):
             return jsonify({
@@ -39,7 +43,6 @@ def organizer_required(f):
     return decorated_func
 
 
-@organizer_required
 def create_event():
     """
     Create a new event and add to the database
@@ -117,7 +120,6 @@ def get_event(event_id):
                         'error': str(e)}), 500
 
 
-@organizer_required
 def get_events_by_user(user_id):
     """
     Get all events created by a specific user by their id
@@ -147,7 +149,6 @@ def get_events_by_user(user_id):
                         'error': str(e)}), 500
 
 
-@organizer_required
 def delete_event(event_id):
     """
     Delete event by its event id
@@ -167,7 +168,6 @@ def delete_event(event_id):
                         'error': str(e)}), 500
 
 
-@organizer_required
 def update_event(event_id):
     """
     Update event by its event id

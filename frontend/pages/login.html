@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="../assets/styles/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="login-container">
@@ -61,9 +62,12 @@
             body: JSON.stringify(data)
           });
 
+          console.log(response);
+
           if (response.status === 200) {
             const responseData = await response.json();
             const accessToken = responseData.access_token;
+            console.log(responseData);
             const userId = responseData.user_id;
 
             sessionStorage.setItem("accessToken", accessToken);

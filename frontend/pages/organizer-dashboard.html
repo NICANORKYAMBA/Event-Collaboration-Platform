@@ -1,173 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/styles/organizer-dashboard.css">
-    <title>Event Organizer Dashboard</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/organizer-dashboard.css">
+  <title>Event Organizer Dashboard</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Dashboard</a>
-            <a href="create-event.html">Create Event</a>
-            <a href="#">Profile</a>
-            <a href="#">Logout</a>
-        </nav>
-    </header>
-    <main>
-        <section class="user-events">
-            <h1>Your Created Events</h1>
-            <div class="event-list" id="eventList">
-                <!-- User's created event cards will be displayed here -->
-            </div>
-        </section>
-        <section class="event-attendees">
-            <h1>Event Attendees</h1>
-            <div class="attendee-list" id="attendeeList">
-                <!-- Attendee list for the selected event will be displayed here -->
-            </div>
-        </section>
-    </main>
-    <footer>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="#">EventHub</a></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="org-create-event.html">Create Event</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <section class="user-profile">
+      <div class="profile-info">
+        <img src="" alt="User Profile Image" class="profile-image" id="profileImage">
+        <div class="user-details">
+          <h1 class="username">Welcome, <span id="username">[Username]</span></h1>
+          <p class="user-bio">Bio: <span id="userBio">[User Bio]</span></p>
+          <p class="user-email">Email: <span id="userEmail">[User Email]</span></p>
+        </div>
+      </div>
+      <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
+    </section>
+
+    <section class="user-events">
+      <h1>Your Created Events</h1>
+      <div class="event-list" id="eventList">
+      </div>
+    </section>
+
+    <section class="event-attendees">
+      <h1>Event Attendees</h1>
+      <div class="attendee-list" id="attendeeList">
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
         &copy; 2023 Your Event Website
-    </footer>
-    <script>
-        // Function to fetch user's created events from the backend
-        async function fetchUserEvents(token) {
-            try {
-                // Use the provided token to authenticate the request
-                const response = await fetch(`http://localhost:5000/api/v1/user/events`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching user events:', error);
-                return [];
-            }
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      async function fetchOrganizerProfile(token, userId) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/v1/auth/user/${userId}`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          return data;
+          
+          const profileImage = document.getElementById("profileImage");
+          const username = document.getElementById("username");
+          const userBio = document.getElementById("userBio");
+          const userEmail = document.getElementById("userEmail");
+
+          profileImage.src = data.profile_image;
+          username.textContent = `Welcome, ${data.username}`;
+          userBio.textContent = `Bio: ${data.bio}`;
+          userEmail.textContent = `Email: ${data.email}`;
+
+        } catch (error) {
+          console.error('Error fetching user events:', error);
+          return [];
+        }
+      }
+
+      async function fetchUserEvents(token) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/v1/events/user/${userId}`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error fetching user events:', error);
+          return [];
+        }
+      }
+
+      function renderUserEventCards(events) {
+        const eventList = document.getElementById("eventList");
+
+        eventList.innerHTML = "";
+
+        if (events.length === 0) {
+          const noEventsMessage = document.createElement("p");
+          noEventsMessage.textContent = "You have not created any events yet.";
+          eventList.appendChild(noEventsMessage);
+          return;
         }
 
-        // Function to fetch event attendees for a specific event
-        async function fetchEventAttendees(token, eventId) {
-            try {
-                // Use the provided token to authenticate the request
-                const response = await fetch(`http://localhost:5000/api/v1/events/${eventId}/attendees`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching event attendees:', error);
-                return [];
-            }
-        }
+        events.forEach(event => {
+          const eventCard = document.createElement("div");
+          eventCard.classList.add("event-card");
 
-        // Function to render user's created event cards
-        function renderUserEventCards(events) {
-            const eventList = document.getElementById("eventList");
+          const eventDate = new Date(event.event_date);
+          const formattedDate = eventDate.toDateString();
 
-            // Clear existing content
-            eventList.innerHTML = "";
+          eventCard.innerHTML = `
+          <h2>${event.event_name}</h2>
+          <p>Date: ${formattedDate}</p>
+          <p>Time: ${event.event_time}</p>
+          <p>Location: ${event.location}</p>
+          <p>Description:</p>
+          <p>${event.description}</p>
 
-            // Check if the user has no created events
-            if (events.length === 0) {
-                const noEventsMessage = document.createElement("p");
-                noEventsMessage.textContent = "You have not created any events yet.";
-                eventList.appendChild(noEventsMessage);
-                return; // Exit early, no need to create event cards
-            }
+          <button class="view-attendees-button" data-event-id="${event.event_id}">View Attendees</button>
+          <button class="view-event-button" data-event-id="${event.event_id}">View Event</button>
+            `;
 
-            // Loop through user's created events and create event cards
-            events.forEach(event => {
-                const eventCard = document.createElement("div");
-                eventCard.classList.add("event-card");
+          const viewAttendeesButton = eventCard.querySelector(".view-attendees-button");
+          viewAttendeesButton.addEventListener("click", () => {
+            const eventId = viewAttendeesButton.getAttribute("data-event-id");
+            navigateToEventAttendeesPage(eventId);
+          });
 
-                // Populate event card with event details
-                eventCard.innerHTML = `
-                    <h2>${event.title}</h2>
-                    <p>Date: ${event.date}</p>
-                    <p>Location: ${event.location}</p>
-                    <p>Description:</p>
-                    <p>${event.description}</p>
-                    
-                    <!-- Add a button to view attendees for this event -->
-                    <button onclick="viewEventAttendees('${event.id}')">View Attendees</button>
-                `;
+          const viewEventButton = eventCard.querySelector(".view-event-button");
+          viewEventButton.addEventListener("click", () => {
+            const eventId = viewEventButton.getAttribute("data-event-id");
+            navigateToEventDetailsPage(eventId);
+          });
 
-                // Append event card to the event list
-                eventList.appendChild(eventCard);
-            });
-        }
-
-        // Function to render event attendees for the selected event
-        function renderEventAttendees(attendees) {
-            const attendeeList = document.getElementById("attendeeList");
-
-            // Clear existing content
-            attendeeList.innerHTML = "";
-
-            // Check if there are no attendees for this event
-            if (attendees.length === 0) {
-                const noAttendeesMessage = document.createElement("p");
-                noAttendeesMessage.textContent = "No attendees for this event yet.";
-                attendeeList.appendChild(noAttendeesMessage);
-                return;
-            }
-
-            // Loop through event attendees and display their information
-            attendees.forEach(attendee => {
-                const attendeeCard = document.createElement("div");
-                attendeeCard.classList.add("attendee-card");
-
-                // Populate attendee card with attendee details
-                attendeeCard.innerHTML = `
-                    <h3>${attendee.name}</h3>
-                    <p>Email: ${attendee.email}</p>
-                    <!-- You can display more attendee information here -->
-                `;
-
-                // Append attendee card to the attendee list
-                attendeeList.appendChild(attendeeCard);
-            });
-        }
-
-        // Function to view event attendees for a specific event
-        async function viewEventAttendees(eventId) {
-            if (token) {
-                const attendees = await fetchEventAttendees(token, eventId);
-                renderEventAttendees(attendees);
-            }
-        }
-
-        // Function to get the value of a cookie by name
-        function getCookie(name) {
-            const cookies = document.cookie.split('; ');
-            for (const cookie of cookies) {
-                const [cookieName, cookieValue] = cookie.split('=');
-                if (cookieName === name) {
-                    return decodeURIComponent(cookieValue);
-                }
-            }
-            return null;
-        }
-
-        // Retrieve the authentication token from the cookie
-        const token = getCookie('auth_token');
-
-        // Fetch user's created events and render event cards when the page loads
-        window.addEventListener("load", async () => {
-            if (token) {
-                const userEvents = await fetchUserEvents(token);
-                renderUserEventCards(userEvents);
-            }
+          eventList.appendChild(eventCard);
         });
-    </script>
+      }
+
+      function navigateToEventAttendeesPage(eventId) {
+        const eventAttendeesPageUrl = `event-attendees.html?eventId=${eventId}`;
+        window.location.href = eventAttendeesPageUrl;
+      }
+
+      function navigateToEventDetailsPage(eventId) {
+        const eventDetailsPageUrl = `event-details.html?eventId=${eventId}`;
+        window.location.href = eventDetailsPageUrl;
+      }
+
+      async function viewEventAttendees(eventId) {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (token) {
+          const attendees = await fetchEventAttendees(token, eventId);
+          renderEventAttendees(attendees);
+        }
+      }
+
+      async function fetchEventAttendees(token, eventId) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/v1/events/${eventId}/attendees`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error fetching event attendees:', error);
+          return [];
+        }
+      }
+
+      async function renderEventAttendees(attendees) {
+        const attendeeList = document.getElementById("attendeeList");
+
+        attendeeList.innerHTML = "";
+
+        if (attendees.length === 0) {
+          const noAttendeesMessage = document.createElement("p");
+          noAttendeesMessage.textContent = "No attendees for this event yet.";
+          attendeeList.appendChild(noAttendeesMessage);
+          return;
+        }
+
+        attendees.forEach(attendee => {
+          const attendeeCard = document.createElement("div");
+          attendeeCard.classList.add("attendee-card");
+
+          attendeeCard.innerHTML = `
+          <h3>${attendee.name}</h3>
+          <p>Email: ${attendee.email}</p>
+            `;
+
+          attendeeList.appendChild(attendeeCard);
+        });
+      }
+
+      const userId = sessionStorage.getItem('userId');
+      const token = sessionStorage.getItem('accessToken');
+      
+      if (token) {
+        const userEvents = await fetchUserEvents(token, userId);
+        renderUserEventCards(userEvents.events);
+      }
+
+      const editProfileButton = document.getElementById("editProfileButton");
+
+      editProfileButton.addEventListener("click", () => {
+        window.location.href = "update-profile.html";
+      });
+    });
+  </script>
 </body>
 </html>

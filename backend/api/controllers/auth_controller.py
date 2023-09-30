@@ -56,13 +56,15 @@ def register_user():
             'user_id': new_user.user_id
             }), 201
     except EmailNotValidError as e:
-        return jsonify({'message': 'Invalid email address',
-                        'error': str(e)
-                        }), 400
+        return jsonify({
+            'message': 'Invalid email address',
+            'error': str(e)
+            }), 400
     except IntegrityError as e:
-        return jsonify({'message': 'Email address already in use',
-                        'error': str(e)
-                        }), 400
+        return jsonify({
+            'message': 'Email address already in use',
+            'error': str(e)
+            }), 400
     except Exception as e:
         return jsonify(
                 {'message': 'An error occurred',
@@ -100,6 +102,7 @@ def login_user():
                 access_token = create_access_token(identity=user.user_id)
                 return jsonify({
                     'message': 'User logged in successfully',
+                    'user_id': user.user_id,
                     'access_token': access_token
                 }), 200
 
