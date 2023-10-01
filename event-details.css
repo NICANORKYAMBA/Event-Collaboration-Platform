@@ -78,8 +78,8 @@ body {
 
 /* Modern CSS for the Event Title within the Event Details Section */
 .event-details .event-title {
-  text-align: center;
-  margin-top: 20px;
+  text-align: center; /* Center-align the title */
+  margin-top: 20px; /* Adjust margin-top as needed */
 }
 
 .event-details .event-title h1 {
@@ -89,7 +89,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Add margin-bottom for spacing */
 }
 
 .event-info {
@@ -97,19 +97,19 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd; /* Add a subtle border for separation */
+  padding: 20px; /* Add padding for better spacing */
+  border-radius: 5px; /* Add a slight border radius for a modern look */
+  background-color: #fff; /* White background for contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
 
 .event-detail {
-  flex: 1;
+  flex: 1; /* Distribute items evenly within the container */
   margin-bottom: 10px;
   font-size: 16px;
   color: #555;
-  text-align: center;
+  text-align: center; /* Center-align the content */
 }
 
 .event-detail strong {
@@ -136,8 +136,8 @@ body {
   font-weight: bold;
   font-size: 18px;
   color: #333;
-  display: block;
-  margin-bottom: 10px;
+  display: block; /* Ensure the strong tag occupies a full line */
+  margin-bottom: 10px; /* Add space below the strong tag */
 }
 
 .event-description p {
@@ -156,8 +156,8 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 0 10px;
-  transition: background-color 0.3s ease;
+  margin: 0 10px; /* Add spacing between buttons */
+  transition: background-color 0.3s ease; /* Smooth button hover transition */
 }
 
 /* Edit Button */
@@ -167,7 +167,7 @@ body {
 }
 
 .edit-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 /* Delete Button */
@@ -177,7 +177,7 @@ body {
 }
 
 .delete-button:hover {
-  background-color: #bb2d3b;
+  background-color: #bb2d3b; /* Darker shade on hover */
 }
 
 /* Attendees Button */
@@ -187,7 +187,7 @@ body {
 }
 
 .attendees-button:hover {
-  background-color: #218838;
+  background-color: #218838; /* Darker shade on hover */
 }
 
 /* Responsive Styling for Small Screens */
@@ -196,7 +196,7 @@ body {
     padding: 15px;
   }
 
-  .event-details .event-title h1 {
+  .event-title {
     font-size: 24px;
   }
 

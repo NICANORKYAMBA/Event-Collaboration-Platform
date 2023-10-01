@@ -86,7 +86,7 @@ def update_event_route(event_id):
     return update_event(event_id)
 
 
-@event_bp.route('/delete/<uuid:event_id>',
+@event_bp.route('/<uuid:event_id>',
                 methods=['DELETE'],
                 strict_slashes=False,
                 endpoint='delete')

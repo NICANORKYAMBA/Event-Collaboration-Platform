@@ -14,7 +14,7 @@
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
         <li><a href="#">Dashboard</a></li>
-        <li><a href="org-create-event.html">Create Event</a></li>
+        <li><a href="organizer-create-event.html">Create Event</a></li>
         <li><a href="#">Profile</a></li>
         <li><a href="#">Logout</a></li>
       </ul>
@@ -117,16 +117,30 @@
           const eventDate = new Date(event.event_date);
           const formattedDate = eventDate.toDateString();
 
-          eventCard.innerHTML = `
-          <h2>${event.event_name}</h2>
-          <p>Date: ${formattedDate}</p>
-          <p>Time: ${event.event_time}</p>
-          <p>Location: ${event.location}</p>
-          <p>Description:</p>
-          <p>${event.description}</p>
+          const eventTime = event.event_time.split(':');
+          const formattedTime = `${eventTime[0]}:${eventTime[1]}`;
 
-          <button class="view-attendees-button" data-event-id="${event.event_id}">View Attendees</button>
-          <button class="view-event-button" data-event-id="${event.event_id}">View Event</button>
+          eventCard.innerHTML = `
+          <div class="event-header">
+            <h2>${event.event_name}</h2>
+          </div>
+          
+          <div class="event-date-time">
+            <p>${formattedDate} at ${formattedTime}</p>
+          </div>
+          
+          <div class="event-location">
+            <p><strong>Location:</strong> ${event.location}</p>
+          </div>
+          
+          <div class="event-description">
+            <p><strong>Description:</strong> ${event.description}</p>
+          </div>
+
+          <div class="event-buttons">
+            <button class="view-attendees-button" data-event-id="${event.event_id}">View Attendees</button>
+            <button class="view-event-button" data-event-id="${event.event_id}">View Event</button>
+          </div>
             `;
 
           const viewAttendeesButton = eventCard.querySelector(".view-attendees-button");
@@ -146,7 +160,7 @@
       }
 
       function navigateToEventAttendeesPage(eventId) {
-        const eventAttendeesPageUrl = `event-attendees.html?eventId=${eventId}`;
+        const eventAttendeesPageUrl = `attendees.html?eventId=${eventId}`;
         window.location.href = eventAttendeesPageUrl;
       }
 

@@ -162,173 +162,162 @@ body {
   color: #333;
 }
 
-/* CSS for User Event Cards */
 .event-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
 }
 
+/* Event Card Styles */
 .event-card {
-  background-color: #f8f8f8;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
 .event-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.event-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ff6b6b; /* Background color (a bright and modern red) */
-  padding: 10px 20px; /* Add padding for spacing */
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.event-header h2 {
-  font-family: 'Helvetica Neue', sans-serif; /* Use a modern sans-serif font */
-  font-size: 1.5rem;
-  margin: 0;
-  color: #fff; /* Text color (white) */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
-}
-
-.event-date-time {
-  background-color: #f0f0f0; /* Background color */
-  border-radius: 4px; /* Rounded corners */
-  padding: 8px 12px; /* Padding for spacing */
-  text-align: center; /* Center align text */
-}
-
-.event-date-time p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: #333; /* Text color */
-}
-
-/* Professional Event Details */
-.event-details {
-  margin-top: 10px;
-  padding: 10px; /* Add padding for spacing */
-  background-color: #fff; /* Background color */
-  border: 1px solid #e0e0e0; /* Add a subtle border */
-  border-radius: 4px; /* Rounded corners */
-}
-
-/* Professional Event Location */
-.event-location {
-  margin-top: 20px; /* Add some space between the date-time and location */
-  background-color: #f2f2f2; /* Light gray background for contrast */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-.event-location p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
+.event-card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
   color: #333;
+}
+
+.event-card p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
   line-height: 1.4;
-  margin: 0; /* Remove default paragraph margins */
 }
 
-.event-location strong {
+.event-card .event-details {
+  padding: 20px;
+}
+
+.event-card .event-details p {
+  margin: 5px 0;
+}
+
+.event-card .event-date {
   font-weight: bold;
-  color: #007BFF;
 }
 
-/* More Appealing Event Description */
-.event-description {
-  margin-top: 20px;
-  background-color: #f2f2f2; /* Light gray background for contrast */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+.event-card .event-description {
+  font-style: italic;
 }
 
-.event-description p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.4;
-  margin: 0; /* Remove default paragraph margins */
-}
-
-.event-description strong {
-  font-weight: bold;
-  color: #007BFF;
-}
-
-/* Professional Event Buttons */
-.event-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.view-attendees-button,
-.view-event-button {
-  background-color: #007BFF; /* Background color */
-  color: #fff; /* Text color */
+.event-card .view-attendees-button {
+  background-color: #ff6600;
+  color: #fff;
   border: none;
-  border-radius: 4px;
   padding: 10px 20px;
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Add transitions for hover effect */
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  margin-top: 20px;
 }
 
-.view-attendees-button:hover,
+.event-card .view-attendees-button:hover {
+  background-color: #ff4500;
+}
+
+/* Refined Attendees Button Styles */
+.view-attendees-button {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 3px;
+  margin-top: 20px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #ff6600;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+.view-attendees-button:hover {
+  background-color: #ff4500;
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(255, 102, 0, 0.2);
+}
+
+.view-attendees-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(255, 102, 0, 0.2));
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.view-attendees-button:hover:before {
+  transform: translateX(0);
+}
+
+/* View Event Button Styles */
+.view-event-button {
+  background-color: #007bff; /* Change the background color to blue or any other preferred color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 3px;
+  margin-top: 20px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #007bff; /* Add a border to the button */
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
 .view-event-button:hover {
-  background-color: #0056b3; /* Darker background color on hover */
-  transform: translateY(-2px); /* Add a slight upward movement on hover */
+  background-color: #0056b3; /* Change the background color on hover */
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.4);
 }
 
-/* Media Queries for Responsiveness */
-@media screen and (max-width: 768px) {
-  .event-list {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
+.view-event-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(0, 123, 255, 0.2));
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
 
-  .event-card {
-    padding: 15px;
-  }
-
-  .event-header h2 {
-    font-size: 1.2rem;
-  }
-
-  .event-date-time {
-    font-size: 0.9rem;
-  }
-
-  .event-buttons {
-    margin-top: 15px;
-  }
-
-  .event-description {
-    font-size: 0.8rem;
-  }
-
-  .view-attendees-button,
-  .view-event-button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
+.view-event-button:hover:before {
+  transform: translateX(0);
 }
 
 /* Event Attendees Section styles */
