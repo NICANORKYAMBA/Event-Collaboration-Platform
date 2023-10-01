@@ -68,7 +68,7 @@
         event.preventDefault();
 
         const eventData = {
-          event_title: eventTitleInput.value,
+          event_name: eventTitleInput.value,
           event_date: eventDateInput.value,
           event_time: eventTimeInput.value,
           location: eventLocationInput.value,
@@ -96,14 +96,23 @@
           body: JSON.stringify(eventData),
         })
           .then((response) => {
+            console.log(response);
             if (response.ok) {
               console.log("Event data sent successfully.");
+
+              alert("Event update successfully!");
+
+              window.location.href = "organizer-dashboard.html";
             } else {
               console.error("Error updating event data.");
+
+              alert("Error updating event data. Please try again.");
             }
           })
           .catch((error) => {
             console.error("Error updating event data:", error);
+
+            alert("An error occurred while updating event data. Please try again later.");
           });
       });
     });
