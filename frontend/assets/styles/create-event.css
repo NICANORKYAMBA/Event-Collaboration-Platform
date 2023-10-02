@@ -1,63 +1,63 @@
-/* Reset default styles */
+/* Reset some default styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* Body styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Header styles */
 .header {
-    background-color: rgba(51, 51, 51, 0.7); /* Transparent black background */
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    transition: background-color 0.3s ease;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 0;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 0 20px;
 }
 
 .logo a {
     text-decoration: none;
-    color: #fff;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
-    transition: color 0.3s ease;
+    color: #fff;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-}
-
-.nav-links li {
-    margin-right: 20px;
+    gap: 20px;
 }
 
 .nav-links a {
     text-decoration: none;
     color: #fff;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: #ff6600;
+    color: #0056b3;
 }
 
 /* Main container styles */

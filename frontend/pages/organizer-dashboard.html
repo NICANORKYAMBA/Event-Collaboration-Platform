@@ -26,9 +26,9 @@
       <div class="profile-info">
         <img src="" alt="User Profile Image" class="profile-image" id="profileImage">
         <div class="user-details">
-          <h1 class="username">Welcome, <span id="username">[Username]</span></h1>
-          <p class="user-bio">Bio: <span id="userBio">[User Bio]</span></p>
-          <p class="user-email">Email: <span id="userEmail">[User Email]</span></p>
+          <h1 class="username"><span id="username">[Username]</span></h1>
+          <p class="user-bio"><span id="userBio">[User Bio]</span></p>
+          <p class="user-email"><span id="userEmail">[User Email]</span></p>
         </div>
       </div>
       <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
@@ -63,21 +63,19 @@
             },
           });
           const data = await response.json();
-          return data;
           
           const profileImage = document.getElementById("profileImage");
           const username = document.getElementById("username");
           const userBio = document.getElementById("userBio");
           const userEmail = document.getElementById("userEmail");
 
-          profileImage.src = data.profile_image;
-          username.textContent = `Welcome, ${data.username}`;
-          userBio.textContent = `Bio: ${data.bio}`;
-          userEmail.textContent = `Email: ${data.email}`;
+          profileImage.src = data.profile_image || "../assets/images/default-avatar.png";
+          username.textContent = `Welcome, ${data.user.username}`;
+          userBio.textContent = `Bio: ${data.user.bio || "No bio provided."}`;
+          userEmail.textContent = `Email: ${data.user.email || "No email provided."}`;
 
         } catch (error) {
           console.error('Error fetching user events:', error);
-          return [];
         }
       }
 
@@ -224,6 +222,7 @@
       const token = sessionStorage.getItem('accessToken');
       
       if (token) {
+        await fetchOrganizerProfile(token, userId);
         const userEvents = await fetchUserEvents(token, userId);
         renderUserEventCards(userEvents.events);
       }
@@ -231,7 +230,7 @@
       const editProfileButton = document.getElementById("editProfileButton");
 
       editProfileButton.addEventListener("click", () => {
-        window.location.href = "update-profile.html";
+        window.location.href = `update-profile.html?userId=${userId}`;
       });
     });
   </script>
