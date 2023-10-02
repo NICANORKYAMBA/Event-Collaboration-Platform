@@ -32,7 +32,7 @@
           <p><strong>Name:</strong> <span id="profileName"></span></p>
           <p><strong>Email:</strong> <span id="profileEmail"></span></p>
           <p><strong>Bio:</strong> <span id="profileBio"></span></p>
-          <button class="edit-profile-button">Edit Profile</button>
+          <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
         </div>
       </div>
     </section>
@@ -68,20 +68,18 @@
   <footer>
     &copy; 2023 Your Event Website
   </footer>
-
   <script>
     async function fetchUserProfile() {
       try {
         const token = sessionStorage.getItem('accessToken');
         const userId = sessionStorage.getItem('userId');
-        console.log('Token for this user:', token);
 
         if (!token) {
           console.error('JWT token not found in session storage.');
           return {};
         }
 
-        const response = await fetch(`http://localhost:5000/api/v1/user/${userId}`, {
+        const response = await fetch(`http://localhost:5000/api/v1/auth/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -94,10 +92,10 @@
         const profileEmail = document.getElementById("profileEmail");
         const profileBio = document.getElementById("profileBio");
 
-        profileImage.src = userData.profileImage;
-        profileName.textContent = userData.userName;
-        profileEmail.textContent = userData.email;
-        profileBio.textContent = userData.bio;
+        profileImage.src = userData.user.profileImage || "../assets/images/default-avatar.png";
+        profileName.textContent = userData.user.username || "Username not provided";
+        profileEmail.textContent = userData.user.email || "Email not provided";
+        profileBio.textContent = userData.userbio || "Bio not provided";
 
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -109,7 +107,6 @@
     async function fetchAllEvents() {
       try {
         const token = sessionStorage.getItem('accessToken');
-        console.log('Token for this user:', token);
 
         if (!token) {
           console.error('JWT token not found in session storage.');
@@ -123,12 +120,39 @@
         });
 
         const data = await response.json();
-        console.log("Data: ", data);
         const events = data.events;
-        console.log("Events: ", events);
         return events;
       } catch (error) {
         console.error('Error fetching events:', error);
+        return [];
+      }
+    }
+
+    async function fetchFilteredEvents(category, location) {
+      try {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.error('JWT token not found in session storage.');
+          return [];
+        }
+
+        const url = `http://localhost:5000/api/v1/events?category=${category}&location=${location}`;
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error fetching filtered events');
+        }
+
+        const data = await response.json();
+        const events = data.events;
+        return events;
+      } catch (error) {
+        console.error('Error fetching filtered events:', error);
         return [];
       }
     }
@@ -167,7 +191,7 @@
         <p><strong>Location:</strong> ${event.location}</p>
         <p><strong>Description:</strong></p>
         <p>${event.description}</p>
-        <button class="register-button">Register</button>
+        <button class="register-button" data-event-id="${event.event_id}">Register</button>
           `;
 
         eventList.appendChild(eventCard);
@@ -182,21 +206,24 @@
     async function fetchMyEvents() {
       try {
         const token = sessionStorage.getItem('accessToken');
-        console.log('Token for this user:', token);
 
         if (!token) {
           console.error('JWT token not found in session storage.');
           return [];
         }
 
-        const response = await fetch(`http://localhost:5000/api/v1/my-events`, {
+        const response = await fetch(`http://localhost:5000/api/v1/user-events/registered-events`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
+        if (!response.ok) {
+          throw new Error('Error fetching user events');
+        }
+
         const data = await response.json();
-        return data;
+        return data.events;
       } catch (error) {
         console.error('Error fetching user events:', error);
         return [];
@@ -247,6 +274,38 @@
       const filteredEvents = await fetchFilteredEvents(category, location);
 
       renderEventCards(filteredEvents);
+    });
+
+    const editProfileButton = document.getElementById("editProfileButton");
+    editProfileButton.addEventListener("click", () => {
+      const userId = sessionStorage.getItem('userId');
+
+      if (userId) {
+        window.location.href = `update-profile.html?userId=${userId}`;
+      } else {
+        console.log("User ID not found in session storage.");
+        alert("User ID not found in session storage.");
+        window.location.href = "login.html";
+      }
+    })
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const eventList = document.getElementById("eventList");
+
+      eventList.addEventListener("click", function(event) {
+        if (event.target.classList.contains("register-button")) {
+          const button = event.target;
+          const eventId = button.getAttribute("data-event-id");
+
+          if (!eventId) {
+            console.log("Event ID not found in the button dataset");
+            return;
+          }
+
+          sessionStorage.setItem("eventId", eventId);
+          window.location.href = `registration-form.html?eventId=${eventId}`;
+        }
+      });
     });
   </script>
 </body>

@@ -23,8 +23,8 @@
       <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" name="role" required>
-          <option value="user">User</option>
-          <option value="organizer">Organizer</option>
+          <option value="Attendee">User</option>
+          <option value="Organizer">Organizer</option>
         </select>
       </div>
       <button type="submit" class="login-button">Login</button>
@@ -73,7 +73,7 @@
             sessionStorage.setItem("accessToken", accessToken);
             sessionStorage.setItem("userId", userId);
 
-            if (role === "user") {
+            if (role === "Attendee") {
               window.location.href = "user-dashboard.html";
             } else {
               window.location.href = "organizer-dashboard.html";

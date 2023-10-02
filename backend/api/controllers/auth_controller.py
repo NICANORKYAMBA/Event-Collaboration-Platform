@@ -50,10 +50,12 @@ def register_user():
 
         db.session.add(new_user)
         db.session.commit()
-        
+
         return jsonify({
             'message': 'User created successfully',
-            'user_id': new_user.user_id
+            'user_id': new_user.user_id,
+            'username': new_user.username,
+            'email': new_user.email
             }), 201
     except EmailNotValidError as e:
         return jsonify({
