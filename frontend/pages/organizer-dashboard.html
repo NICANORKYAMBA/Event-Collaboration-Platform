@@ -10,12 +10,12 @@
 <body>
   <header class="header">
     <nav class="navbar">
-      <div class="logo"><a href="#">EventHub</a></div>
+      <div class="logo"><a href="../index.html">EventBuddy</a></div>
       <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="organizer-create-event.html">Create Event</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="organizer-profile.html">Profile</a></li>
         <li><a href="#">Logout</a></li>
       </ul>
     </nav>
@@ -38,11 +38,17 @@
       <h1>Created Events</h1>
       <div class="event-list" id="eventList">
       </div>
+      <div id="noCreatedEventsMessage" class="no-events-message">
+        You have not created any events yet.
+      </div>
     </section>
 
     <section class="event-attendees">
       <h1>Event Attendees</h1>
       <div class="attendee-list" id="attendeeList">
+      </div>
+      <div id="noEventAttendeesMessage" class="no-events-message">
+        No attendees for this event yet.
       </div>
     </section>
   </main>
@@ -79,8 +85,14 @@
         }
       }
 
-      async function fetchUserEvents(token) {
+      async function fetchUserEvents() {
         try {
+          const userId = sessionStorage.getItem('userId');
+          const token = sessionStorage.getItem('accessToken');
+
+          if (!userId) {
+            return [];
+          }
           const response = await fetch(`http://localhost:5000/api/v1/events/user/${userId}`, {
             method: "GET",
             headers: {
@@ -88,24 +100,47 @@
               Authorization: `Bearer ${token}`,
             },
           });
-          const data = await response.json();
-          return data;
+
+          console.log(response);
+
+          if (response.status === 404) {
+            return [];
+          }
+
+          if (response.status == 200) {
+            const data = await response.json();
+            return data;
+          } else {
+            console.error('Error fetching user events:', response.statusText);
+            return [];
+          }
         } catch (error) {
           console.error('Error fetching user events:', error);
           return [];
         }
       }
 
+      function showNoEventsMessage() {
+        const noCreatedEventsMessage = document.getElementById("noCreatedEventsMessage");
+        noCreatedEventsMessage.style.display = "block";
+      }
+
+      function showNoAttendeesMessage() {
+        const noEventAttendeesMessage = document.getElementById("noEventAttendeesMessage");
+        noEventAttendeesMessage.style.display = "block";
+      }
+
       function renderUserEventCards(events) {
         const eventList = document.getElementById("eventList");
+        const noEventsMessage = document.getElementById("noCreatedEventsMessage");
 
         eventList.innerHTML = "";
 
-        if (events.length === 0) {
-          const noEventsMessage = document.createElement("p");
-          noEventsMessage.textContent = "You have not created any events yet.";
-          eventList.appendChild(noEventsMessage);
+        if (!events || events.length === 0) {
+          noEventsMessage.style.display = "block";
           return;
+        } else {
+          noEventsMessage.style.display = "none";
         }
 
         events.forEach(event => {
@@ -199,10 +234,10 @@
         attendeeList.innerHTML = "";
 
         if (attendees.length === 0) {
-          const noAttendeesMessage = document.createElement("p");
-          noAttendeesMessage.textContent = "No attendees for this event yet.";
-          attendeeList.appendChild(noAttendeesMessage);
+          noEventAttendeesMessage.style.display = "block";
           return;
+        } else {
+          noEventAttendeesMessage.style.display = "none";
         }
 
         attendees.forEach(attendee => {
@@ -223,7 +258,7 @@
       
       if (token) {
         await fetchOrganizerProfile(token, userId);
-        const userEvents = await fetchUserEvents(token, userId);
+        const userEvents = await fetchUserEvents();
         renderUserEventCards(userEvents.events);
       }
 

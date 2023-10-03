@@ -70,12 +70,15 @@
         })
           .then(response => response.json())
           .then(responseData => {
+            console.log(responseData);
             if (responseData.message === "User created successfully") {
               alert(`Welcome, ${username}! You are registered as a ${role}.`);
 
               sessionStorage.setItem("userId", responseData.userId);
               sessionStorage.setItem("username", responseData.username);
               sessionStorage.setItem("email", responseData.email);
+              sessionStorage.setItem("role", responseData.role);
+              sessionStorage.setItem("accessToken", responseData.access_token);
 
               if (role === "Organizer") {
                 window.location.href = "organizer-dashboard.html";
