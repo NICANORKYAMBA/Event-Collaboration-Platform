@@ -1,274 +1,146 @@
-/* Reset some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Reset some default browser styles */
+body, h1, h2, p, ul, li {
+  margin: 0;
+  padding: 0;
 }
 
-/* Body styles */
+/* Set a background color and font for the whole page */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
 /* Header styles */
 .header {
   background-color: #333;
   color: #fff;
-  padding: 15px 0;
-  text-align: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
 }
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .logo a {
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  font-size: 18px;
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: #fff;
-    transition: color 0.3s;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #0056b3;
+  color: #ff9900;
 }
 
-/* Main content styles */
-.main {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-/* Modern CSS for the Event Details Section */
-.event-details {
-  background-color: #fff;
+/* Main container styles */
+main {
+  max-width: 1200px;
+  margin: 20px auto;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 100px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-/* Modern CSS for the Event Title within the Event Details Section */
-.event-details .event-title {
-  text-align: center;
+/* Event Details styles */
+.event-details {
   margin-top: 20px;
 }
 
-.event-details .event-title h1 {
-  font-size: 36px;
-  color: #333;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+.event-title {
+  font-size: 24px;
   margin-bottom: 20px;
+  color: #333;
 }
 
 .event-info {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 20px;
 }
 
 .event-detail {
   flex: 1;
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: #555;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-detail strong {
   font-weight: bold;
-  margin-right: 10px;
-  color: #333;
 }
 
 .event-detail p {
-  font-size: 18px;
-  color: #333;
+  font-size: 16px;
+  color: #666;
 }
 
 .event-description {
-    margin-top: 10px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .event-description strong {
   font-weight: bold;
-  font-size: 18px;
-  color: #333;
-  display: block;
-  margin-bottom: 10px;
 }
 
 .event-description p {
   font-size: 16px;
-  color: #555;
+  color: #333;
 }
 
+/* Action Buttons */
 .action-buttons {
-    margin-top: 20px;
-    text-align: center;
+  margin-top: 20px;
 }
 
-.action-buttons button {
+.edit-button,
+.delete-button,
+.attendees-button {
+  background-color: #ff9900;
+  color: #fff;
+  border: none;
   padding: 10px 20px;
   font-size: 16px;
-  border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  margin: 0 10px;
   transition: background-color 0.3s ease;
+  margin-right: 10px;
 }
 
-/* Edit Button */
-.edit-button {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.edit-button:hover {
-  background-color: #0056b3;
-}
-
-/* Delete Button */
-.delete-button {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.delete-button:hover {
-  background-color: #bb2d3b;
-}
-
-/* Attendees Button */
-.attendees-button {
-  background-color: #28a745;
-  color: #fff;
-}
-
+.edit-button:hover,
+.delete-button:hover,
 .attendees-button:hover {
-  background-color: #218838;
+  background-color: #ff6600;
 }
 
-/* Responsive Styling for Small Screens */
-@media screen and (max-width: 768px) {
-  .event-details {
-    padding: 15px;
-  }
-
-  .event-details .event-title h1 {
-    font-size: 24px;
-  }
-
-  .event-detail {
-    min-width: auto;
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-
-  .event-detail strong {
-    font-size: 16px;
-  }
-
-  .event-detail p {
-    font-size: 14px;
-  }
-
-  .event-description strong {
-    font-size: 20px;
-  }
-
-  .event-description p {
-    font-size: 16px;
-  }
-
-  .action-buttons button {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-}
-
-/* Footer styles for .footer class */
+/* Footer styles */
 .footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: #333;
-  color: #fff;
   text-align: center;
   padding: 20px 0;
-  font-size: 16px;
-  z-index: 1000;
-}
-
-/* Media Queries for Responsiveness */
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        margin-top: 10px;
-    }
-
-    .event-info {
-        flex-direction: column;
-    }
-
-    .event-detail {
-        flex: none;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .action-buttons button {
-        width: 100%;
-        text-align: center;
-    }
+  background-color: #333;
+  color: #fff;
 }

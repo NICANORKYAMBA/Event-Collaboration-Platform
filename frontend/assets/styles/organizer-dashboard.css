@@ -1,88 +1,83 @@
-/* Reset some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Reset some default browser styles */
+body, h1, h2, p, ul, li {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Body styles */
+/* Set a background color and font for the whole page */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  line-height: 1.6;
 }
 
 /* Header styles */
 .header {
   background-color: #333;
   color: #fff;
-  padding: 15px 0;
-  text-align: center;
-  position: fixed;
+  padding: 20px 0;
+  position: sticky;
   top: 0;
-  width: 100%;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.logo a {
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #fff;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover {
-    color: #0056b3;
-}
-
-/* Main content styles */
-.main-container {
-  max-width: 1200px;
-  margin: 100px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-/* User Profile Section styles */
-.user-profile {
-  margin-bottom: 40px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #e1e1e1;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  font-size: 18px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff9900;
+}
+
+/* Main container styles */
+.main-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* User Profile styles */
+.user-profile {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .profile-info {
@@ -91,292 +86,141 @@ body {
 }
 
 .profile-image {
-  max-width: 150px;
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%; /* Make it round */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
   margin-right: 20px;
-  transition: transform 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.profile-image:hover {
-  transform: scale(1.05);
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-details {
-  flex: 1;
+  flex-grow: 1;
 }
 
 .username {
   font-size: 24px;
-  font-weight: bold;
+  margin-bottom: 10px;
   color: #333;
-  margin-bottom: 10px;
 }
 
-.user-bio {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-}
-
+.user-bio,
 .user-email {
   font-size: 16px;
-  color: #555;
+  margin-bottom: 10px;
+  color: #666;
 }
 
 .edit-profile-button {
-  background-color: #ff6600;
+  background-color: #ff9900;
   color: #fff;
   border: none;
   padding: 10px 20px;
-  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  border-radius: 5px;
-  font-size: 14px;
-  text-transform: uppercase;
+  transition: background-color 0.3s ease;
 }
 
 .edit-profile-button:hover {
-  background-color: #ff4500;
-  transform: scale(1.05);
+  background-color: #ff6600;
 }
 
-/* Created Events Section styles */
+/* Your Created Events styles */
 .user-events {
-  margin-bottom: 40px;
+  margin-top: 30px;
 }
 
 .user-events h1 {
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
   margin-bottom: 20px;
-  color: #333;
 }
 
-/* CSS for User Event Cards */
-.event-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-gap: 20px;
+/* Event Attendees styles */
+.event-attendees {
+  margin-top: 30px;
 }
 
+.event-attendees h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Event Card styles */
 .event-card {
-  background-color: #f8f8f8;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background-color: #f5f5f5;
   padding: 20px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-}
-
-.event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.event-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ff6b6b; /* Background color (a bright and modern red) */
-  padding: 10px 20px; /* Add padding for spacing */
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.event-header h2 {
-  font-family: 'Helvetica Neue', sans-serif; /* Use a modern sans-serif font */
-  font-size: 1.5rem;
-  margin: 0;
-  color: #fff; /* Text color (white) */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
-}
-
-.event-date-time {
-  background-color: #f0f0f0; /* Background color */
-  border-radius: 4px; /* Rounded corners */
-  padding: 8px 12px; /* Padding for spacing */
-  text-align: center; /* Center align text */
-}
-
-.event-date-time p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: #333; /* Text color */
-}
-
-/* Professional Event Details */
-.event-details {
-  margin-top: 10px;
-  padding: 10px; /* Add padding for spacing */
-  background-color: #fff; /* Background color */
-  border: 1px solid #e0e0e0; /* Add a subtle border */
-  border-radius: 4px; /* Rounded corners */
-}
-
-/* Professional Event Location */
-.event-location {
-  margin-top: 20px; /* Add some space between the date-time and location */
-  background-color: #f2f2f2; /* Light gray background for contrast */
-  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.event-location p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.4;
-  margin: 0; /* Remove default paragraph margins */
-}
-
-.event-location strong {
+.event-card h2 {
+  font-size: 24px;
   font-weight: bold;
-  color: #007BFF;
+  margin-bottom: 10px;
 }
 
-/* More Appealing Event Description */
-.event-description {
-  margin-top: 20px;
-  background-color: #f2f2f2; /* Light gray background for contrast */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-.event-description p {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.4;
-  margin: 0; /* Remove default paragraph margins */
-}
-
-.event-description strong {
-  font-weight: bold;
-  color: #007BFF;
-}
-
-/* Professional Event Buttons */
-.event-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+.event-card p {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .view-attendees-button,
 .view-event-button {
-  background-color: #007BFF; /* Background color */
-  color: #fff; /* Text color */
+  background-color: #ff9900;
+  color: #fff;
   border: none;
+  padding: 12px 24px;
+  font-size: 18px;
   border-radius: 4px;
-  padding: 10px 20px;
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Add transitions for hover effect */
+  transition: background-color 0.3s ease;
+  margin-right: 15px;
 }
 
 .view-attendees-button:hover,
 .view-event-button:hover {
-  background-color: #0056b3; /* Darker background color on hover */
-  transform: translateY(-2px); /* Add a slight upward movement on hover */
+  background-color: #ff6600;
 }
 
-/* Media Queries for Responsiveness */
+/* Footer styles */
+footer {
+	text-align: center;
+	padding: 20px 0;
+	background-color: #333;
+	color: #fff;
+}
+
+/* Media queries for responsiveness */
 @media screen and (max-width: 768px) {
-  .event-list {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
 
-  .event-card {
+  .nav-links li {
+    font-size: 16px;
+  }
+
+  .main-container {
     padding: 15px;
   }
 
-  .event-header h2 {
-    font-size: 1.2rem;
+  .event-card h2 {
+    font-size: 20px;
   }
 
-  .event-date-time {
-    font-size: 0.9rem;
+  .event-card p {
+    font-size: 16px;
   }
-
-  .event-buttons {
-    margin-top: 15px;
-  }
-
-  .event-description {
-    font-size: 0.8rem;
-  }
-
-  .view-attendees-button,
-  .view-event-button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
-}
-
-/* Event Attendees Section styles */
-.event-attendees {
-  margin-bottom: 40px;
-}
-
-.event-attendees h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.attendee-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 20px;
-}
-
-.attendee-card {
-  border: 1px solid #ccc;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease; /* Smooth card hover effect */
-}
-
-.attendee-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.attendee-card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.attendee-card p {
-  margin: 5px 0;
-  font-size: 16px;
-  color: #555;
-}
-
-/* Footer styles for .footer class */
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  font-size: 16px;
-  z-index: 1000;
 }
