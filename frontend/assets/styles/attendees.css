@@ -7,18 +7,10 @@
 
 /* Body styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* Set a background color and font for the whole page */
-body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f7f7f7;
   color: #333;
+  margin: 0 auto;
   line-height: 1.6;
   min-height: 100vh;
   position: relative;
@@ -71,9 +63,12 @@ body {
 }
 
 .main {
-  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
 .event-attendees {
@@ -81,8 +76,11 @@ body {
   padding: 2rem;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 1800px;
+  margin: 0 auto;
+  
 }
-
 .attendees-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -91,6 +89,20 @@ body {
 .attendees-list {
   list-style: none;
   padding: 0;
+}
+
+.attendees-message {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.attendees-message p {
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .attendee-item {
@@ -125,13 +137,12 @@ body {
   color: #555;
 }
 
+/* Footer styles */
 .footer {
+  text-align: center;
+  padding: 20px 0;
   background-color: #333;
   color: #fff;
-  text-align: center;
-  padding: 1rem 0;
-  position: absolute;
-  bottom: 0;
   width: 100%;
 }
 
