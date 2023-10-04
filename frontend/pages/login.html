@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="../assets/styles/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="login-container">
+    <form id="login-form" class="login-form" action="#" method="POST">
+      <h1>Welcome Back</h1>
+      <p>Login to your account</p>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+          <option value="Attendee">User</option>
+          <option value="Organizer">Organizer</option>
+        </select>
+      </div>
+      <button type="submit" class="login-button">Login</button>
+      <div class="form-group">
+        <p class="forgot-password"><a href="#">Forgot password?</a></p>
+      </div>
+    </form>
+    <div class="signup-link">
+      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginForm = document.getElementById("login-form");
+
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value;
+
+        const data = {
+          email: email,
+          password: password,
+          role: role
+        };
+
+        try {
+          const response = await fetch("http://localhost:5000/api/v1/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+
+          console.log(response);
+
+          if (response.status === 200) {
+            const responseData = await response.json();
+            const accessToken = responseData.access_token;
+            console.log(responseData);
+            const userId = responseData.user_id;
+
+            sessionStorage.setItem("accessToken", accessToken);
+            sessionStorage.setItem("userId", userId);
+
+            if (role === "Attendee") {
+              window.location.href = "user-dashboard.html";
+            } else {
+              window.location.href = "organizer-dashboard.html";
+            }
+          } else {
+            console.log("Login failed. Please check your credentials.");
+          }
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
