@@ -56,21 +56,17 @@
   </footer>
 
   <script>
-    // Function to create a new event
     function createNewEvent(event) {
-      // Prevent the form from submitting and the page from refreshing
       event.preventDefault();
 
       const userToken = sessionStorage.getItem('accessToken');
 
-      // Fetch event details from the form
       var eventTitle = document.getElementById("eventTitle").value;
       var eventDate = document.getElementById("eventDate").value;
       var eventTime = document.getElementById("eventTime").value;
       var eventLocation = document.getElementById("eventLocation").value;
       var eventDescription = document.getElementById("eventDescription").value;
 
-      // Perform AJAX request to create the event
       fetch("http://localhost:5000/api/v1/events/create", {
         method: "POST",
         headers: {
@@ -87,12 +83,10 @@
       })
         .then(response => response.json())
         .then(data => {
-          // Handle the response here
           console.log(data);
 
-          // Check if event creation was successful and redirect to organizer dashboard
           if (data.message === 'Event created successfully') {
-            window.location.href = "organizer-dashboard.html"; // Redirect to organizer dashboard
+            window.location.href = "organizer-dashboard.html";
           } else {
             alert("Event creation failed. Please try again.");
           }

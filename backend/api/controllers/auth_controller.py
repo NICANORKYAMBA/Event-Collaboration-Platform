@@ -51,11 +51,15 @@ def register_user():
         db.session.add(new_user)
         db.session.commit()
 
+        access_token = create_access_token(identity=new_user.user_id)
+
         return jsonify({
             'message': 'User created successfully',
             'user_id': new_user.user_id,
             'username': new_user.username,
-            'email': new_user.email
+            'email': new_user.email,
+            'role': new_user.role,
+            'access_token': access_token
             }), 201
     except EmailNotValidError as e:
         return jsonify({

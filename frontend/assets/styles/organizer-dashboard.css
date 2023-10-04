@@ -11,6 +11,8 @@ body {
   background-color: #f7f7f7;
   color: #333;
   line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
 }
 
 /* Header styles */
@@ -193,11 +195,13 @@ body {
 }
 
 /* Footer styles */
-footer {
-	text-align: center;
-	padding: 20px 0;
-	background-color: #333;
-	color: #fff;
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #333;
+  color: #fff;
+  margin-top: auto;
+  width: 100%;
 }
 
 /* Media queries for responsiveness */

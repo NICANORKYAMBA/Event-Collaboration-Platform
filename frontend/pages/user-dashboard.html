@@ -14,8 +14,7 @@
       <ul class="nav-links">
         <li><a href="../index.html">Home</a></li>
         <li><a href="user-dashboard.html">Dashboard</a></li>
-        <li><a href="#">Discover Events</a></li>
-        <li><a href="user-profile.html">Profile</a></li>
+        <li><a href="#discoverEvents">Discover Events</a></li>
         <li><a href="#Logout">Logout</a></li>
       </ul>
     </nav>
@@ -37,7 +36,7 @@
       </div>
     </section>
 
-    <section class="discover-events">
+    <section class="discover-events" id="discoverEvents">
       <h1>Discover Events</h1>
       <div class="event-filters">
         <label for="event-category">Category:</label>
@@ -331,7 +330,6 @@
     }
 
     const logoutButton = document.querySelector('ul.nav-links li a[href="#Logout"]');
-    console.log(logoutButton);
 
     if (logoutButton) {
       logoutButton.addEventListener("click", logout);

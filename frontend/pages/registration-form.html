@@ -24,6 +24,8 @@
         <label for="eventSpecificField">Event-Specific Field:</label>
         <input type="text" id="eventSpecificField" name="eventSpecificField" required>
       </div>
+      <!-- Hidden field to store the event ID -->
+      <input type="hidden" id="eventId" name="eventId">
       <button type="submit">Register</button>
     </form>
   </section>
@@ -32,37 +34,41 @@
     document.addEventListener("DOMContentLoaded", function() {
       const registrationForm = document.getElementById("registrationForm");
 
-      registrationForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the default form submission
+      const eventId = sessionStorage.getItem("eventId");
+      if (eventId) {
+        document.getElementById("eventId").value = eventId;
+      } else {
+        alert("Event ID not found. Please try again.");
+        window.location.href = "user-dashboard.html";
+      }
 
-        // Collect form data
+      registrationForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
         const fullName = document.getElementById("fullName").value;
         const email = document.getElementById("email").value;
         const eventSpecificField = document.getElementById("eventSpecificField").value;
-        const eventId = sessionStorage.getItem("eventId"); // Get the event ID from sessionStorage
 
-        // Create a data object to send in the POST request
-        const data = {
+        const registrationData = {
           fullName,
           email,
           eventSpecificField,
+          eventId,
+          user_id: sessionStorage.getItem("userId")
         };
 
-        // Send an HTTP POST request to register the user for the event
         fetch(`http://localhost:5000/api/v1/user-events/register/${eventId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(registrationData),
         })
         .then(response => response.json())
         .then(data => {
           if (data.message === "User registered for the event successfully") {
-            alert("Registration successful!");
-            // Optionally, you can redirect the user to another page
-            window.location.href = "user-dashboard.html";
+            addAttendee(eventId);
           } else {
             alert("Registration failed. Please try again.");
           }
@@ -72,6 +78,43 @@
           alert("An error occurred during registration. Please try again later.");
         });
       });
+
+      function addAttendee(eventId) {
+        const user_id = sessionStorage.getItem("userId");
+        if (!user_id) {
+          alert("User ID not found. Please try again.");
+          window.location.href = "user-dashboard.html";
+        }
+
+        const event_id= sessionStorage.getItem("eventId");
+
+        const attendeeData = {
+          user_id,
+          event_id
+        };
+        
+        fetch(`http://localhost:5000/api/v1/event-attendees/${eventId}/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(attendeeData),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === "User added as an attendee to the event successfully") {
+            alert("Registration and attendee addition successful!");
+            window.location.href = "user-dashboard.html";
+          } else {
+            alert("Registration and attendee addition failed. Please try again.");
+          }
+        })
+        .catch(error => {
+          console.error("Attendee addition error:", error);
+          alert("An error occurred during attendee addition. Please try again later.");
+        });
+      }
     });
   </script>
 </body>

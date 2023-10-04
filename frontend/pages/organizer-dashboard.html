@@ -15,7 +15,6 @@
         <li><a href="../index.html">Home</a></li>
         <li><a href="organizer-dashboard.html">Dashboard</a></li>
         <li><a href="create-event.html">Create Event</a></li>
-        <li><a href="organizer-profile.html">Profile</a></li>
         <li><a href="#">Logout</a></li>
       </ul>
     </nav>
@@ -43,14 +42,6 @@
       </div>
     </section>
 
-    <section class="event-attendees">
-      <h1>Event Attendees</h1>
-      <div class="attendee-list" id="attendeeList">
-      </div>
-      <div id="noEventAttendeesMessage" class="no-events-message">
-        No attendees for this event yet.
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -100,8 +91,6 @@
               Authorization: `Bearer ${token}`,
             },
           });
-
-          console.log(response);
 
           if (response.status === 404) {
             return [];
@@ -209,48 +198,6 @@
           const attendees = await fetchEventAttendees(token, eventId);
           renderEventAttendees(attendees);
         }
-      }
-
-      async function fetchEventAttendees(token, eventId) {
-        try {
-          const response = await fetch(`http://localhost:5000/api/v1/events/${eventId}/attendees`, {
-            method: "GET",
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const data = await response.json();
-          return data;
-        } catch (error) {
-          console.error('Error fetching event attendees:', error);
-          return [];
-        }
-      }
-
-      async function renderEventAttendees(attendees) {
-        const attendeeList = document.getElementById("attendeeList");
-
-        attendeeList.innerHTML = "";
-
-        if (attendees.length === 0) {
-          noEventAttendeesMessage.style.display = "block";
-          return;
-        } else {
-          noEventAttendeesMessage.style.display = "none";
-        }
-
-        attendees.forEach(attendee => {
-          const attendeeCard = document.createElement("div");
-          attendeeCard.classList.add("attendee-card");
-
-          attendeeCard.innerHTML = `
-          <h3>${attendee.name}</h3>
-          <p>Email: ${attendee.email}</p>
-            `;
-
-          attendeeList.appendChild(attendeeCard);
-        });
       }
 
       const userId = sessionStorage.getItem('userId');
