@@ -14,7 +14,7 @@
         <li><a href="../index.html">Home</a></li>
         <li><a href="organizer-dashboard.html">Dashboard</a></li>
         <li><a href="create-event.html">Create Event</a></li>
-        <li><a href="#">Logout</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -22,8 +22,9 @@
   <main>
     <section class="event-attendees">
       <h1 class="attendees-title">Event Attendees</h1>
+      <div class="attendees-message" id="attendeesMessage">
+      </div>
       <ul class="attendees-list">
-        <!-- Attendees List Goes Here -->
       </ul>
     </section>
   </main>
@@ -38,6 +39,7 @@
       const eventId = urlParams.get("eventId");
 
       const attendeesList = document.querySelector(".attendees-list");
+      const attendeesMessage = document.querySelector("#attendeesMessage");
 
       const token = sessionStorage.getItem("accessToken");
 
@@ -57,6 +59,12 @@
           }
         })
         .then((data) => {
+          if (data.attendees.length > 0) {
+            attendeesMessage.innerHTML = `There are ${data.attendees.length} attendees`;
+          } else {
+            attendeesMessage.innerHTML = `No attendees found for this event`;
+          }
+
           data.attendees.forEach((attendee) => {
             const attendeeItem = document.createElement("li");
             attendeeItem.className = "attendee-item";
@@ -89,6 +97,17 @@
           console.error("Error fetching attendees:", error);
         });
     });
+
+    const logoutBtn = document.querySelector("#logoutBtn");
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("userId");
+        sessionStorage.removeItem("eventId");
+        window.location.href = "../index.html";
+      });
+    }
   </script>
 </body>
 </html>
