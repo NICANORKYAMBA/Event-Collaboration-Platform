@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Event</title>
+  <link rel="stylesheet" href="../assets/styles/edit-event.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="../index.html">EventBuddy</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="edit-event">
+      <div class="edit-event-form">
+        <h1 class="edit-event-title">Edit Event</h1>
+        <form action="#" method="post" class="edit-event-form">
+          <div class="form-group">
+            <label for="event-title">Event Title</label>
+            <input type="text" id="event-title" name="event-title" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="event-date">Event Date</label>
+            <input type="date" id="event-date" name="event-date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="event-time">Event Time</label>
+            <input type="time" id="event-time" name="event-time" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="event-location">Event Location</label>
+            <input type="text" id="event-location" name="event-location" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="event-description">Event Description</label>
+            <textarea id="event-description" name="event-description" rows="4" class="form-control" required></textarea>
+          </div>
+          <button type="submit" class="edit-event-button">Save Changes</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    &copy; 2023 Your Event Website
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const editEventForm = document.querySelector(".edit-event-form");
+      const eventTitleInput = document.getElementById("event-title");
+      const eventDateInput = document.getElementById("event-date");
+      const eventTimeInput = document.getElementById("event-time");
+      const eventLocationInput = document.getElementById("event-location");
+      const eventDescriptionInput = document.getElementById("event-description");
+
+      editEventForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const eventData = {
+          event_name: eventTitleInput.value,
+          event_date: eventDateInput.value,
+          event_time: eventTimeInput.value,
+          location: eventLocationInput.value,
+          description: eventDescriptionInput.value,
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get("eventId");
+
+        const apiUrl = `http://localhost:5000/api/v1/events/update/${eventId}`;
+
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.log('Authorization token is missing.');
+          return;
+        }
+
+        fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(eventData),
+        })
+          .then((response) => {
+            console.log(response);
+            if (response.ok) {
+              console.log("Event data sent successfully.");
+
+              alert("Event update successfully!");
+
+              window.location.href = "organizer-dashboard.html";
+            } else {
+              console.error("Error updating event data.");
+
+              alert("Error updating event data. Please try again.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error updating event data:", error);
+
+            alert("An error occurred while updating event data. Please try again later.");
+          });
+      });
+    });
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "../index.html";
+    })
+  </script>
+</body>
+</html>

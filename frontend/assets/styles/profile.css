@@ -1,0 +1,136 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply a background color and text color to the body */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Style the header area */
+.header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Center the profile container */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style the user info section */
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+    flex: 1;
+    max-width: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.user-details {
+    flex: 2;
+    padding-left: 20px;
+}
+
+.user-name {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.user-email {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.user-location,
+.user-bio,
+.user-website {
+    margin-bottom: 10px;
+}
+
+.user-website a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+/* Style the user activity section */
+.user-activity {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.activity-list {
+    list-style-type: none;
+}
+
+.activity-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.activity-date {
+    color: #555;
+}
+
+/* Style the footer */
+.footer {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .user-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .user-details {
+        padding-left: 0;
+    }
+
+    .profile-picture {
+        margin-bottom: 20px;
+    }
+}

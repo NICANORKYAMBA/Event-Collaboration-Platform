@@ -1,0 +1,355 @@
+/* Reset some default browser styles */
+body, h1, h2, p, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+/* Set a background color and font for the whole page */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+}
+
+header {
+  	background-color: #333;
+  	color: #fff;
+  	padding: 20px 0;
+  	position: sticky;
+  	top: 0;
+  	z-index: 100;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.logo a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.nav-links {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+}
+
+.nav-links li {
+	font-size: 18px;
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: #fff;
+	transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+	color: #ff9900;
+}
+
+/* Main container styles */
+.main-container {
+	max-width: 1200px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* User Profile styles */
+.user-profile {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-details {
+	display: flex;
+	align-items: center;
+}
+
+.profile-image {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+}
+
+.profile-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profile-info {
+	flex-grow: 1;
+}
+
+.profile-info p {
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
+.edit-profile-button {
+	background-color: #ff9900;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.edit-profile-button:hover {
+	background-color: #ff6600;
+}
+
+.edit-profile-button:focus,
+.register-button:focus,
+#apply-filters:focus {
+	outline: none;
+	box-shadow: 0 0 4px #ff9900;
+}
+
+.register-button:disabled,
+#apply-filters:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+/* Discover Events styles */
+.discover-events {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.discover-events h1 {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+.event-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.event-filters label {
+	font-size: 16px;
+	flex: 1;
+	max-width: 200px;
+	margin-bottom: 10px;
+}
+
+#event-category,
+#event-location {
+	flex: 2;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 16px;
+	width: 100%;
+	max-width: 300px;
+}
+
+#apply-filters {
+	background-color: #ff9900;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+#apply-filters:hover {
+	background-color: #ff6600;
+}
+
+.event-list {
+	margin-top: 20px;
+}
+
+/* Style event cards as needed */
+.event-card {
+	background-color: #f5f5f5;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-card h2 {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.event-card p {
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
+.register-button {
+	background-color: #ff9900;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+	background-color: #ff6600;
+}
+
+/* My Events styles */
+.my-events {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.my-events h1 {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+/* Style the event list */
+#myEventList {
+	margin-top: 20px;
+}
+
+/* Style individual event cards */
+.my-event-card {
+	background-color: #f5f5f5;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.my-event-card h2 {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.my-event-card p {
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
+/* Footer styles */
+footer {
+	text-align: center;
+	padding: 20px 0;
+	background-color: #333;
+	color: #fff;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+	.nav-links {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+	
+	.nav-links li {
+		font-size: 16px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.main-container {
+		padding: 10px;
+	}
+	
+	.event-card {
+		padding: 15px;
+	}
+	
+	.event-card h2 {
+		font-size: 20px;
+	}
+	
+	.event-card p {
+		font-size: 14px;
+	}
+
+	.my-event-card {
+		padding: 15px;
+	}
+
+	.my-event-card h2 {
+		font-size: 20px;
+	}
+
+	.my-event-card p {
+		font-size: 14px;
+	}
+
+	.profile-image {
+		width: 100px;
+		height: 100px;
+	}
+
+	.profile-info p {
+		font-size: 14px;
+	}
+
+	.register-button {
+		font-size: 14px;
+	}
+
+	#apply-filters {
+		font-size: 14px;
+	}
+
+	.event-filters label {
+		font-size: 14px;
+	}
+
+	#event-category,
+	#event-location {
+		font-size: 14px;
+	}
+
+	.discover-events h1 {
+		font-size: 20px;
+	}
+
+	h1,
+	h2,
+	p {
+		text-align: center;
+	}
+
+	h1 {
+		font-size: 22px;
+	}
+
+	h2 {
+		font-size: 18px;
+	}
+
+	p {
+		font-size: 14px;
+	}
+}

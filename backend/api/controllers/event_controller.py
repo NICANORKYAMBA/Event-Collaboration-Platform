@@ -14,6 +14,35 @@ from api.models.event import Event
 from api.controllers.auth_controller import get_user
 
 
+def is_organizer(user):
+    """
+    Check if user is organizer
+    """
+    print(user.role)
+    return user.role == 'organizer'
+
+def organizer_required(f):
+    """
+    Check if user is organizer
+    """
+    @wraps(f)
+    def decorated_func(*args, **kwargs):
+        """
+        Check if user is organizer
+        """
+        user_id = get_jwt_identity()
+        print(user_id)
+        user = get_user(user_id)
+        print(user)
+
+        if not is_organizer(user):
+            return jsonify({
+                'message': 'Only Event Organizers can perform this action'
+                }), 403
+        return f(*args, **kwargs)
+    return decorated_func
+
+
 def create_event():
     """
     Create a new event and add to the database
@@ -47,7 +76,7 @@ def create_event():
 
 def get_events():
     """
-    Get all events
+    Get all events created
     """
     try:
         events = Event.query.all()
@@ -76,7 +105,7 @@ def get_events():
 
 def get_event(event_id):
     """
-    Get event by id
+    Get an event by its event id
     """
     try:
         event = Event.query.get(event_id)
@@ -91,9 +120,38 @@ def get_event(event_id):
                         'error': str(e)}), 500
 
 
+def get_events_by_user(user_id):
+    """
+    Get all events created by a specific user by their id
+    """
+    try:
+        events = Event.query.filter_by(organizer_id=user_id).all()
+
+        if events:
+            events_list = [
+                    {
+                        'event_id': event.event_id,
+                        'organizer_id': event.organizer_id,
+                        'event_name': event.event_name,
+                        'event_date': event.event_date,
+                        'event_time': event.event_time.strftime('%H:%M:%S'),
+                        'location': event.location,
+                        'description': event.description
+                    }
+                    for event in events
+                ]
+            return jsonify({
+                'message': 'All events retrieved successfully.',
+                'events': events_list}), 200
+        return jsonify({'message': 'No events found'}), 404
+    except Exception as e:
+        return jsonify({'message': 'An error occurred',
+                        'error': str(e)}), 500
+
+
 def delete_event(event_id):
     """
-    Delete event by id
+    Delete event by its event id
     """
     try:
         event = Event.query.get(event_id)
@@ -112,7 +170,7 @@ def delete_event(event_id):
 
 def update_event(event_id):
     """
-    Update event by id
+    Update event by its event id
     """
     data = request.json
 

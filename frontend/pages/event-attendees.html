@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Attendees</title>
+    <link rel="stylesheet" href="../assets/styles/event-attendees.css">
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="#">EventHub</a></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+    <main>
+        <section class="attendees-list">
+            <h1>Event Attendees</h1>
+            <!-- Attendees list will be displayed here -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        &copy; 2023 Your Event Website
+    </footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Make an AJAX request to fetch attendees
+    fetch("http://localhost:5000/api/v1/events/attendees", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        // Include the event ID or other necessary parameters
+        // Example: params: { eventId: 123 }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response and populate the attendees-list
+        const attendeesList = document.querySelector(".attendees-list");
+        data.forEach(attendee => {
+            const attendeeItem = document.createElement("div");
+            attendeeItem.classList.add("attendee");
+            attendeeItem.textContent = attendee.name;
+            attendeesList.appendChild(attendeeItem);
+        });
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  margin: 0 auto;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header styles */
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  font-size: 18px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff9900;
+}
+
+.main {
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.event-attendees {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 1800px;
+  margin: 0 auto;
+  
+}
+.attendees-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.attendees-list {
+  list-style: none;
+  padding: 0;
+}
+
+.attendees-message {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.attendees-message p {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.attendee-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.attendee-avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.attendee-details {
+  flex: 1;
+}
+
+.attendee-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.attendee-email {
+  color: #555;
+}
+
+/* Footer styles */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #333;
+  color: #fff;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+}

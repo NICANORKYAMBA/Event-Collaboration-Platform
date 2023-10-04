@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details</title>
+  <link rel="stylesheet" href="../assets/styles/event-details.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="../index.html">EventBuddy</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="event-details">
+      <div class="event-title">
+        <h1>Event Title</h1>
+      </div>
+      <div class="event-info">
+        <div class="event-detail">
+          <strong>Date:</strong>
+          <p id="eventDate">Loading...</p>
+        </div>
+        <div class="event-detail">
+          <strong>Time:</strong>
+          <p id="eventTime">Loading...</p>
+        </div>
+        <div class="event-detail">
+          <strong>Location:</strong>
+          <p id="eventLocation">Loading...</p>
+        </div>
+      </div>
+      <div class="event-description">
+        <strong>Description:</strong>
+        <p id="eventDescription">Loading...</p>
+      </div>
+
+      <!-- Edit and Delete Buttons -->
+      <div class="action-buttons">
+        <button class="edit-button" id="editButton">Edit</button>
+        <button class="delete-button" id="deleteButton">Delete</button>
+        <button class="attendees-button" id="attendeesButton">Attendees</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    &copy; 2023 Your Event Website
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function getEventIdFromURL() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const eventId = urlParams.get("eventId");
+        return eventId;
+      }
+
+      function handleButtonClicks() {
+        const eventId = getEventIdFromURL();
+        const token = sessionStorage.getItem('accessToken');
+
+        document.getElementById("editButton").addEventListener("click", () => {
+          const editUrl = `edit-event.html?eventId=${eventId}`;
+          window.location.href = editUrl;
+        });
+
+        document.getElementById("deleteButton").addEventListener("click", () => {
+          const confirmation = window.confirm("Are you sure you want to delete this event?");
+
+          if (confirmation) {
+            const eventId = getEventIdFromURL();
+            const apiUrl = `http://localhost:5000/api/v1/events/${eventId}`;
+
+            fetch(apiUrl, {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            })
+              .then((response) => {
+                if (response.ok) {
+                  window.location.href = 'delete-success.html';
+                } else {
+                  console.error('Error deleting event:', response.status);
+                  window.alert('Error deleting event. Please try again later.');
+                }
+              })
+              .catch((error) => {
+                console.error('Error deleting event:', error);
+                window.alert('Error deleting event. Please try again later.');
+              });
+          }
+        });
+
+        document.getElementById("attendeesButton").addEventListener("click", () => {
+          const attendeesUrl = `attendees.html?eventId=${eventId}`;
+          window.location.href = attendeesUrl;
+        });
+      }
+
+      async function fetchEventDetails(eventId) {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.error("Authorization token is missing.");
+          return;
+        }
+
+        const apiUrl = `http://localhost:5000/api/v1/events/${eventId}`;
+
+        try {
+          const response = await fetch(apiUrl, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+
+          const eventData = await response.json();
+
+          const event = eventData.event;
+          const eventTitle = event.event_title;
+          const eventDate = event.event_date;
+          const eventTime = event.event_time;
+          const eventLocation = event.location;
+          const eventDescription = event.description;
+
+          return {
+            eventTitle,
+            eventDate,
+            eventTime,
+            eventLocation,
+            eventDescription
+          };
+
+        } catch (error) {
+          throw new Error(`Fetch error: ${error.message}`);
+        }
+      }
+
+      function populateEventDetails(event) {
+        document.querySelector(".event-title").textContent = event.eventTitle;
+        document.getElementById("eventDate").textContent = event.eventDate;
+        document.getElementById("eventTime").textContent = event.eventTime;
+        document.getElementById("eventLocation").textContent = event.eventLocation;
+        document.getElementById("eventDescription").textContent = event.eventDescription;
+      }
+
+      const eventId = getEventIdFromURL();
+
+      fetchEventDetails(eventId)
+        .then((event) => {
+          populateEventDetails(event);
+        })
+        .catch((error) => {
+          console.error("Error fetching event details:", error);
+        });
+      handleButtonClicks();
+    });
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "../index.html";
+    })
+  </script>
+</body>
+</html>

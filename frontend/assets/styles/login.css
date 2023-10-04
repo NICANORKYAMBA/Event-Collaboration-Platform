@@ -1,80 +1,121 @@
-/* POPPINS FONT */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* Reset some default styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+}
 
-*{  
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+/* Center the login container vertically and horizontally */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-body{
-    background: url("images/1.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow: hidden;
+
+/* Login form container */
+.login-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
 }
-.wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 110vh;
-    background: rgba(39, 39, 39, 0.4);
+
+/* Form headings and text */
+h1, p {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
 }
-.nav{
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
-    z-index: 100;
+
+/* Form fields and labels */
+.form-group {
+  text-align: left;
+  margin: 15px 0;
 }
-.nav-logo p{
-    color: white;
-    font-size: 25px;
-    font-weight: 600;
+
+/* Form labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 18px;
 }
-.nav-menu ul{
-    display: flex;
+
+/* Form input fields */
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+  outline: none;
+  box-sizing: border-box;
 }
-.nav-menu ul li{
-    list-style-type: none;
+
+/* Role dropdown */
+.select-label {
+  font-size: 18px;
+  color: #555;
 }
-.nav-menu ul li .link{
-    text-decoration: none;
-    font-weight: 500;
-    color: #fff;
-    padding-bottom: 15px;
-    margin: 0 25px;
+
+/* Login button */
+.login-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
-.link:hover, .active{
-    border-bottom: 2px solid #fff;
+
+.login-button:hover {
+  background-color: #0056b3;
 }
-.nav-button .btn{
-    width: 130px;
-    height: 40px;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.4);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
+
+/* Forgot password link */
+.forgot-password {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  margin-top: 10px;
 }
-.btn:hover{
-    background: rgba(255, 255, 255, 0.3);
+
+.forgot-password:hover {
+  text-decoration: underline;
 }
-#registerBtn{
-    margin-left: 15px;
+
+/* Signup link */
+.signup-link {
+  font-size: 16px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
-.btn.white-btn{
-    background: rgba(255, 255, 255, 0.7);
+
+.signup-link a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 18px;
 }
-.btn.btn.white-btn:hover{
-    background: rgba(255, 255, 255, 0.5);
+
+.signup-link a:hover {
+  text-decoration: underline;
 }
+<<<<<<< HEAD
+=======
 .nav-menu-btn{
     display: none;
 }
@@ -272,3 +313,4 @@ header{
         gap: 0;
     }
 }
+>>>>>>> master

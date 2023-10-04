@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/organizer-dashboard.css">
+  <title>Event Organizer Dashboard</title>
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo"><a href="../index.html">EventBuddy</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+        <li><a href="create-event.html">Create Event</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <section class="user-profile">
+      <div class="profile-info">
+        <img src="" alt="User Profile Image" class="profile-image" id="profileImage">
+        <div class="user-details">
+          <h1 class="username"><span id="username">[Username]</span></h1>
+          <p class="user-bio"><span id="userBio">[User Bio]</span></p>
+          <p class="user-email"><span id="userEmail">[User Email]</span></p>
+        </div>
+      </div>
+      <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
+    </section>
+
+    <section class="user-events">
+      <h1>Created Events</h1>
+      <div class="event-list" id="eventList">
+      </div>
+      <div id="noCreatedEventsMessage" class="no-events-message">
+        You have not created any events yet.
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+        &copy; 2023 Your Event Website
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      async function fetchOrganizerProfile(token, userId) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/v1/auth/user/${userId}`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          
+          const profileImage = document.getElementById("profileImage");
+          const username = document.getElementById("username");
+          const userBio = document.getElementById("userBio");
+          const userEmail = document.getElementById("userEmail");
+
+          profileImage.src = data.profile_image || "../assets/images/default-avatar.png";
+          username.textContent = `Welcome, ${data.user.username}`;
+          userBio.textContent = `Bio: ${data.user.bio || "No bio provided."}`;
+          userEmail.textContent = `Email: ${data.user.email || "No email provided."}`;
+
+        } catch (error) {
+          console.error('Error fetching user events:', error);
+        }
+      }
+
+      async function fetchUserEvents() {
+        try {
+          const userId = sessionStorage.getItem('userId');
+          const token = sessionStorage.getItem('accessToken');
+
+          if (!userId) {
+            return [];
+          }
+          const response = await fetch(`http://localhost:5000/api/v1/events/user/${userId}`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.status === 404) {
+            return [];
+          }
+
+          if (response.status == 200) {
+            const data = await response.json();
+            return data;
+          } else {
+            console.error('Error fetching user events:', response.statusText);
+            return [];
+          }
+        } catch (error) {
+          console.error('Error fetching user events:', error);
+          return [];
+        }
+      }
+
+      function showNoEventsMessage() {
+        const noCreatedEventsMessage = document.getElementById("noCreatedEventsMessage");
+        noCreatedEventsMessage.style.display = "block";
+      }
+
+      function showNoAttendeesMessage() {
+        const noEventAttendeesMessage = document.getElementById("noEventAttendeesMessage");
+        noEventAttendeesMessage.style.display = "block";
+      }
+
+      function renderUserEventCards(events) {
+        const eventList = document.getElementById("eventList");
+        const noEventsMessage = document.getElementById("noCreatedEventsMessage");
+
+        eventList.innerHTML = "";
+
+        if (!events || events.length === 0) {
+          noEventsMessage.style.display = "block";
+          return;
+        } else {
+          noEventsMessage.style.display = "none";
+        }
+
+        events.forEach(event => {
+          const eventCard = document.createElement("div");
+          eventCard.classList.add("event-card");
+
+          const eventDate = new Date(event.event_date);
+          const formattedDate = eventDate.toDateString();
+
+          const eventTime = event.event_time.split(':');
+          const formattedTime = `${eventTime[0]}:${eventTime[1]}`;
+
+          eventCard.innerHTML = `
+          <div class="event-header">
+            <h2>${event.event_name}</h2>
+          </div>
+          
+          <div class="event-date-time">
+            <p>${formattedDate} at ${formattedTime}</p>
+          </div>
+          
+          <div class="event-location">
+            <p><strong>Location:</strong> ${event.location}</p>
+          </div>
+          
+          <div class="event-description">
+            <p><strong>Description:</strong> ${event.description}</p>
+          </div>
+
+          <div class="event-buttons">
+            <button class="view-attendees-button" data-event-id="${event.event_id}">View Attendees</button>
+            <button class="view-event-button" data-event-id="${event.event_id}">View Event</button>
+          </div>
+            `;
+
+          const viewAttendeesButton = eventCard.querySelector(".view-attendees-button");
+          viewAttendeesButton.addEventListener("click", () => {
+            const eventId = viewAttendeesButton.getAttribute("data-event-id");
+            navigateToEventAttendeesPage(eventId);
+          });
+
+          const viewEventButton = eventCard.querySelector(".view-event-button");
+          viewEventButton.addEventListener("click", () => {
+            const eventId = viewEventButton.getAttribute("data-event-id");
+            navigateToEventDetailsPage(eventId);
+          });
+
+          eventList.appendChild(eventCard);
+        });
+      }
+
+      function navigateToEventAttendeesPage(eventId) {
+        const eventAttendeesPageUrl = `attendees.html?eventId=${eventId}`;
+        window.location.href = eventAttendeesPageUrl;
+      }
+
+      function navigateToEventDetailsPage(eventId) {
+        const eventDetailsPageUrl = `event-details.html?eventId=${eventId}`;
+        window.location.href = eventDetailsPageUrl;
+      }
+
+      async function viewEventAttendees(eventId) {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (token) {
+          const attendees = await fetchEventAttendees(token, eventId);
+          renderEventAttendees(attendees);
+        }
+      }
+
+      const userId = sessionStorage.getItem('userId');
+      const token = sessionStorage.getItem('accessToken');
+      
+      if (token) {
+        await fetchOrganizerProfile(token, userId);
+        const userEvents = await fetchUserEvents();
+        renderUserEventCards(userEvents.events);
+      }
+
+      const editProfileButton = document.getElementById("editProfileButton");
+
+      editProfileButton.addEventListener("click", () => {
+        window.location.href = `update-profile.html?userId=${userId}`;
+      });
+
+      const logoutButton = document.querySelector("ul.nav-links li:last-child a");
+
+      logoutButton.addEventListener("click", () => {
+        sessionStorage.clear();
+
+        window.location.href = "../index.html";
+      });
+    });
+  </script>
+</body>
+</html>

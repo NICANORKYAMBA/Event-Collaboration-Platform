@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/user-dashboard.css">
+  <title>User Dashboard</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo"><a href="../index.html">EventBuddy</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="user-dashboard.html">Dashboard</a></li>
+        <li><a href="#discoverEvents">Discover Events</a></li>
+        <li><a href="#myEvents">My Events</a></li>
+        <li><a href="#Logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <section class="user-profile">
+      <h1>User Profile</h1>
+      <div class="user-details">
+        <div class="profile-image">
+          <img src="" alt="User Profile Image" id="profileImage">
+        </div>
+        <div class="profile-info">
+          <p><strong>Name:</strong> <span id="profileName"></span></p>
+          <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+          <p><strong>Bio:</strong> <span id="profileBio"></span></p>
+          <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="discover-events" id="discoverEvents">
+      <h1>Discover Events</h1>
+      <div class="event-filters">
+        <label for="event-category">Category:</label>
+        <select id="event-category">
+          <option value="all">All</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="business">Business</option>
+          <option value="food">Food</option>
+        </select>
+        <label for="event-location">Location:</label>
+        <input type="text" id="event-location" placeholder="Enter location">
+        <button id="apply-filters">Apply Filters</button>
+      </div>
+      <div class="event-list" id="eventList">
+        <!-- All available event cards will be displayed here -->
+      </div>
+    </section>
+
+    <section class="my-events" id="myEvents">
+      <h1>Registered For Events</h1>
+      <div class="event-list" id="myEventList">
+        <!-- User's registered events will be displayed here -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2023 Your Event Website
+  </footer>
+  <script>
+    async function fetchUserProfile() {
+      try {
+        const token = sessionStorage.getItem('accessToken');
+        const userId = sessionStorage.getItem('userId');
+
+        if (!token) {
+          console.error('JWT token not found in session storage.');
+          return {};
+        }
+
+        const response = await fetch(`http://localhost:5000/api/v1/auth/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const userData = await response.json();
+
+        const profileImage = document.getElementById("profileImage");
+        const profileName = document.getElementById("profileName");
+        const profileEmail = document.getElementById("profileEmail");
+        const profileBio = document.getElementById("profileBio");
+
+        profileImage.src = userData.user.profileImage || "../assets/images/default-avatar.png";
+        profileName.textContent = userData.user.username || "Username not provided";
+        profileEmail.textContent = userData.user.email || "Email not provided";
+        profileBio.textContent = userData.userbio || "Bio not provided";
+
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    }
+
+    window.addEventListener("load", fetchUserProfile);
+
+    async function fetchAllEvents() {
+      try {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.error('JWT token not found in session storage.');
+          return [];
+        }
+
+        const response = await fetch(`http://localhost:5000/api/v1/events`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        const events = data.events;
+        return events;
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        return [];
+      }
+    }
+
+    async function fetchFilteredEvents(category, location) {
+      try {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.error('JWT token not found in session storage.');
+          return [];
+        }
+
+        const url = `http://localhost:5000/api/v1/events?category=${category}&location=${location}`;
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error fetching filtered events');
+        }
+
+        const data = await response.json();
+        const events = data.events;
+        return events;
+      } catch (error) {
+        console.error('Error fetching filtered events:', error);
+        return [];
+      }
+    }
+
+    function renderEventCards(events) {
+      const eventList = document.getElementById("eventList");
+
+      eventList.innerHTML = "";
+
+      if (events.length === 0) {
+        const noEventsMessage = document.createElement("p");
+        noEventsMessage.textContent = "There are no events available at the moment.";
+        eventList.appendChild(noEventsMessage);
+        return;
+      }
+
+      events.forEach(event => {
+        const eventCard = document.createElement("div");
+        eventCard.classList.add("event-card");
+
+        const eventDate = new Date(event.event_date);
+        const formattedDate = eventDate.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        
+        eventCard.innerHTML = `
+        <h2>${event.event_name}</h2>
+        <p><strong>Date:</strong> ${formattedDate}</p>
+        <p><strong>Time:</strong> ${event.event_time}</p>
+        <p><strong>Location:</strong> ${event.location}</p>
+        <p><strong>Description:</strong></p>
+        <p>${event.description}</p>
+        <button class="register-button" data-event-id="${event.event_id}">Register</button>
+          `;
+
+        eventList.appendChild(eventCard);
+      });
+    }
+
+    window.addEventListener("load", async () => {
+      const availableEvents = await fetchAllEvents();
+      renderEventCards(availableEvents);
+    });
+
+    async function fetchMyEvents() {
+      try {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          console.error('JWT token not found in session storage.');
+          return [];
+        }
+
+        const response = await fetch(`http://localhost:5000/api/v1/user-events/registered-events`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error fetching user events');
+        }
+
+        const data = await response.json();
+        return data["Events registered for"];
+      } catch (error) {
+        console.error('Error fetching user events:', error);
+        return [];
+      }
+    }
+
+    async function updateMyEvents() {
+      try {
+        const myEvents = await fetchMyEvents();
+        renderMyEventCards(myEvents);
+      } catch (error) {
+        console.error('Error fetching user events:', error);
+      }
+    }
+
+    function renderMyEventCards(events) {
+      const myEventList = document.getElementById("myEventList");
+
+      myEventList.innerHTML = "";
+
+      if (events.length === 0) {
+        const noEventsMessage = document.createElement("p");
+        noEventsMessage.textContent = "You haven't registered for any events yet.";
+        myEventList.appendChild(noEventsMessage);
+        return;
+      }
+
+      events.forEach(event => {
+        const eventCard = document.createElement("div");
+        eventCard.classList.add("event-card");
+
+        const eventDate = new Date(event.event_date);
+        const formattedDate = eventDate.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+        eventCard.innerHTML = `
+          <h2>${event.event_name}</h2>
+          <p>Date: ${formattedDate}</p>
+          <p>Time: ${event.event_time}</p>
+          <p>Location: ${event.location}</p>
+          <p>Description:</p>
+          <p>${event.description}</p>
+          `;
+
+        myEventList.appendChild(eventCard);
+      });
+    }
+
+    window.addEventListener("load", async () => {
+      const availableEvents = await fetchAllEvents();
+      const myEvents = await fetchMyEvents();
+
+      renderEventCards(availableEvents);
+      renderMyEventCards(myEvents);
+    });
+
+    const applyFiltersButton = document.getElementById("apply-filters");
+    applyFiltersButton.addEventListener("click", async () => {
+      const category = document.getElementById("event-category").value;
+      const location = document.getElementById("event-location").value;
+
+      const filteredEvents = await fetchFilteredEvents(category, location);
+
+      renderEventCards(filteredEvents);
+    });
+
+    const editProfileButton = document.getElementById("editProfileButton");
+    editProfileButton.addEventListener("click", () => {
+      const userId = sessionStorage.getItem('userId');
+
+      if (userId) {
+        window.location.href = `update-profile.html?userId=${userId}`;
+      } else {
+        console.log("User ID not found in session storage.");
+        alert("User ID not found in session storage.");
+        window.location.href = "login.html";
+      }
+    })
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const eventList = document.getElementById("eventList");
+
+      eventList.addEventListener("click", function(event) {
+        if (event.target.classList.contains("register-button")) {
+          const button = event.target;
+          const eventId = button.getAttribute("data-event-id");
+
+          if (!eventId) {
+            console.log("Event ID not found in the button dataset");
+            return;
+          }
+
+          sessionStorage.setItem("eventId", eventId);
+          window.location.href = `registration-form.html?eventId=${eventId}`;
+        }
+      });
+    });
+
+    function clearSessionStorage() {
+      sessionStorage.clear();
+    }
+
+    function logout() {
+      clearSessionStorage();
+      window.location.href = "../index.html";
+    }
+
+    const logoutButton = document.querySelector('ul.nav-links li a[href="#Logout"]');
+
+    if (logoutButton) {
+      logoutButton.addEventListener("click", logout);
+    }
+  </script>
+</body>
+</html>

@@ -14,12 +14,16 @@ from api.controllers.event_controller import (
     create_event,
     get_event,
     get_events,
+    get_events_by_user,
     update_event,
     delete_event,
 )
 
 
-event_bp = Blueprint('event_bp', __name__, url_prefix='/api/v1/events')
+event_bp = Blueprint(
+        'event_bp',
+        __name__,
+        url_prefix='/api/v1/events')
 
 
 @event_bp.route('/create',
@@ -58,6 +62,18 @@ def get_events_route():
     return get_events()
 
 
+@event_bp.route('/user/<uuid:user_id>',
+                methods=['GET'],
+                strict_slashes=False,
+                endpoint='user')
+@jwt_required()
+def get_events_by_user_route(user_id):
+    """
+    Get all events by user id
+    """
+    return get_events_by_user(user_id)
+
+
 @event_bp.route('/update/<uuid:event_id>',
                 methods=['PUT'],
                 strict_slashes=False,
@@ -70,7 +86,7 @@ def update_event_route(event_id):
     return update_event(event_id)
 
 
-@event_bp.route('/delete/<uuid:event_id>',
+@event_bp.route('/<uuid:event_id>',
                 methods=['DELETE'],
                 strict_slashes=False,
                 endpoint='delete')
